@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 17:08:13 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 14:52:37 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 16:24:06 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,17 @@ int	compare_files_nbr(int test_count, int test)
 	int		line;
 	int		col;
 	FILE	*fptr;
-	FILE	*errorlog;
 
 	fptr = fopen("libft_tests/putnbr_ft.txt", "r");
-	errorlog = fopen("logs/error_log.txt", "a");
-	if (fptr == NULL || errorlog == NULL)
+	if (fptr == NULL)
 	{
 		printf("\nUnable to open file.\n");
 		return (-1);
 	}
 	if (comparefile_putnbr(fptr, ft_itoa(test), &line, &col) != 0)
-		g_fail_putnbr += ft_log_int(test_count, errorlog, line, col);
+		g_fail_putnbr += ft_log_int(test_count, line, col);
 	rewind(fptr);
 	fclose(fptr);
-	fclose(errorlog);
 	return (0);
 }
 
