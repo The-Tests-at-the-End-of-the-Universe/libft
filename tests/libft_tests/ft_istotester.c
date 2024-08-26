@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:29:29 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 15:52:10 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 16:57:54 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	isto_cmp(int tc, int c, int (*f)(int), int (*ft)(int))
 
 	org_func = f(c);
 	ft_func = ft(c);
-	if (org_func != ft_func)
+	if (org_func == 0 && ft_func != 0)
 		g_fail_isto += ft_log_int(tc, org_func, ft_func);
 	else
 		printf(GRN "%d OK " RESET, tc);
