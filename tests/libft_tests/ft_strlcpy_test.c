@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:01:09 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 14:53:09 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 16:30:48 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,25 +59,17 @@ int	strliorg(char *output, char *test, char *test2, size_t n)
 
 int	strlcpy_cmp(int test_count, char *t1, char *t2, size_t n)
 {
-	FILE	*errorlog;
 	char	*org;
 	char	*ft;
 
 	org = NULL;
 	ft = NULL;
-	errorlog = fopen("logs/error_log.txt", "a");
-	if (errorlog == NULL)
-	{
-		printf("Error opening log file\n");
-		return (1);
-	}
 	if (strlift(ft, t1, t2, n) != strliorg(org, t1, t2, n) && strcmp(org, ft))
-		g_fail_strlcpy += ft_log_str(test_count, errorlog, org, ft);
+		g_fail_strlcpy += ft_log_str(test_count, org, ft);
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(org);
 	free(ft);
-	fclose(errorlog);
 	return (test_count + 1);
 }
 
