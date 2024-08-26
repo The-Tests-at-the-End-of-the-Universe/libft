@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 14:52:22 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 16:20:07 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,25 +61,17 @@ char	*init_org_mv(char *test, char *test2, size_t n)
 
 int	memmove_cmp(int test_count, char *test, char *test2, size_t n)
 {
-	FILE	*errorlog;
 	char	*org;
 	char	*ft;
 
-	errorlog = fopen("logs/error_log.txt", "a");
-	if (errorlog == NULL)
-	{
-		printf("Error opening log file\n");
-		return (1);
-	}
 	org = init_org_mv(test, test2, n);
 	ft = init_ft_mv(test, test2, n);
 	if (strcmp(org, ft))
-		g_fail_memmove += ft_log_str(test_count, errorlog, org, ft);
+		g_fail_memmove += ft_log_str(test_count, org, ft);
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(org);
 	free(ft);
-	fclose(errorlog);
 	return (test_count + 1);
 }
 
