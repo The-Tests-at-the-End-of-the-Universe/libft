@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 15:39:03 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 17:02:34 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,5 @@ int	main(int argc, char **argv)
 	fail += mem_tests(argv[1]);
 	fail += write_tests(argv[1]);
 	fail += appendix(argv[1]);
-		printf(RED "\nThere was an error. Check logs/*" RESET);
-	printf("\n");
 	return (fail);
 }
