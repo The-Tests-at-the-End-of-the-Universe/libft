@@ -6,63 +6,100 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/03/07 13:33:13 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 13:13:24 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_tester.h"
 #include <ctype.h>
 
-int	appendix(void)
+int	appendix(char *argv)
 {
 	int	fail;
 
 	fail = 0;
-	fail += memcpy_test();
-	fail += memmove_test();
-	fail += memset_test();
-	fail += putchar_test();
-	fail += putendl_test();
-	fail += putstr_test();
-	fail += putnbr_test();
-	fail += split_test();
-	fail += strchr_test();
-	fail += strdup_test();
-	fail += striteri_test();
-	fail += strjoin_test();
-	fail += strlcat_test();
-	fail += strlcpy_test();
-	fail += strlen_test();
-	fail += strmapi_test();
-	fail += strncmp_test();
-	fail += strnstr_test();
-	fail += strrchr_test();
-	fail += substr_test();
-	fail += strtrim_test();
+	if (strncmp(argv, "ft_memcpy", 9))
+		fail += memcpy_test();
+	else if (strncmp(argv, "ft_memmove", 9))
+		fail += memmove_test();
+	else if (strncmp(argv, "ft_memset", 8))
+		fail += memset_test();
+	else if (strncmp(argv, "ft_putchar", 10))
+		fail += putchar_test();
+	else if (strncmp(argv, "ft_putendl", 10))
+		fail += putendl_test();
+	else if (strncmp(argv, "ft_putstr", 9))
+		fail += putstr_test();
+	else if (strncmp(argv, "ft_putnbr", 9))
+		fail += putnbr_test();
+	else if (strncmp(argv, "ft_split", 8))
+		fail += split_test();
+	else if (strncmp(argv, "ft_strchr", 9))
+		fail += strchr_test();
+	else if (strncmp(argv, "ft_strdup", 9))
+		fail += strdup_test();
+	else if (strncmp(argv, "ft_striteri", 11))
+		fail += striteri_test();
+	else if (strncmp(argv, "ft_strjoin", 10))
+		fail += strjoin_test();
+	else if (strncmp(argv, "ft_strlcat", 10))
+		fail += strlcat_test();
+	else if (strncmp(argv, "ft_strlcpy", 10))
+		fail += strlcpy_test();
+	else if (strncmp(argv, "ft_strlen", 9))
+		fail += strlen_test();
+	else if (strncmp(argv, "ft_strmapi", 10))
+		fail += strmapi_test();
+	else if (strncmp(argv, "ft_strncmp", 10))
+		fail += strncmp_test();
+	else if (strncmp(argv, "ft_strnstr", 10))
+		fail += strnstr_test();
+	else if (strncmp(argv, "ft_strrchr", 10))
+		fail += strrchr_test();
+	else if (strncmp(argv, "ft_substr", 9))
+		fail += substr_test();
+	else if (strncmp(argv, "ft_strtrim", 10))
+		fail += strtrim_test();
 	return (fail);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	int	fail;
 
 	fail = 0;
 	fclose(fopen("logs/error_log.txt", "w"));
+	if (argc == 1 || argv[0] == NULL)
+		return(printf(RED "\nwrong parameters given" RESET), 1);
 	printf(YEL "\nFunctions" RESET);
-	fail += atoi_test();
-	fail += bzero_test();
-	fail += calloc_test();
-	fail += isto_test("ft_isalnum", isalnum, ft_isalnum);
-	fail += isto_test("ft_isalpha", isalpha, ft_isalpha);
-	fail += isto_test("ft_isascii", isascii, ft_isascii);
-	fail += isto_test("ft_isdigit", isdigit, ft_isdigit);
-	fail += isto_test("ft_isprint", isprint, ft_isprint);
-	fail += isto_test("ft_tolower", tolower, ft_tolower);
-	fail += isto_test("ft_toupper", toupper, ft_toupper);
-	fail += itoa_test();
-	fail += memchr_test();
-	fail += memcmp_test();
-	fail += appendix();
+	if (strncmp(argv[0], "ft_atoi", 4))
+		fail += atoi_test();
+	else if (strncmp(argv[0], "ft_bzero", 5))
+		fail += bzero_test();
+	else if (strncmp(argv[0], "ft_calloc", 6))
+		fail += calloc_test();
+	else if (strncmp(argv[0], "ft_isalnum", 10))
+		fail += isto_test("ft_isalnum", isalnum, ft_isalnum);
+	else if (strncmp(argv[0], "ft_isalpha", 10))
+		fail += isto_test("ft_isalpha", isalpha, ft_isalpha);
+	else if (strncmp(argv[0], "ft_isascii", 10))
+		fail += isto_test("ft_isascii", isascii, ft_isascii);
+	else if (strncmp(argv[0], "ft_isdigit", 10))
+		fail += isto_test("ft_isdigit", isdigit, ft_isdigit);
+	else if (strncmp(argv[0], "ft_isprint", 10))
+		fail += isto_test("ft_isprint", isprint, ft_isprint);
+	else if (strncmp(argv[0], "ft_tolower", 10))
+		fail += isto_test("ft_tolower", tolower, ft_tolower);
+	else if (strncmp(argv[0], "ft_toupper", 10))
+		fail += isto_test("ft_toupper", toupper, ft_toupper);
+	else if (strncmp(argv[0], "ft_itoa", 7))
+		fail += itoa_test();
+	else if (strncmp(argv[0], "ft_memchr", 9))
+		fail += memchr_test();
+	else if (strncmp(argv[0], "ft_memcmp", 9))
+		fail += memcmp_test();
+	else
+		fail += appendix(argv[0]);
 	if (fail > 0)
 		printf(RED "\nThere was an error. Check error_log.txt\n" RESET);
 	printf("\n");
