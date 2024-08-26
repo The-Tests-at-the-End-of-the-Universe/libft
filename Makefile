@@ -10,7 +10,7 @@ all:  LIBFT #PRINTF GNL
 
 LIBFT:
 	@$(MAKE) --no-print-directory -C $(LIBFT_TEST_DIR) all
-	@$(MAKE) --no-print-directory -C $(LIBFT_TEST_DIR) fclean
+	@$(MAKE) --no-print-directory -C $(LIBFT_TEST_DIR) norminette
 	(cd forbidden_func && bash check_forbidden_libft.sh)
 
 # PRINTF:
