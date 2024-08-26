@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 14:51:46 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 15:52:53 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,13 @@ int	g_fail_atoi = 0;
 
 int	atoi_cmp(int test_count, char *test)
 {
-	FILE	*errorlog;
 	int		result_org;
 	int		result_ft;
 
-	result_org = 0;
-	result_ft = 0;
-	errorlog = fopen("logs/error_log.txt", "a");
-	if (errorlog == NULL)
-	{
-		printf("Error opening log file\n");
-		return (1);
-	}
 	result_org = atoi(test);
 	result_ft = ft_atoi(test);
 	if (result_org != result_ft)
-	{
-		fprintf(errorlog, "ft_atoi\n");
-		g_fail_atoi += ft_log_int(test_count, errorlog, result_org, result_ft);
-	}
+		g_fail_atoi += ft_log_int(test_count, result_org, result_ft);
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	return (test_count + 1);
