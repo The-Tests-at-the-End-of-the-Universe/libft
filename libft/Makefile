@@ -1,4 +1,4 @@
-LIBFT = ../../../libft
+include ./config.mk
 
 LIBFT_A = libft.a
 
@@ -8,12 +8,9 @@ TESTER = libft_tester.c
 
 TEST_DIR = libft_tests
 
-SRCDIR = ../../src/libft
-
 SOURCES     := $(shell find $(SRCDIR) -type f -name "*.c")
 
 NORMINETTE = norminette_tester.sh
-NORMDIR    = -d ../../src/libft
 NORM_NO_PR = -npi
 
 
