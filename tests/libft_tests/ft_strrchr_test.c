@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:27:38 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 14:53:26 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 16:34:09 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,13 @@ int	g_fail_strrchr = 0;
 
 int	strrchr_cmp(int test_count, char *test1, char test2)
 {
-	FILE	*errorlog;
 	char	*ft;
 	char	*org;
 
-	errorlog = fopen("logs/error_log.txt", "a");
-	if (errorlog == NULL)
-	{
-		printf("Error opening log file\n");
-		return (1);
-	}
 	org = strrchr(test1, test2);
 	ft = ft_strrchr(test1, test2);
 	if (ft != org)
-		g_fail_strrchr += ft_log_str(test_count, errorlog, org, ft);
+		g_fail_strrchr += ft_log_str(test_count, org, ft);
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	return (test_count + 1);
