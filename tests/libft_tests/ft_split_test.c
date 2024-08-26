@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:28:06 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 14:52:46 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 16:25:39 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,10 @@ int	cmp_split(char **ft_result, char *test, char *delim)
 
 int	split_cmp(int test_count, char *test, char *delim)
 {
-	FILE	*errorlog;
-
-	errorlog = fopen("logs/error_log.txt", "a");
-	if (errorlog == NULL)
-	{
-		printf("\nUnable to open file.\n");
-		return (-1);
-	}
 	if (cmp_split(ft_split(test, delim[0]), test, delim) != 0)
-		g_fail_split += ft_log_str(test_count, errorlog, test, delim);
+		g_fail_split += ft_log_str(test_count, test, delim);
 	else
 		printf(GRN "%d OK " RESET, test_count);
-	fclose(errorlog);
 	return (0);
 }
 
