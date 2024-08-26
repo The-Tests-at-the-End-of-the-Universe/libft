@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:33:32 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 14:53:15 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 16:32:11 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,13 @@ char	test_function_mapi(unsigned int c, char s)
 
 int	strmapi_cmp(int test_count, char *test, char *result)
 {
-	FILE	*errorlog;
 	char	*ft_result;
 	char	*test_dub;
 
 	test_dub = strdup(test);
-	errorlog = fopen("logs/error_log.txt", "a");
-	if (errorlog == NULL)
-	{
-		printf("Error opening log file\n");
-		return (1);
-	}
 	ft_result = ft_strmapi(test_dub, &test_function_mapi);
 	if (strcmp(ft_result, result))
-		g_fail_strmapi += ft_log_str(test_count, errorlog, test, test_dub);
+		g_fail_strmapi += ft_log_str(test_count, test, test_dub);
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(test_dub);
