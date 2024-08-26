@@ -92,7 +92,7 @@ LINEP="\033[40G"
 err_log="logs/err.log"
 mem_log="logs/mem.log"
 rm -rf tests/$err_log
-rm -rf tests/$err_log
+rm -rf tests/$mem_log
 touch tests/$err_log
 touch tests/$mem_log
 temp_err_log="logs/temp_err.log"
@@ -103,7 +103,8 @@ norminette=true
 forbidden=true
 memory=true
 fail=false
-valgrind="valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=42"
+suppressions=utils/valgrind_suppresion
+valgrind="valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=42 --suppressions=$suppressions"
 
 while [ "$#" -gt 0 ]; do
 	arg=$1

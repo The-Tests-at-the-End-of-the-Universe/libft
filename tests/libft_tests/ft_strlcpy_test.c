@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:01:09 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:30:48 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 17:05:22 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	strlift(char *output, char *test, char *test2, size_t n)
 		return (0);
 	}
 	ret = ft_strlcpy(output, test2_dub, n);
+	free(output);
 	free(test2_dub);
 	return (ret);
 }
@@ -54,6 +55,7 @@ int	strliorg(char *output, char *test, char *test2, size_t n)
 	}
 	ret = strlcpy(output, test2_dub, n);
 	free(test2_dub);
+	free(output);
 	return (ret);
 }
 
