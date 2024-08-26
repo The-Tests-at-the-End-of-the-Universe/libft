@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 17:08:13 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 14:52:33 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 16:23:17 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,17 @@ int	compare_files_endl(int test_count, char *test)
 	int		line;
 	int		col;
 	FILE	*fptr;
-	FILE	*errorlog;
 
 	fptr = fopen("libft_tests/putendl_ft.txt", "r");
-	errorlog = fopen("logs/error_log.txt", "a");
-	if (fptr == NULL || errorlog == NULL)
+	if (fptr == NULL)
 	{
 		printf("\nUnable to open file.\n");
 		return (-1);
 	}
 	if (comparefile_putend(fptr, strcat(strdup(test), "\n"), &line, &col) != 0)
-		g_fail_putendl += ft_log_int(test_count, errorlog, line, col);
+		g_fail_putendl += ft_log_int(test_count, line, col);
 	rewind(fptr);
 	fclose(fptr);
-	fclose(errorlog);
 	return (0);
 }
 
