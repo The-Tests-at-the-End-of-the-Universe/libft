@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:44:11 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 14:52:53 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 16:27:00 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,13 @@ int	g_fail_strdup = 0;
 
 int	strdup_cmp(int test_count, char *test)
 {
-	FILE	*errorlog;
 	char	*org;
 	char	*ft;
 
-	errorlog = fopen("logs/error_log.txt", "a");
-	if (errorlog == NULL)
-	{
-		printf("Error opening log file\n");
-		return (1);
-	}
 	org = strdup(test);
 	ft = ft_strdup(test);
 	if (strcmp(ft, org))
-		g_fail_strdup += ft_log_str(test_count, errorlog, org, ft);
+		g_fail_strdup += ft_log_str(test_count, org, ft);
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(org);
