@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:47:38 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 14:52:07 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 16:17:15 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,20 @@ int	g_fail_itoa = 0;
 
 int	itoa_cmp(int test_count, int test, char *test_case)
 {
-	FILE	*errorlog;
 	char	*result_org;
 	char	*result_ft;
 
-	errorlog = fopen("logs/error_log.txt", "a");
 	result_org = test_case;
 	result_ft = ft_itoa(test);
-	if (result_ft == NULL || errorlog == NULL)
+	if (result_ft == NULL)
 	{
-		printf("error with result_ft or errorlog\n");
+		printf("error with result_ft\n");
 		return (1);
 	}
 	if (strcmp(result_org, result_ft))
-	{
-		fprintf(errorlog, "ft_itoa\n");
-		g_fail_itoa += ft_log_str(test_count, errorlog, result_org, result_ft);
-	}
+		g_fail_itoa += ft_log_str(test_count, result_org, result_ft);
 	else
 		printf(GRN "%d OK " RESET, test_count);
-	fclose(errorlog);
 	free(result_ft);
 	return (test_count + 1);
 }
