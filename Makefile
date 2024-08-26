@@ -2,7 +2,7 @@
 ## tests to this tester
 # GNL_TEST_DIR = get_next_line/tests
 # PRINTF_TEST_DIR = ft_printf/tests
-LIBFT_TEST_DIR = libft
+LIBFT_TEST_DIR = tests
 
 .SILENT:
 
