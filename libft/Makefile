@@ -22,15 +22,13 @@ test: libft logs welcome norminette tests
 
 
 tests:
-	cc -Wall -Werror -Wextra $(TESTER) $(TEST_DIR)/*.c $(LIBFT_A) -lbsd && ./a.out
-	rm a.out
+	cc -Wall -Werror -Wextra $(TESTER) $(TEST_DIR)/*.c $(LIBFT_A) -lbsd
 
 norminette:
 	cd ../norminette_tester && bash $(NORMINETTE) $(NORMDIR)
 
 welcome:
-	cc -Wall -Werror -Wextra $(WELCOME) && ./a.out
-	rm a.out
+	cc -Wall -Werror -Wextra $(WELCOME)
 
 logs:
 	mkdir -p logs
