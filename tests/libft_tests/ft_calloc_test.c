@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:12:54 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 14:51:57 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 16:15:45 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,42 +41,27 @@ char	*init_calloc(size_t nmemb, size_t n)
 	return (c);
 }
 
-FILE	*init_elog(void)
-{
-	FILE	*elog;
-
-	elog = fopen("logs/error_log.txt", "a");
-	if (elog == NULL)
-	{
-		printf("Error opening log file\n");
-		return (NULL);
-	}
-	return (elog);
-}
 
 int	calloc_cmp(int test_count, size_t nmemb, size_t n)
 {
-	FILE	*elog;
 	char	*c;
 	char	*ftc;
 	size_t	ei;
 
 	ei = 0;
-	elog = init_elog();
 	c = init_calloc(nmemb, n);
 	ftc = init_ft_calloc(nmemb, n);
-	if (elog == NULL || c == NULL || ftc == NULL)
+	if ( c == NULL || ftc == NULL)
 		return (1);
 	while (ei != (nmemb * n))
 	{
 		if ((char)c[ei] != (char)ftc[ei])
-			g_fc += ft_log_chr(test_count, elog, (char)c[ei], (char)ftc[ei]);
+			g_fc += ft_log_chr(test_count, (char)c[ei], (char)ftc[ei]);
 		ei++;
 	}
 	printf(GRN "%d OK " RESET, test_count);
 	free(c);
 	free(ftc);
-	fclose(elog);
 	return (test_count + 1);
 }
 
