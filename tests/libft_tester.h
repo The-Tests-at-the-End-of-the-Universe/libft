@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   libft_tester.h                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mynodeus <mynodeus@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/21 23:03:23 by spenning          #+#    #+#             */
-/*   Updated: 2024/05/17 07:00:51 by mynodeus         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   libft_tester.h                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
+/*   Updated: 2024/08/26 15:52:34 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	strnstr_test(void);
 int	strrchr_test(void);
 int	substr_test(void);
 int	strtrim_test(void);
-int	ft_log_int(int test_count, FILE *errorlog, int result_org, int result_ft);
-int	ft_log_str(int test_count, FILE *errorlog, char *ro, char *rft);
-int	ft_log_chr(int test_count, FILE *errorlog, char ro, char rft);
+int	ft_log_int(int test_count, int result_org, int result_ft);
+int	ft_log_str(int test_count, char *ro, char *rft);
+int	ft_log_chr(int test_count, char ro, char rft);
 #endif

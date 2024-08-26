@@ -1,46 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_log_util.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/16 11:21:40 by spenning          #+#    #+#             */
-/*   Updated: 2024/05/16 13:54:45 by spenning         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   ft_log_util.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/05/16 11:21:40 by spenning      #+#    #+#                 */
+/*   Updated: 2024/08/26 15:56:35 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft_tester.h"
 
-int	ft_log_chr(int test_count, FILE *errorlog, char ro, char rft)
+int	ft_log_chr(int test_count, char og, char ft)
 {
 	printf(RED "%d FAIL "RESET, test_count);
-	fprintf(errorlog, "error\n");
-	fprintf(errorlog, "test number: %d\n", test_count);
-	fprintf(errorlog, "org: %c\n", ro);
-	fprintf(errorlog, "ft: %c\n", rft);
-	fprintf(errorlog, "---------\n");
+	dprintf(2, "[%d]\n", test_count);
+	dprintf(2, "libOG: %c\n", og);
+	dprintf(2, "libft: %c\n", ft);
 	return (1);
 }
 
-int	ft_log_str(int test_count, FILE *errorlog, char *ro, char *rft)
+int	ft_log_str(int test_count, char *og, char *ft)
 {
 	printf(RED "%d FAIL "RESET, test_count);
-	fprintf(errorlog, "error\n");
-	fprintf(errorlog, "test number: %d\n", test_count);
-	fprintf(errorlog, "org: %s\n", ro);
-	fprintf(errorlog, "ft: %s\n", rft);
-	fprintf(errorlog, "---------\n");
+	dprintf(2, "[%d]\n", test_count);
+	dprintf(2, "libOG: %s\n", og);
+	dprintf(2, "libft: %s\n", ft);
 	return (1);
 }
 
-int	ft_log_int(int test_count, FILE *errorlog, int result_org, int result_ft)
+int	ft_log_int(int test_count, int og, int ft)
 {
 	printf(RED "%d FAIL "RESET, test_count);
-	fprintf(errorlog, "error\n");
-	fprintf(errorlog, "test number: %d\n", test_count);
-	fprintf(errorlog, "org: %d\n", result_org);
-	fprintf(errorlog, "ft: %d\n", result_ft);
-	fprintf(errorlog, "---------\n");
+	dprintf(2, "[%d]\n", test_count);
+	dprintf(2, "libOG: %d\n", og);
+	dprintf(2, "libft: %d\n", ft);
 	return (1);
 }
