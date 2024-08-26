@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:01:27 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 14:52:15 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 16:18:46 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,15 @@ int	g_fail_memcmp = 0;
 
 int	memcmp_cmp(int test_count, char *test, char *test2, size_t n)
 {
-	FILE	*errorlog;
 	int		org;
 	int		ft;
 
-	errorlog = fopen("logs/error_log.txt", "a");
-	if (errorlog == NULL)
-	{
-		printf("Error opening log file\n");
-		return (1);
-	}
 	org = memcmp(test, test2, n);
 	ft = ft_memcmp(test, test2, n);
 	if (org != ft)
-		g_fail_memcmp += ft_log_int(test_count, errorlog, org, ft);
+		g_fail_memcmp += ft_log_int(test_count, org, ft);
 	else
 		printf(GRN "%d OK " RESET, test_count);
-	fclose(errorlog);
 	return (test_count + 1);
 }
 
