@@ -56,25 +56,55 @@ WHT="\x1B[37m"
 RESET="\x1B[0m"
 LINEP="\033[40G"
 
+#files
+err_log="logs/err.log"
 mem_log="logs/mem.log"
-temp_err_log="logs/error_log.txt"
+touch $err_log
+touch $mem_log
+temp_err_log="logs/temp_err.log"
 temp_mem_log="logs/temp_mem.log"
-valgrind="valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=42"
-make -C ./ all
-cd tests
 
+#variables
+norminette=true
+forbidden=true
+memory=true
+valgrind="valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=42"
+
+#prep tests
+make -C ./ all
+
+if [ norminette == true ]; then
+make --no-print-directory -C tests norminette
+fi
+if [ forbidden == true ]; then
+(cd forbidden_func && bash check_forbidden_libft.sh)
+fi
+
+cd tests
 echo -e "${YEL}Functions${RESET}"
 for test in ${tests[@]}; do
+	#print function
 	echo -e "${MAG}$test${RESET}"
+
+	#cases
 	./tester $test 1> /dev/null 2> $temp_err_log
-	exit_code=$(echo $?) 
-	cat $temp_err_log
+	exit_code=$(echo $?)
+	if [ exit_code != 0 ]; then
+	echo "$test===============================" > $err_log
+	cat $temp_err_log >> $err_log
+	fi
+
+	#mem test
+	if [ memory = true ]; then
 	$valgrind ./tester $test 2> $temp_mem_log
 	mem_exit_code=$(echo $?)
 	if [ mem_exit_code == 42 ]; then
+	echo "$test===============================" >> $mem_log
 	cat $temp_mem_log >> $mem_log
-	mem_exit_code=0
 	fi
+	fi
+
+	#delete temp files
 	rm -rf $temp_err_log
 	rm -rf $temp_mem_log
 done
