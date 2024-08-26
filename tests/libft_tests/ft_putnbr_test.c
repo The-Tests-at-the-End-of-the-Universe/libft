@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 17:08:13 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:24:06 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/26 17:56:11 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	comparefile_putnbr(FILE *fPtr1, char *test, int *line, int *col)
 		ch1 = fgetc(fPtr1);
 		ch2 = test[index];
 		if (ch1 == EOF)
-			return (0);
+			return (free(test), 0);
 		if (ch1 != ch2)
 		{
 			free(test);
