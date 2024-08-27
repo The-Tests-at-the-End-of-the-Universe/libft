@@ -23,6 +23,8 @@ Arguments:
 	bash tester.sh -c "ft_strrchr ft_strjoin ft_strlen"
 
   -b, --bonus
+  	This flag will run the bonus tests as well
+
 EOF
 }
 
