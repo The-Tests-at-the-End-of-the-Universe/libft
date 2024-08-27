@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:33:32 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:32:11 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 15:05:05 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	strmapi_cmp(int test_count, char *test, char *result)
 		g_fail_strmapi += ft_log_str(test_count, test, test_dub);
 	else
 		printf(GRN "%d OK " RESET, test_count);
+	free(ft_result);
 	free(test_dub);
 	return (test_count + 1);
 }
