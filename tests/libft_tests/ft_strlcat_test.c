@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:01:09 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:29:47 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 14:57:27 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,44 +15,44 @@
 
 int	g_fail_strlcat = 0;
 
-int	ift(char *output, char *test, char *test2, size_t n)
+int	ift(char **output, char *test, char *test2, size_t n)
 {
 	char	*test2_dub;
 	size_t	ret;
 
-	output = strdup(test);
+	*output = strdup(test);
 	test2_dub = strdup(test2);
-	if (output == NULL || test2_dub == NULL)
+	if (*output == NULL || test2_dub == NULL)
 	{
-		if (output)
-			free(output);
+		if (*output)
+			free(*output);
 		if (test2_dub)
 			free(test2_dub);
 		printf("Error with initft\n");
 		return (0);
 	}
-	ret = ft_strlcat(output, test2_dub, n);
+	ret = ft_strlcat(*output, test2_dub, n);
 	free(test2_dub);
 	return (ret);
 }
 
-int	iorg(char *output, char *test, char *test2, size_t n)
+int	iorg(char **output, char *test, char *test2, size_t n)
 {
 	char	*test2_dub;
 	size_t	ret;
 
-	output = strdup(test);
+	*output = strdup(test);
 	test2_dub = strdup(test2);
-	if (output == NULL || test2_dub == NULL)
+	if (*output == NULL || test2_dub == NULL)
 	{
-		if (output)
-			free(output);
+		if (*output)
+			free(*output);
 		if (test2_dub)
 			free(test2_dub);
 		printf("Error with initft\n");
 		return (0);
 	}
-	ret = strlcat(output, test2_dub, n);
+	ret = strlcat(*output, test2_dub, n);
 	free(test2_dub);
 	return (ret);
 }
@@ -64,7 +64,7 @@ int	strlcat_cmp(int test_count, char *t1, char *t2, size_t n)
 
 	org = NULL;
 	ft = NULL;
-	if (ift(ft, t1, t2, n) != iorg(org, t1, t2, n) && strcmp(org, ft))
+	if (ift(&ft, t1, t2, n) != iorg(&org, t1, t2, n) && strcmp(org, ft))
 		g_fail_strlcat += ft_log_str(test_count, org, ft);
 	else
 		printf(GRN "%d OK " RESET, test_count);
