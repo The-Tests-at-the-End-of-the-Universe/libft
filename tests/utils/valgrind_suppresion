@@ -18,3 +18,23 @@
    fun:mem_tests
    fun:main
 }
+{
+   strlcpy_write
+   Memcheck:Addr1
+   fun:strlcpy
+   fun:strliorg
+   fun:strlcpy_cmp
+   fun:strlcpy_test
+   fun:str_tests
+   fun:main
+}
+{
+   ft_strlcpy_write
+   Memcheck:Addr1
+   fun:ft_strlcpy
+   fun:strlift
+   fun:strlcpy_cmp
+   fun:strlcpy_test
+   fun:str_tests
+   fun:main
+}
