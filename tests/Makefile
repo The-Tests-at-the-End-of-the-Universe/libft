@@ -1,50 +1,80 @@
-include ./config.mk
+#Compiler and Linker
+CC          := cc
 
-LIBFT_A = libft.a
+#The Target Binary Program
+TARGET      := tester
 
-WELCOME = libft_tester_welcome.c
-
-TESTER = libft_tester.c
-
-TEST_EXE = tester
-
-TEST_DIR = libft_tests
-
-SOURCES     := $(shell find $(SRCDIR) -type f -name "*.c")
-
+#The Directories, Source, Includes, Objects, Binary and Resources
+WELCOME     := libft_tester_welcome.c
+LIBFT       := ../../
+SRCDIR      := ./libft_tests
+INCDIR      := ./
+OBJDIR      := ./build/obj
+TARGETDIR   := .
+BUILDIR     := ./build
+SRCEXT      := c
+OBJEXT      := o
+NORMDIR     := -d ../../
 NORMINETTE = norminette_tester.sh
-NORM_NO_PR = -npi
+
+#Flags, Libraries and Includes
+CFLAGS      := -I./ -Wall -Werror -Wextra 
 
 
-all: test
+#---------------------------------------------------------------------------------
+#DO NOT EDIT BELOW THIS LINE
+#---------------------------------------------------------------------------------
+SOURCES     := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+OBJECTS     := $(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SOURCES:.$(SRCEXT)=.$(OBJEXT)))
 
-.SILENT:
+#Default Make
 
-test: libft logs welcome tests
+all: build libft logs welcome $(TARGETDIR)/$(TARGET) 
 
+#Remake
+re: fclean all
 
-tests:
-	cc -Wall -Werror -Wextra -o tester $(TESTER) $(TEST_DIR)/*.c $(LIBFT_A) -lbsd  -g
-	rm -rf $(LIBFT_A)
-
-norminette:
-	cd ../norminette_tester && bash $(NORMINETTE) $(NORMDIR)
+#Make the Directories
+build:
+	@mkdir -p $(OBJDIR)
 
 welcome:
 	cc -Wall -Werror -Wextra $(WELCOME) && ./a.out
 	rm -rf a.out
 
+norminette:
+	cd ../norminette_tester && bash $(NORMINETTE) $(NORMDIR)
+
+#Clean only Objects
+clean:
+	@$(RM) -rf $(OBJDIR)
+
+#Full Clean, Objects and Binaries
+fclean: clean
+	@$(RM) -rf $(BUILDIR)
+	@$(RM) -rf $(TARGET)
+	@$(RM) -rf logs
+
 logs:
 	mkdir -p logs
 
+#Link
+$(TARGETDIR)/$(TARGET) : $(OBJECTS)
+	$(CC) $(OBJECTS) -o  $(TARGETDIR)/$(TARGET)
+
+#Compile
+$(OBJDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+#LIBFT
 libft:
 	@$(MAKE) -C $(LIBFT) all
-	cp $(LIBFT)/lib/$(LIBFT_A) ./
+	/bin/cp -rf ../../libft.a ./
 	@$(MAKE) -C $(LIBFT) fclean
 
-fclean:
-	rm -rf $(LIBFT_A)
-	rm -rf logs
-	rm -rf $(TEST_EXE)
 
-re:	fclean all
+#Non-File Targets
+.PHONY: all re clean fclean
+
+.SILENT:

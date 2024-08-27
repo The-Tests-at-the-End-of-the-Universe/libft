@@ -6,11 +6,11 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/27 15:33:41 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 18:37:34 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_tester.h"
+#include <libft_tester.h>
 #include <ctype.h>
 
 int	mem_tests(char *argv)

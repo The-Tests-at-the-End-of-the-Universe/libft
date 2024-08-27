@@ -12,16 +12,16 @@ WHT="\x1B[37m"
 RESET="\x1B[0m"
 LINEP="\033[40G"
 
-if [ ! -d "../../src/libft/obj" ];
+if [ ! -f $(find ../../ -type f -name "*.o") ];
 then 
-make -C "../../src/libft/" re &> /dev/null
+make -C "../../" re &> /dev/null
 else
 :
 fi
 
 echo -e "$YEL FORBIDDEN FUNCTIONS CHECK $RESET"
 
-OBJS=$(find ../../src/libft/obj -type f -name "*.o")
+OBJS=$(find ../../ -type f -name "*.o")
 
 for OBJ in $OBJS
 do
