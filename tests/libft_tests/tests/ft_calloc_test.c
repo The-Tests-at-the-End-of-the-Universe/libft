@@ -6,11 +6,11 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:12:54 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/27 15:57:02 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 18:59:05 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_tester.h"
+#include <libft_tester.h>
 #include <string.h>
 
 int	g_fc = 0;
@@ -41,7 +41,6 @@ char	*init_calloc(size_t nmemb, size_t n)
 	return (c);
 }
 
-
 int	calloc_cmp(int test_count, size_t nmemb, size_t n)
 {
 	char	*c;
@@ -51,7 +50,7 @@ int	calloc_cmp(int test_count, size_t nmemb, size_t n)
 	ei = 0;
 	c = init_calloc(nmemb, n);
 	ftc = init_ft_calloc(nmemb, n);
-	if ( c == NULL || ftc == NULL)
+	if (c == NULL || ftc == NULL)
 		return (1);
 	while (ei != (nmemb * n))
 	{
