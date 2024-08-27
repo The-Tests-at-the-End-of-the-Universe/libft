@@ -14,7 +14,7 @@ TARGETDIR   := .
 BUILDIR     := ./build
 SRCEXT      := c
 OBJEXT      := o
-NORMDIR     := -d ../../
+NORMDIR     := -d ../tests/norm_test
 NORMINETTE = norminette_tester.sh
 
 #Flags, Libraries and Includes
@@ -43,7 +43,10 @@ welcome:
 	rm -rf a.out
 
 norminette:
-	cd ../norminette_tester && bash $(NORMINETTE) $(NORMDIR)
+	mkdir -p norm_test
+	cp -r ../../*.c norm_test
+	-(cd ../norminette_tester && bash $(NORMINETTE) $(NORMDIR))
+	rm -rf norm_test 
 
 #Clean only Objects
 clean:

@@ -12,7 +12,8 @@ WHT="\x1B[37m"
 RESET="\x1B[0m"
 LINEP="\033[40G"
 
-if [ ! -f $(find ../../ -type f -name "*.o") ];
+
+if [ !$(find ../../ -type f -name "*.o") ];
 then 
 make -C "../../" re &> /dev/null
 else
