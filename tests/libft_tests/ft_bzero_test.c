@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 12:48:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 15:53:47 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 15:53:30 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,13 @@ char	*init_test_alloc(char *test)
 	return (test_alloc);
 }
 
-int	bzero_cmp_exe(char	*ta, char	*td, int test_count)
+int	bzero_cmp_exe(char	*ta, char	*td, int test_count, char *test)
 {
 	if (strcmp(ta, td))
+	{
 		g_fail_bzero += ft_log_str(test_count, ta, td);
+		dprintf(2, "test case: %s\n", test);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(ta);
@@ -72,7 +75,7 @@ int	bzero_cmp(int test_count, char *test, size_t n)
 		return (1);
 	bzero(test_alloc, n);
 	ft_bzero(test_dup, n);
-	return (bzero_cmp_exe(test_alloc, test_dup, test_count));
+	return (bzero_cmp_exe(test_alloc, test_dup, test_count, test));
 }
 
 int	bzero_test(void)
