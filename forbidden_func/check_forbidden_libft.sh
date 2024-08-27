@@ -19,7 +19,7 @@ else
 :
 fi
 
-echo -e "$YEL FORBIDDEN FUNCTIONS CHECK $RESET"
+echo -e "${YEL}FORBIDDEN FUNCTIONS CHECK ${RESET}"
 
 OBJS=$(find ../../ -type f -name "*.o")
 
