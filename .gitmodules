@@ -1,0 +1,6 @@
+[submodule "norminette_tester"]
+	path = norminette_tester
+	url = git@github.com:The-Tests-at-the-End-of-the-Universe/norminette_tester.git
+[submodule "forbidden_func/forbidden_tester"]
+	path = forbidden_func/forbidden_tester
+	url = git@github.com:The-Tests-at-the-End-of-the-Universe/forbidden_tester.git
