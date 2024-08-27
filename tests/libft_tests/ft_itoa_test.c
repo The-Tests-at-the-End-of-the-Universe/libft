@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:47:38 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:17:15 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 15:58:51 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int	itoa_cmp(int test_count, int test, char *test_case)
 		return (1);
 	}
 	if (strcmp(result_org, result_ft))
+	{
 		g_fail_itoa += ft_log_str(test_count, result_org, result_ft);
+		dprintf(2, "tcase: %d\n", test);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(result_ft);

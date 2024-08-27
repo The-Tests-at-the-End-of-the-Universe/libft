@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:01:09 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/27 14:57:27 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 16:13:13 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ int	strlcat_cmp(int test_count, char *t1, char *t2, size_t n)
 	org = NULL;
 	ft = NULL;
 	if (ift(&ft, t1, t2, n) != iorg(&org, t1, t2, n) && strcmp(org, ft))
+	{
 		g_fail_strlcat += ft_log_str(test_count, org, ft);
+		dprintf(2, "tcase: [1] %s [2] %s [n] %zu\n", t1, t2, n);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(org);

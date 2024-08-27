@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:27:38 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:31:14 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 16:08:36 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ int	strlen_cmp(int test_count, char *test)
 	org = strlen(test);
 	ft = ft_strlen(test);
 	if (ft != org)
+	{
 		g_fail_strlen += ft_log_int(test_count, org, ft);
+		dprintf(2, "tcase: %s\n", test);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	return (test_count + 1);

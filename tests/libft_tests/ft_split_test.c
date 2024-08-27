@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:28:06 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/27 14:41:50 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 16:05:03 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ int	split_cmp(int test_count, char *test, char *delim)
 	index = 0;
 	array = ft_split(test, delim[0]);
 	if (cmp_split(array, test, delim) != 0)
+	{
 		g_fail_split += ft_log_str(test_count, test, delim);
+		dprintf(2, "tcase: [str] %s [delim] %s\n", test, delim);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	while (array[index] != NULL)

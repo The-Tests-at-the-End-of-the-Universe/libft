@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:12:54 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:15:45 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 15:57:02 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ int	calloc_cmp(int test_count, size_t nmemb, size_t n)
 	while (ei != (nmemb * n))
 	{
 		if ((char)c[ei] != (char)ftc[ei])
+		{
 			g_fc += ft_log_chr(test_count, (char)c[ei], (char)ftc[ei]);
+			dprintf(2, "tcase: [nmemb] %zu [n] %zu\n", nmemb, n);
+		}
 		ei++;
 	}
 	printf(GRN "%d OK " RESET, test_count);

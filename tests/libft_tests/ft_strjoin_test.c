@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:57:44 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:29:05 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 16:07:07 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int	strjoin_cmp(int test_count, char *test1, char *test2, char	*result)
 
 	ft = ft_strjoin(test1, test2);
 	if (strcmp(ft, result))
+	{
 		g_fail_strjoin += ft_log_str(test_count, result, ft);
+		dprintf(2, "tcase: [1] %s [2] %s [result] %s\n", test1, test2, result);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(ft);

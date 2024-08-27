@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:27:38 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/27 15:48:01 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 16:10:48 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ int	strncmp_cmp(int test_count, char *test1, char *test2, int n)
 	else if (ft == 0 && org == 0)
 		printf(GRN "%d OK " RESET, test_count);
 	else
+	{
 		g_fail_strncmp += ft_log_int(test_count, org, ft);
+		dprintf(2, "tcase: [1] %s [2] %s [n] %d\n", test1, test2, n);
+	}
 	return (test_count + 1);
 }
 

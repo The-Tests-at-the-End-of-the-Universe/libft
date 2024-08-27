@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 17:08:13 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:25:04 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 16:04:14 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ int	compare_files_str(int test_count, char *test)
 		return (-1);
 	}
 	if (comparefile_putstr(fptr, test, &line, &col) != 0)
+	{
 		g_fail_putstr += ft_log_int(test_count, line, col);
+		dprintf(2, "tcase: %s\n", test);
+	}
 	rewind(fptr);
 	fclose(fptr);
 	return (0);

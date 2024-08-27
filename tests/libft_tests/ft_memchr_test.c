@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:55:19 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:17:55 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 15:59:34 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ int	memchr_cmp(int test_count, char *test, int c, size_t n)
 	org = memchr(test, c, n);
 	ft = ft_memchr(test, c, n);
 	if (org != ft)
+	{
 		g_fail_memchr += ft_log_str(test_count, org, ft);
+		dprintf(2, "tcase: %s\n", test);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	return (test_count + 1);

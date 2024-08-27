@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:51:07 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:35:27 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 16:12:20 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	substr_cmp(int test_count, char *test1, int start, size_t len)
 
 	ft = ft_substr(test1, start, len);
 	if (strcmp(ft, g_result))
+	{
 		g_fail_substr += ft_log_str(test_count, g_result, ft);
+		dprintf(2, "tcase: [1] %s [start] %d [len] %zu\n", test1, start, len);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(ft);

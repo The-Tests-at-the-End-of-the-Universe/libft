@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:19:21 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 16:00:37 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ int	memcpy_cmp(int test_count, char *test, char *test2, size_t n)
 	org = init_org(test, test2, n);
 	ft = init_ft(test, test2, n);
 	if (strcmp(org, ft))
+	{
 		g_fail_memcpy += ft_log_str(test_count, org, ft);
+		dprintf(2, "tcase: [1] %s [2] %s\n", test, test2);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(org);

@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:44:11 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:27:00 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 16:05:47 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ int	strdup_cmp(int test_count, char *test)
 	org = strdup(test);
 	ft = ft_strdup(test);
 	if (strcmp(ft, org))
+	{
 		g_fail_strdup += ft_log_str(test_count, org, ft);
+		dprintf(2, "tcase: [str] %s\n", test);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(org);

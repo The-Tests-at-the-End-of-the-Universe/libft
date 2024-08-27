@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:52:33 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:28:36 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 16:13:06 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int	striteri_cmp(int test_count, char *test, char *result)
 	test_dub = strdup(test);
 	ft_striteri(test_dub, test_function);
 	if (strcmp(test_dub, result))
+	{
 		g_fail_striteri += ft_log_str(test_count, test, test_dub);
+		dprintf(2, "tcase: [test] %s [result] %s\n", test, result);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(test_dub);

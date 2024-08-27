@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 12:48:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/27 15:53:30 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 15:57:16 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	bzero_cmp_exe(char	*ta, char	*td, int test_count, char *test)
 	if (strcmp(ta, td))
 	{
 		g_fail_bzero += ft_log_str(test_count, ta, td);
-		dprintf(2, "test case: %s\n", test);
+		dprintf(2, "tcase: %s\n", test);
 	}
 	else
 		printf(GRN "%d OK " RESET, test_count);

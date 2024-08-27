@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:51:07 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:34:58 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 16:13:41 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int	strtrim_cmp(int test_count, char *test1, char *test2, char *result)
 
 	ft = ft_strtrim(test1, test2);
 	if (strcmp(ft, result))
+	{
 		g_fail_strtrim += ft_log_str(test_count, result, ft);
+		dprintf(2, "tcase: [1] %s [2] %s [result] %s\n", test1, test2, result);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(ft);

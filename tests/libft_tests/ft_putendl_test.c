@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 17:08:13 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 17:52:50 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 16:12:54 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ int	compare_files_endl(int test_count, char *test)
 	testnl[strlen(test) + 1] = '\0';
 	testnl[strlen(test)] = '\n';
 	if (comparefile_putend(fptr, testnl, &line, &col) != 0)
+	{
 		g_fail_putendl += ft_log_int(test_count, line, col);
+		dprintf(2, "tcase: %s\n", test);
+	}
 	rewind(fptr);
 	fclose(fptr);
 	free(testnl);

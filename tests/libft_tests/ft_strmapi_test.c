@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:33:32 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/27 15:05:05 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 16:09:15 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ int	strmapi_cmp(int test_count, char *test, char *result)
 	test_dub = strdup(test);
 	ft_result = ft_strmapi(test_dub, &test_function_mapi);
 	if (strcmp(ft_result, result))
+	{
 		g_fail_strmapi += ft_log_str(test_count, test, test_dub);
+		dprintf(2, "tcase: [str] %s [result] %s\n", test, result);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(ft_result);

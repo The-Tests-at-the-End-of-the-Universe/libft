@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:26:06 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:21:05 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 16:01:34 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ int	memset_cmp(int test_count, char *test, int c, size_t n)
 		return (1);
 	}
 	if (strcmp(org, ft))
+	{
 		g_fail_memset += ft_log_str(test_count, org, ft);
+		dprintf(2, "tcase: %s\n", test);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	free(org);
