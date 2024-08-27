@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/26 15:52:53 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 15:51:52 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	atoi_cmp(int test_count, char *test)
 	result_org = atoi(test);
 	result_ft = ft_atoi(test);
 	if (result_org != result_ft)
+	{
 		g_fail_atoi += ft_log_int(test_count, result_org, result_ft);
+		dprintf(2, "test case: %s\n", test);
+	}
 	else
 		printf(GRN "%d OK " RESET, test_count);
 	return (test_count + 1);
