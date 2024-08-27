@@ -24,7 +24,7 @@ test: libft logs welcome tests
 
 
 tests:
-	cc -Wall -Werror -Wextra -o tester $(TESTER) $(TEST_DIR)/*.c $(LIBFT_A) -lbsd 
+	cc -Wall -Werror -Wextra -o tester $(TESTER) $(TEST_DIR)/*.c $(LIBFT_A) -lbsd  -g
 	rm -rf $(LIBFT_A)
 
 norminette:

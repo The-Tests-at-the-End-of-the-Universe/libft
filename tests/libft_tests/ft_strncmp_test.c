@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:27:38 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:32:38 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 15:48:01 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,24 @@
 
 int	g_fail_strncmp = 0;
 
-int	strncmp_cmp(int test_count, char *test1, char *test2, size_t n)
+//added multiple conditions because returns value of strncmp can differ
+//per compiler
+//https://stackoverflow.com/questions/52334056/weird-return-value-in-strcmp
+int	strncmp_cmp(int test_count, char *test1, char *test2, int n)
 {
-	size_t	ft;
-	size_t	org;
+	int	ft;
+	int	org;
 
 	org = strncmp(test1, test2, n);
 	ft = ft_strncmp(test1, test2, n);
-	if (ft != org)
-		g_fail_strncmp += ft_log_int(test_count, org, ft);
-	else
+	if (ft < 0 && org < 0)
 		printf(GRN "%d OK " RESET, test_count);
+	else if (ft > 0 && org > 0)
+		printf(GRN "%d OK " RESET, test_count);
+	else if (ft == 0 && org == 0)
+		printf(GRN "%d OK " RESET, test_count);
+	else
+		g_fail_strncmp += ft_log_int(test_count, org, ft);
 	return (test_count + 1);
 }
 
