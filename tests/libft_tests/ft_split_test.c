@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:28:06 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/26 16:25:39 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/27 14:41:50 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,44 @@ int	g_fail_split = 0;
 int	cmp_split(char **ft_result, char *test, char *delim)
 {
 	int		index;
-	char	*alloc;
 	char	*testret;
+	char	*rest;
+	char	*begin;
 
 	index = 0;
-	alloc = strdup(test);
+	rest = strdup(test);
+	begin = rest;
 	while (ft_result[index] != NULL)
 	{
-		testret = __strtok_r(alloc, delim, &alloc);
+		testret = __strtok_r(rest, delim, &rest);
 		if (strcmp(testret, ft_result[index]))
+		{
+			free(begin);
 			return (-1);
+		}
 		index++;
 	}
+	free(begin);
 	return (0);
 }
 
 int	split_cmp(int test_count, char *test, char *delim)
 {
-	if (cmp_split(ft_split(test, delim[0]), test, delim) != 0)
+	char	**array;
+	int		index;
+
+	index = 0;
+	array = ft_split(test, delim[0]);
+	if (cmp_split(array, test, delim) != 0)
 		g_fail_split += ft_log_str(test_count, test, delim);
 	else
 		printf(GRN "%d OK " RESET, test_count);
+	while (array[index] != NULL)
+	{
+		free(array[index]);
+		index++;
+	}
+	free(array);
 	return (0);
 }
 
