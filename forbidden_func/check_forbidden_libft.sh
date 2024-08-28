@@ -19,6 +19,7 @@ echo -e "${YEL}FORBIDDEN FUNCTIONS CHECK ${RESET}"
 
 tester_dir=$(cd .. && pwd)
 tester_dir=$(basename $tester_dir)
+code=0
 
 OBJS=$(find ../../ -type f -name "*.o" -not -path "../../$tester_dir/*")
 
@@ -29,6 +30,14 @@ do
  echo -ne "$BMAG $base_name $RESET"
  extra_cmd="| grep -v ft_"
  bash ./forbidden_tester/forbidden.sh $OBJ $config_name "$extra_cmd"
+ exit_code=$(echo $?)
+ if [[ $exit_code == 1 ]]; then
+	code=1
+ fi
 done
 
+if [[ $code == 1 ]]; then
+	exit 1
+fi
+exit 0
 
