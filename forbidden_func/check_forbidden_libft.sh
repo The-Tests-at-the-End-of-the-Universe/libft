@@ -13,16 +13,14 @@ RESET="\x1B[0m"
 LINEP="\033[40G"
 
 
-if [ !$(find ../../ -type f -name "*.o") ];
-then 
 make -C "../../" re &> /dev/null
-else
-:
-fi
 
 echo -e "${YEL}FORBIDDEN FUNCTIONS CHECK ${RESET}"
 
-OBJS=$(find ../../ -type f -name "*.o")
+tester_dir=$(cd .. && pwd)
+tester_dir=$(basename $tester_dir)
+
+OBJS=$(find ../../ -type f -name "*.o" -not -path "../../$tester_dir/*")
 
 for OBJ in $OBJS
 do
