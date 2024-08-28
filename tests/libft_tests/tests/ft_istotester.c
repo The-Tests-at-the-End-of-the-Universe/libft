@@ -6,11 +6,11 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:29:29 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/27 15:58:15 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/28 12:51:58 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_tester.h"
+#include <libft_tester.h>
 #include <ctype.h>
 
 int	g_fail_isto = 0;

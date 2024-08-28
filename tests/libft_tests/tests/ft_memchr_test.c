@@ -6,11 +6,11 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:55:19 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/27 15:59:34 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/28 12:51:56 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_tester.h"
+#include <libft_tester.h>
 #include <string.h>
 
 int	g_fail_memchr = 0;

@@ -15,7 +15,7 @@ BUILDIR     := ./build
 SRCEXT      := c
 OBJEXT      := o
 NORMDIR     := -d ../tests/norm_test
-NORMINETTE = norminette_tester.sh
+NORMINETTE  := norminette_tester.sh
 
 #Flags, Libraries and Includes
 CFLAGS      := -I./ -Wall -Werror -Wextra 
@@ -24,12 +24,12 @@ CFLAGS      := -I./ -Wall -Werror -Wextra
 #---------------------------------------------------------------------------------
 #DO NOT EDIT BELOW THIS LINE
 #---------------------------------------------------------------------------------
-SOURCES     := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+SOURCES     := $(shell find $(SRCDIR) -type f -name "*.$(SRCEXT)")
 OBJECTS     := $(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SOURCES:.$(SRCEXT)=.$(OBJEXT)))
 
 #Default Make
 
-all: build libft logs welcome $(TARGETDIR)/$(TARGET) 
+all: build logs welcome $(TARGETDIR)/$(TARGET) 
 
 #Remake
 re: fclean all
@@ -41,12 +41,6 @@ build:
 welcome:
 	cc -Wall -Werror -Wextra $(WELCOME) && ./a.out
 	rm -rf a.out
-
-norminette:
-	mkdir -p norm_test
-	cp -r ../../*.c norm_test
-	-(cd ../norminette_tester && bash $(NORMINETTE) $(NORMDIR))
-	rm -rf norm_test 
 
 #Clean only Objects
 clean:
@@ -63,18 +57,12 @@ logs:
 
 #Link
 $(TARGETDIR)/$(TARGET) : $(OBJECTS)
-	$(CC) $(OBJECTS) -o  $(TARGETDIR)/$(TARGET)
+	$(CC) $(OBJECTS) -o  $(TARGETDIR)/$(TARGET) libft.a -lbsd 
 
 #Compile
 $(OBJDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c -o $@ $^
-
-#LIBFT
-libft:
-	@$(MAKE) -C $(LIBFT) all
-	/bin/cp -rf ../../libft.a ./
-	@$(MAKE) -C $(LIBFT) fclean
 
 
 #Non-File Targets

@@ -6,11 +6,11 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:27:38 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/27 16:13:25 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/28 12:51:43 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_tester.h"
+#include <libft_tester.h>
 #include <bsd/string.h>
 
 int	g_fail_strnstr = 0;

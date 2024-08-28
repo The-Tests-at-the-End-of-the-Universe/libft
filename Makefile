@@ -9,7 +9,7 @@ LIBFT_TEST_DIR = tests
 all:  LIBFT #PRINTF GNL
 
 LIBFT:
-	@$(MAKE) --no-print-directory -C $(LIBFT_TEST_DIR) all
+	@$(MAKE) --no-print-directory -C $(LIBFT_TEST_DIR) re
 
 # PRINTF:
 # 	cp -R ../src/ft_printf ./

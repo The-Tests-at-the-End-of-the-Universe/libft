@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/27 18:31:37 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/28 12:46:49 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // unistd library. and malloc and free from the stdlib library.
 
 # include <stdio.h>
-# include "../../libft.h"
+# include "libft.h"
 # include <stdlib.h>
 # include <limits.h>
 # include <string.h>

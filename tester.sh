@@ -199,10 +199,19 @@ tests=(
 fi
 
 #prep tests
+libft_a=$(find ../../ -type f -name libft.a -not -path "$PWD*" | tail -1)
+libft_h=$(find ../../ -type f -name libft.h -not -path "$PWD*" | tail -1)
+cp $libft_a ./tests/
+cp $libft_h ./tests/
 make -C ./ all
+rm -rf ./tests/libft.a
+rm -rf ./tests/libft.h
 
 if [[ $norminette == "true" ]]; then
-make --no-print-directory -C tests norminette
+(cd tests && mkdir -p norm_test)
+srcs=$(find ../ -path $(pwd) -prune -type f -name *.c)
+echo $srcs
+(cd tests && rm -rf norm_test)
 fi
 if [ "$forbidden" == "true" ]; then
 (cd forbidden_func && bash check_forbidden_libft.sh)
@@ -264,4 +273,3 @@ else
 	fi 
 	echo -e "${RED}Not all tests passed, check logs${RESET}"
 fi
-
