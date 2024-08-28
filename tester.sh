@@ -199,6 +199,7 @@ tests=(
 fi
 
 #prep tests
+make -C ../ re
 libft_a=$(find ../../ -type f -name libft.a -not -path "$PWD*" | tail -1)
 libft_h=$(find ../../ -type f -name libft.h -not -path "$PWD*" | tail -1)
 cp $libft_a ./tests/
