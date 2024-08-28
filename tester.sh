@@ -210,12 +210,25 @@ rm -rf ./tests/libft.h
 
 if [[ $norminette == "true" ]]; then
 (cd tests && mkdir -p norm_test)
-srcs=$(find ../ -path $(pwd) -prune -type f -name *.c)
-echo $srcs
+pwd=$(pwd)
+pwd=$(basename $pwd)
+srcs=$(find ../  -type f -name "*.c" -not -path "../$pwd/*")
+headers=$(find ../ -type f -name "*.h" -not -path "../$pwd/*")
+cp $srcs ./tests/norm_test
+cp $headers ./tests/norm_test
+(cd norminette_tester && bash norminette_tester.sh -npi -d ../tests/norm_test)
+norminette_code=$(echo $?)
+if [[ $norminette_code == 1 ]]; then
+	fail=true
+fi
 (cd tests && rm -rf norm_test)
 fi
 if [ "$forbidden" == "true" ]; then
 (cd forbidden_func && bash check_forbidden_libft.sh)
+forbidden_code=$(echo $?)
+if [[ $forbidden_code == 1 ]]; then
+	fail=true
+fi
 fi
 
 cd tests
@@ -268,9 +281,11 @@ if [[ $fail == "false" ]]; then
 	echo -e "${GRN}Congratulations all tests passed!${RESET}"
 	rm -rf $mem_log
 	rm -rf $err_log
+	exit 0
 else
 	if [[ $mem_fail == "true" ]]; then
 		echo -e "${RED}memory errors, check logs or use following command manually: $valgrind${RESET}"
 	fi 
 	echo -e "${RED}Not all tests passed, check logs${RESET}"
+	exit 1
 fi
