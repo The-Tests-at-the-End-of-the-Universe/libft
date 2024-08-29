@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 12:48:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:59 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/29 17:58:36 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,10 @@ int	bzero_test(void)
 	test_count = bzero_cmp(test_count, " ", 1);
 	test_count = bzero_cmp(test_count, "asbj", 4);
 	test_count = bzero_cmp(test_count, "       ", 1);
+
+	// test_count = bzero_cmp(test_count, "", 0);
+	// test_count = bzero_cmp(test_count, "123", 0);
+	// test_count = bzero_cmp(test_count, "", -1);
+	// test_count = bzero_cmp(test_count, "123", -1);
 	return (g_fail_bzero);
 }

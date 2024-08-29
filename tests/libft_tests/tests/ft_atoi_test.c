@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:50:31 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/29 17:49:26 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,18 @@ int	atoi_test(void)
 	test_count = atoi_cmp(test_count, "asbj");
 	test_count = atoi_cmp(test_count, "");
 	test_count = atoi_cmp(test_count, "       ");
+
+	test_count = atoi_cmp(test_count, "-00123");
+	test_count = atoi_cmp(test_count, "--00123");
+	test_count = atoi_cmp(test_count, "---00123");
+	test_count = atoi_cmp(test_count, "-+-+-00123");
+	test_count = atoi_cmp(test_count, "++00123");
+	test_count = atoi_cmp(test_count, "++--00123");
+	test_count = atoi_cmp(test_count, "  -00123");
+	test_count = atoi_cmp(test_count, "		--00123");
+	test_count = atoi_cmp(test_count, "	 	 ---00123");
+	test_count = atoi_cmp(test_count, "	 	 -+-+-00123");
+	test_count = atoi_cmp(test_count, "	 	 ++00123");
+	test_count = atoi_cmp(test_count, "	 	 ++--00123");
 	return (g_fail_atoi);
 }

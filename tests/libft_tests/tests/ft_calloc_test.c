@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:12:54 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/27 18:59:05 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/29 17:57:36 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,12 @@ int	calloc_test(void)
 	test_count = calloc_cmp(test_count, 0, 1);
 	test_count = calloc_cmp(test_count, 0, 1000);
 	test_count = calloc_cmp(test_count, 0, 1000000);
+
+	test_count = calloc_cmp(test_count, 0, 0);
+	test_count = calloc_cmp(test_count, 1, 1);
+	test_count = calloc_cmp(test_count, 5, 1);
+	test_count = calloc_cmp(test_count, 5, 0);
+	test_count = calloc_cmp(test_count, 1, 5);
+	test_count = calloc_cmp(test_count, 0, 5);
 	return (g_fc);
 }
