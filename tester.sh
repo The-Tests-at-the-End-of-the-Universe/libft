@@ -236,7 +236,7 @@ echo -e "${YEL}Functions${RESET}"
 for test in ${tests[@]}; do
 
 	#check to run case or not
-	if [[ $check_cases == 1 ]]; then 
+	if [[ $check_cases == 1 ]]; then
 		case_check=${test##*/}
 		if [[ $(echo ${test_cases[@]} | grep $case_check) ]]
 		then
@@ -263,11 +263,14 @@ for test in ${tests[@]}; do
 	$valgrind ./tester $test 2> $temp_mem_log
 	mem_exit_code=$(echo $?)
 	if [ $mem_exit_code == 42 ]; then
-	echo -ne "${RED} MOK${RESET}"
-	echo "$test===============================" >> $mem_log
-	cat $temp_mem_log >> $mem_log
-	fail=true
-	mem_fail=true
+		echo -ne "${RED}$test: MKO${RESET}"
+		echo "$test===============================" >> $mem_log
+		cat $temp_mem_log >> $mem_log
+		fail=true
+		mem_fail=true
+	:
+	else
+		echo -ne "${GRN}MOK${RESET}"
 	fi
 	fi
 
@@ -278,14 +281,14 @@ for test in ${tests[@]}; do
 done
 
 if [[ $fail == "false" ]]; then
-	echo -e "${GRN}Congratulations all tests passed!${RESET}"
+	cat tTatEotU
 	rm -rf $mem_log
 	rm -rf $err_log
 	exit 0
 else
 	if [[ $mem_fail == "true" ]]; then
 		echo -e "${RED}memory errors, check logs or use following command manually: $valgrind${RESET}"
-	fi 
+	fi
 	echo -e "${RED}Not all tests passed, check logs${RESET}"
 	exit 1
 fi

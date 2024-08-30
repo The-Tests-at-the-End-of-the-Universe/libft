@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 12:48:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/29 17:58:36 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/30 18:08:33 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,12 @@ int	bzero_cmp_exe(char	*ta, char	*td, int test_count, char *test)
 		dprintf(2, "tcase: %s\n", test);
 	}
 	else
-		printf(GRN "%d OK " RESET, test_count);
+	{
+		if (test_count / 10 == 0)
+			printf(GRN "%d:  OK: \"%s\"\n" RESET, test_count, test);
+		else
+			printf(GRN "%d: OK: \"%s\"\n" RESET, test_count, test);
+	}
 	free(ta);
 	free(td);
 	return (test_count + 1);
@@ -94,10 +99,5 @@ int	bzero_test(void)
 	test_count = bzero_cmp(test_count, " ", 1);
 	test_count = bzero_cmp(test_count, "asbj", 4);
 	test_count = bzero_cmp(test_count, "       ", 1);
-
-	// test_count = bzero_cmp(test_count, "", 0);
-	// test_count = bzero_cmp(test_count, "123", 0);
-	// test_count = bzero_cmp(test_count, "", -1);
-	// test_count = bzero_cmp(test_count, "123", -1);
 	return (g_fail_bzero);
 }

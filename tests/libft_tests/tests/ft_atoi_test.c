@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/29 17:49:26 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/30 17:41:40 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,29 @@ int	atoi_cmp(int test_count, char *test)
 		dprintf(2, "tcase: %s\n", test);
 	}
 	else
-		printf(GRN "%d OK " RESET, test_count);
+	{
+		if (test_count / 10 == 0)
+			printf(GRN "%d:  OK: \"%s\"\n" RESET, test_count, test);
+		else
+			printf(GRN "%d: OK: \"%s\"\n" RESET, test_count, test);
+	}
 	return (test_count + 1);
+}
+
+void	atoi_test_more(int *test_count)
+{
+	*test_count = atoi_cmp(*test_count, "-00123");
+	*test_count = atoi_cmp(*test_count, "--00123");
+	*test_count = atoi_cmp(*test_count, "---00123");
+	*test_count = atoi_cmp(*test_count, "-+-+-00123");
+	*test_count = atoi_cmp(*test_count, "++00123");
+	*test_count = atoi_cmp(*test_count, "++--00123");
+	*test_count = atoi_cmp(*test_count, "  -00123");
+	*test_count = atoi_cmp(*test_count, "		--00123");
+	*test_count = atoi_cmp(*test_count, "	 	 ---00123");
+	*test_count = atoi_cmp(*test_count, "	 	 -+-+-00123");
+	*test_count = atoi_cmp(*test_count, "	 	 ++00123");
+	*test_count = atoi_cmp(*test_count, "	 	 ++--00123");
 }
 
 int	atoi_test(void)
@@ -46,20 +67,7 @@ int	atoi_test(void)
 	test_count = atoi_cmp(test_count, "2143244535");
 	test_count = atoi_cmp(test_count, "");
 	test_count = atoi_cmp(test_count, "asbj");
-	test_count = atoi_cmp(test_count, "");
 	test_count = atoi_cmp(test_count, "       ");
-
-	test_count = atoi_cmp(test_count, "-00123");
-	test_count = atoi_cmp(test_count, "--00123");
-	test_count = atoi_cmp(test_count, "---00123");
-	test_count = atoi_cmp(test_count, "-+-+-00123");
-	test_count = atoi_cmp(test_count, "++00123");
-	test_count = atoi_cmp(test_count, "++--00123");
-	test_count = atoi_cmp(test_count, "  -00123");
-	test_count = atoi_cmp(test_count, "		--00123");
-	test_count = atoi_cmp(test_count, "	 	 ---00123");
-	test_count = atoi_cmp(test_count, "	 	 -+-+-00123");
-	test_count = atoi_cmp(test_count, "	 	 ++00123");
-	test_count = atoi_cmp(test_count, "	 	 ++--00123");
+	atoi_test_more(&test_count);
 	return (g_fail_atoi);
 }
