@@ -13,7 +13,40 @@
 #include <libft_tester.h>
 #include <string.h>
 
-int	g_fc = 0;
+int							g_fc = 0;
+
+typedef struct s_calloc_test
+{
+	size_t	nmemb;
+	size_t	n;
+}	t_calloc_test;
+
+static const t_calloc_test	g_tests[] = {
+[ZERO] = {1, sizeof(char)},
+[ONE] = {1000, sizeof(char)},
+[TWO] = {1000000, sizeof(char)},
+[THREE] = {1, sizeof(int)},
+[FOUR] = {1000, sizeof(int)},
+[FIVE] = {1000000, sizeof(int)},
+[SIX] = {1, sizeof(float)},
+[SEVEN] = {1000, sizeof(float)},
+[EIGHT] = {1000000, sizeof(float)},
+[NINE] = {1, sizeof(void)},
+[TEN] = {1000, sizeof(void)},
+[ELEVEN] = {1000000, sizeof(void)},
+[TWELVE] = {1, 0},
+[THIRTEEN] = {1000, 0},
+[FOURTEEN] = {1000000, 0},
+[FIVETEEN] = {0, 1},
+[SIXTEEN] = {0, 1000},
+[SEVENTEEN] = {0, 1000000},
+[EIGHTEEN] = {0, 0},
+[NINETEEN] = {1, 1},
+[TWENTY] = {5, 1},
+[TWENTYONE] = {5, 0},
+[TWENTYTWO] = {1, 5},
+[TWENTYTHREE] = {0, 5},
+};
 
 char	*init_ft_calloc(size_t nmemb, size_t n)
 {
@@ -41,23 +74,24 @@ char	*init_calloc(size_t nmemb, size_t n)
 	return (c);
 }
 
-int	calloc_cmp(int test_count, size_t nmemb, size_t n)
+int	calloc_cmp(int test_count)
 {
 	char	*c;
 	char	*ftc;
 	size_t	ei;
 
 	ei = 0;
-	c = init_calloc(nmemb, n);
-	ftc = init_ft_calloc(nmemb, n);
+	c = init_calloc(tests[test_count].nmemb, tests[test_count].nmemb);
+	ftc = init_ft_calloc(tests[test_count].nmemb, tests[test_count].nmemb);
 	if (c == NULL || ftc == NULL)
 		return (1);
-	while (ei != (nmemb * n))
+	while (ei != (tests[test_count].nmemb * tests[test_count].nmemb))
 	{
 		if ((char)c[ei] != (char)ftc[ei])
 		{
 			g_fc += ft_log_chr(test_count, (char)c[ei], (char)ftc[ei]);
-			dprintf(2, "tcase: [nmemb] %zu [n] %zu\n", nmemb, n);
+			dprintf(2, "tcase: [nmemb] %zu [n] %zu\n", \
+			tests[test_count].nmemb, tests[test_count].nmemb);
 		}
 		ei++;
 	}
@@ -67,35 +101,10 @@ int	calloc_cmp(int test_count, size_t nmemb, size_t n)
 	return (test_count + 1);
 }
 
-int	calloc_test(void)
+int	calloc_test(int test_count)
 {
-	int	test_count;
-
-	test_count = 1;
-	test_count = calloc_cmp(test_count, 1, sizeof(char));
-	test_count = calloc_cmp(test_count, 1000, sizeof(char));
-	test_count = calloc_cmp(test_count, 1000000, sizeof(char));
-	test_count = calloc_cmp(test_count, 1, sizeof(int));
-	test_count = calloc_cmp(test_count, 1000, sizeof(int));
-	test_count = calloc_cmp(test_count, 1000000, sizeof(int));
-	test_count = calloc_cmp(test_count, 1, sizeof(float));
-	test_count = calloc_cmp(test_count, 1000, sizeof(float));
-	test_count = calloc_cmp(test_count, 1000000, sizeof(float));
-	test_count = calloc_cmp(test_count, 1, sizeof(void));
-	test_count = calloc_cmp(test_count, 1000, sizeof(void));
-	test_count = calloc_cmp(test_count, 1000000, sizeof(void));
-	test_count = calloc_cmp(test_count, 1, 0);
-	test_count = calloc_cmp(test_count, 1000, 0);
-	test_count = calloc_cmp(test_count, 1000000, 0);
-	test_count = calloc_cmp(test_count, 0, 1);
-	test_count = calloc_cmp(test_count, 0, 1000);
-	test_count = calloc_cmp(test_count, 0, 1000000);
-
-	test_count = calloc_cmp(test_count, 0, 0);
-	test_count = calloc_cmp(test_count, 1, 1);
-	test_count = calloc_cmp(test_count, 5, 1);
-	test_count = calloc_cmp(test_count, 5, 0);
-	test_count = calloc_cmp(test_count, 1, 5);
-	test_count = calloc_cmp(test_count, 0, 5);
+	if (test_count == sizeof(tests) / sizeof(tests[0]))
+		return (FINISH);
+	calloc_cmp(int test_count)
 	return (g_fc);
 }

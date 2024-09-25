@@ -31,7 +31,7 @@ int	mem_tests(char *argv, int test_count)
 	else if (!strncmp(argv, "ft_bzero", 5))
 		fail += bzero_test(test_count);
 	else if (!strncmp(argv, "ft_calloc", 6))
-		fail += calloc_test();
+		fail += calloc_test(test_count);
 	else if (!strncmp(argv, "ft_strdup", 9))
 		fail += strdup_test();
 	else if (!strncmp(argv, "ft_split", 8))

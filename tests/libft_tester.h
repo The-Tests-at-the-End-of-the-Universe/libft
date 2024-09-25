@@ -59,13 +59,20 @@ enum test_count {
 	TWENTY,
 	TWENTYONE,
 	TWENTYTWO,
-	DONE
+	TWENTYTHREE,
+	TWENTYFOUR,
+	TWENTYFIVE,
+	TWENTYSIX,
+	TWENTYSEVEN,
+	TWENTYEIGHT,
+	TWENTYNINE,
+	THIRTY,
 };
 
 
 int	atoi_test(int test_count);
 int	bzero_test(int test_count);
-int	calloc_test(void);
+int	calloc_test(int test_count);
 int	isto_test(char *function_name, int (*f)(int), int (*ft)(int));
 int	itoa_test(void);
 int	memchr_test(void);
