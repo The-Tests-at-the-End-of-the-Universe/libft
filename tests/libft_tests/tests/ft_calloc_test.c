@@ -81,17 +81,17 @@ int	calloc_cmp(int test_count)
 	size_t	ei;
 
 	ei = 0;
-	c = init_calloc(tests[test_count].nmemb, tests[test_count].nmemb);
-	ftc = init_ft_calloc(tests[test_count].nmemb, tests[test_count].nmemb);
+	c = init_calloc(g_tests[test_count].nmemb, g_tests[test_count].nmemb);
+	ftc = init_ft_calloc(g_tests[test_count].nmemb, g_tests[test_count].nmemb);
 	if (c == NULL || ftc == NULL)
 		return (1);
-	while (ei != (tests[test_count].nmemb * tests[test_count].nmemb))
+	while (ei != (g_tests[test_count].nmemb * g_tests[test_count].nmemb))
 	{
 		if ((char)c[ei] != (char)ftc[ei])
 		{
 			g_fc += ft_log_chr(test_count, (char)c[ei], (char)ftc[ei]);
 			dprintf(2, "tcase: [nmemb] %zu [n] %zu\n", \
-			tests[test_count].nmemb, tests[test_count].nmemb);
+			g_tests[test_count].nmemb, g_tests[test_count].nmemb);
 		}
 		ei++;
 	}
@@ -103,8 +103,8 @@ int	calloc_cmp(int test_count)
 
 int	calloc_test(int test_count)
 {
-	if (test_count == sizeof(tests) / sizeof(tests[0]))
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
-	calloc_cmp(int test_count)
+	calloc_cmp(test_count);
 	return (g_fc);
 }
