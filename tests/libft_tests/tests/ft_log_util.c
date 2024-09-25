@@ -14,7 +14,7 @@
 
 int	ft_log_chr(int test_count, char og, char ft)
 {
-	printf(RED "%d FAIL "RESET, test_count);
+	// printf(RED "%d FAIL "RESET, test_count);
 	dprintf(2, "[%d]\n", test_count);
 	dprintf(2, "libOG: %c\n", og);
 	dprintf(2, "libft: %c\n", ft);
@@ -23,7 +23,7 @@ int	ft_log_chr(int test_count, char og, char ft)
 
 int	ft_log_str(int test_count, char *og, char *ft)
 {
-	printf(RED "%d FAIL "RESET, test_count);
+	// printf(RED "%d FAIL "RESET, test_count);
 	dprintf(2, "[%d]\n", test_count);
 	dprintf(2, "libOG: %s\n", og);
 	dprintf(2, "libft: %s\n", ft);
@@ -32,7 +32,7 @@ int	ft_log_str(int test_count, char *og, char *ft)
 
 int	ft_log_int(int test_count, int og, int ft)
 {
-	printf(RED "%d FAIL "RESET, test_count);
+	// printf(RED "%d FAIL "RESET, test_count);
 	dprintf(2, "[%d]\n", test_count);
 	dprintf(2, "libOG: %d\n", og);
 	dprintf(2, "libft: %d\n", ft);

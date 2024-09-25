@@ -13,7 +13,7 @@
 #include <libft_tester.h>
 #include <ctype.h>
 
-int	mem_tests(char *argv)
+int	mem_tests(char *argv, int test_count)
 {
 	int	fail;
 
@@ -29,7 +29,7 @@ int	mem_tests(char *argv)
 	else if (!strncmp(argv, "ft_memset", 8))
 		fail += memset_test();
 	else if (!strncmp(argv, "ft_bzero", 5))
-		fail += bzero_test();
+		fail += bzero_test(test_count);
 	else if (!strncmp(argv, "ft_calloc", 6))
 		fail += calloc_test();
 	else if (!strncmp(argv, "ft_strdup", 9))
@@ -57,7 +57,7 @@ int	write_tests(char *argv)
 	return (fail);
 }
 
-int	appendix(char *argv)
+int	appendix(char *argv, int test_count)
 {
 	int	fail;
 
@@ -65,7 +65,7 @@ int	appendix(char *argv)
 	if (!strncmp(argv, "ft_itoa", 7))
 		fail += itoa_test();
 	if (!strncmp(argv, "ft_atoi", 4))
-		fail += atoi_test();
+		fail += atoi_test(test_count);
 	else if (!strncmp(argv, "ft_isalnum", 10))
 		fail += isto_test("ft_isalnum", isalnum, ft_isalnum);
 	else if (!strncmp(argv, "ft_isalpha", 10))
@@ -116,13 +116,15 @@ int	str_tests(char *argv)
 int	main(int argc, char **argv)
 {
 	int	fail;
+	int	test_count;
 
+	test_count = atoi(argv[2]);
 	fail = 0;
 	if (argc == 1 || argv == NULL)
 		return (printf(RED "wrong parameters given\n" RESET), 1);
 	fail += str_tests(argv[1]);
-	fail += mem_tests(argv[1]);
+	fail += mem_tests(argv[1], test_count);
 	fail += write_tests(argv[1]);
-	fail += appendix(argv[1]);
+	fail += appendix(argv[1], test_count);
 	return (fail);
 }

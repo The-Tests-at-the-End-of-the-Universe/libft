@@ -249,21 +249,30 @@ for test in ${tests[@]}; do
 	#print function
 	echo -e "${MAG}$test${RESET}"
 
+	test_count=$((1))
+	while [ 1 ]; do
+
 	#cases
-	./tester $test 1> /dev/null 2> $temp_err_log
+	./tester $test $test_count 1> /dev/null 2> $temp_err_log
 	exit_code=$(echo $?)
-	if [ $exit_code != 0 ]; then
+	if [ $exit_code == 1 ]; then
+	echo -ne "${RED}${test_count} FAIL ${RESET}"
 	echo "$test===============================" >> $err_log
 	cat $temp_err_log >> $err_log
 	fail=true
 	fi
 
+	if [ $exit_code == 0 ]; then
+	echo -ne "${GRN}${test_count} OK ${RESET}"
+	fi
+
+
 	#mem test
 	if [ $memory == true ]; then
-	$valgrind ./tester $test 2> $temp_mem_log
+	$valgrind ./tester $test $test_count 2> $temp_mem_log
 	mem_exit_code=$(echo $?)
 	if [ $mem_exit_code == 42 ]; then
-	echo -ne "${RED} MOK${RESET}"
+	echo -ne "${RED} MOK ${RESET}"
 	echo "$test===============================" >> $mem_log
 	cat $temp_mem_log >> $mem_log
 	fail=true
@@ -274,6 +283,13 @@ for test in ${tests[@]}; do
 	#delete temp files
 	rm -rf $temp_err_log
 	rm -rf $temp_mem_log
+
+	if [ $exit_code == 2 ]; then
+	break
+	fi
+	test_count=$((test_count+1))
+	done 
+
 	echo
 done
 

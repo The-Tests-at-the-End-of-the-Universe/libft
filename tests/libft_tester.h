@@ -33,8 +33,38 @@
 # define WHT   "\x1B[37m"
 # define RESET "\x1B[0m"
 
-int	atoi_test(void);
-int	bzero_test(void);
+# define FINISH 2
+
+enum test_count {
+	ZERO,
+	ONE,
+	TWO,
+	THREE,
+	FOUR,
+	FIVE,
+	SIX,
+	SEVEN,
+	EIGHT,
+	NINE,
+	TEN,
+	ELEVEN,
+	TWELVE,
+	THIRTEEN,
+	FOURTEEN,
+	FIVETEEN,
+	SIXTEEN,
+	SEVENTEEN,
+	EIGHTEEN,
+	NINETEEN,
+	TWENTY,
+	TWENTYONE,
+	TWENTYTWO,
+	DONE
+};
+
+
+int	atoi_test(int test_count);
+int	bzero_test(int test_count);
 int	calloc_test(void);
 int	isto_test(char *function_name, int (*f)(int), int (*ft)(int));
 int	itoa_test(void);
