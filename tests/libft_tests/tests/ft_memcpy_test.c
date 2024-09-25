@@ -13,7 +13,7 @@
 #include <libft_tester.h>
 #include <string.h>
 
-int							g_fail_memcpy = 0;
+int						g_fail_memcpy = 0;
 
 typedef struct s_memcpy_test
 {
