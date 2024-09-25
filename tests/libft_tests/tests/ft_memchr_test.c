@@ -13,36 +13,49 @@
 #include <libft_tester.h>
 #include <string.h>
 
-int	g_fail_memchr = 0;
+int							g_fail_memchr = 0;
 
-int	memchr_cmp(int test_count, char *test, int c, size_t n)
+typedef struct s_memchr_test
+{
+	char	*test;
+	int		c;
+	size_t	n;
+}	t_memchr_test;
+
+static const t_memchr_test	g_tests[] = {
+[ZERO] = {"fnjkdvbs", 'n', 5},
+[ONE] = {"    scnaocuw9/", '/', 20},
+[TWO] = {"fnjkdvbs", 'n', 0},
+[THREE] = {"snsicnsk sjknsjanc", ' ', 10},
+[FOUR] = {"fnjkdvbs\n", '\200', 1000},
+[FIVE] = {"fnjkdvbs\n", '\n', 16},
+[SIX] = {"fnjkdvb0", '\0', 20},
+};
+
+int	memchr_cmp(int test_count)
 {
 	char	*org;
 	char	*ft;
 
-	org = memchr(test, c, n);
-	ft = ft_memchr(test, c, n);
+	org = memchr(g_tests[test_count].test, g_tests[test_count].c, \
+	g_tests[test_count].n);
+	ft = ft_memchr(g_tests[test_count].test, g_tests[test_count].c, \
+	g_tests[test_count].n);
 	if (org != ft)
 	{
 		g_fail_memchr += ft_log_str(test_count, org, ft);
-		dprintf(2, "tcase: %s\n", test);
+		dprintf(2, "tcase: %s\n", g_tests[test_count].test);
+		g_fail_memchr = 1;
 	}
 	else
-		printf(GRN "%d OK " RESET, test_count);
+		g_fail_memchr = 0;
 	return (test_count + 1);
 }
 
-int	memchr_test(void)
+int	memchr_test(int test_count)
 {
-	int	test_count;
-
-	test_count = 1;
-	test_count = memchr_cmp(test_count, "fnjkdvbs", 'n', 5);
-	test_count = memchr_cmp(test_count, "    scnaocuw9/", '/', 20);
-	test_count = memchr_cmp(test_count, "fnjkdvbs", 'n', 0);
-	test_count = memchr_cmp(test_count, "snsicnsk sjknsjanc", ' ', 10);
-	test_count = memchr_cmp(test_count, "fnjkdvbs\n", '\200', 1000);
-	test_count = memchr_cmp(test_count, "fnjkdvbs\n", '\n', 16);
-	test_count = memchr_cmp(test_count, "fnjkdvb0", '\0', 20);
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	memchr_cmp(test_count);
 	return (g_fail_memchr);
 }

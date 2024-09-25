@@ -21,7 +21,7 @@ int	mem_tests(char *argv, int test_count)
 	if (!strncmp(argv, "ft_memcpy", 9))
 		fail += memcpy_test();
 	else if (!strncmp(argv, "ft_memchr", 9))
-		fail += memchr_test();
+		fail += memchr_test(test_count);
 	else if (!strncmp(argv, "ft_memmove", 9))
 		fail += memmove_test();
 	else if (!strncmp(argv, "ft_strlcat", 10))

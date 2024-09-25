@@ -75,7 +75,7 @@ int	calloc_test(int test_count);
 int	isto_test(int test_count, char *function_name, \
 int (*f)(int), int (*ft)(int));
 int	itoa_test(int test_count);
-int	memchr_test(void);
+int	memchr_test(int test_count);
 int	memcmp_test(void);
 int	memcpy_test(void);
 int	memmove_test(void);
