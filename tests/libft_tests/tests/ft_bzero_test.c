@@ -22,34 +22,20 @@ typedef struct s_bzero_test
 } t_bzero_test;
 
 
-// struct Student students[] = { { "John", 1, 85.5 },
-//                                   { "Emma", 2, 90.6 },
-//                                   { "Harry", 3, 92.7 } };
-
 static const t_bzero_test tests[] = {
 	[ZERO] = {"", 0},
 	[ONE] = {"1", 1},
-	// [TWO] = "12",
-	// [THREE] = "123",
-	// [FOUR] = "1234",
-	// [FIVE] = "  12345",
-	// [SIX] = "  12345",
-	// [SEVEN] = "123 456",
-	// [EIGHT] = "A2143244535",
-	// [NINE] = "2143244535",
-	// [TEN] = "",
-	// [ELEVEN] = "asbj",
-	// [TWELVE] = "",
-	// [THIRTEEN] = "       ",
-	// [FOURTEEN] = "-00123",
-	// [FIVETEEN] = "--00123",
-	// [SIXTEEN] = "-+-+-00123",
-	// [SEVENTEEN] = "-+-+-00123",
-	// [EIGHTEEN] = "++00123",
-	// [NINETEEN] = "++--00123",
-	// [TWENTY] = "  -00123",
-	// [TWENTYONE] = "		--00123",
-	// [TWENTYTWO] = "	 	 ---00123",
+	[TWO] = {"1", 1},
+	[THREE] = {"12", 1},
+	[FOUR] = {"123", 2},
+	[FIVE] = {"1234", 2},
+	[SIX] = {"  12345", 5},
+	[SEVEN] = {"123 456", 5},
+	[EIGHT] = {"A2143244535", 7},
+	[NINE] = {"2143244535", 7},
+	[TEN] = {" ", 1}, 
+	[ELEVEN] = {"asbj", 4}, 
+	[TWELVE] = {"       ", 1}, 
 };
 
 
@@ -119,23 +105,8 @@ int	bzero_cmp(int test_count)
 
 int	bzero_test(int test_count)
 {
-
 	if (test_count == sizeof(tests) / sizeof(tests[0]))
 		return (FINISH);
 	bzero_cmp(test_count);
-
-	// test_count = 1;
-	// test_count = bzero_cmp(test_count, "1", 1);
-	// test_count = bzero_cmp(test_count, "12", 1);
-	// test_count = bzero_cmp(test_count, "123", 2);
-	// test_count = bzero_cmp(test_count, "1234", 2);
-	// test_count = bzero_cmp(test_count, "  12345", 5);
-	// test_count = bzero_cmp(test_count, "123 456", 5);
-	// test_count = bzero_cmp(test_count, "A2143244535", 7);
-	// test_count = bzero_cmp(test_count, "2143244535", 7);
-	// test_count = bzero_cmp(test_count, " ", 1);
-	// test_count = bzero_cmp(test_count, "asbj", 4);
-	// test_count = bzero_cmp(test_count, "       ", 1);
-
 	return (g_fail_bzero);
 }
