@@ -13,31 +13,29 @@
 #include <libft_tester.h>
 #include <string.h>
 
-int	g_fail_bzero = 0;
+int							g_fail_bzero = 0;
 
 typedef struct s_bzero_test
 {
 	char	*string;
 	int		num;
-} t_bzero_test;
+}	t_bzero_test;
 
-
-static const t_bzero_test tests[] = {
-	[ZERO] = {"", 0},
-	[ONE] = {"1", 1},
-	[TWO] = {"1", 1},
-	[THREE] = {"12", 1},
-	[FOUR] = {"123", 2},
-	[FIVE] = {"1234", 2},
-	[SIX] = {"  12345", 5},
-	[SEVEN] = {"123 456", 5},
-	[EIGHT] = {"A2143244535", 7},
-	[NINE] = {"2143244535", 7},
-	[TEN] = {" ", 1}, 
-	[ELEVEN] = {"asbj", 4}, 
-	[TWELVE] = {"       ", 1}, 
+static const t_bzero_test	g_tests[] = {
+[ZERO] = {"", 0},
+[ONE] = {"1", 1},
+[TWO] = {"1", 1},
+[THREE] = {"12", 1},
+[FOUR] = {"123", 2},
+[FIVE] = {"1234", 2},
+[SIX] = {"  12345", 5},
+[SEVEN] = {"123 456", 5},
+[EIGHT] = {"A2143244535", 7},
+[NINE] = {"2143244535", 7},
+[TEN] = {" ", 1},
+[ELEVEN] = {"asbj", 4},
+[TWELVE] = {"       ", 1},
 };
-
 
 char	*init_test_dup(char *test, char *test_alloc)
 {
@@ -90,22 +88,23 @@ int	bzero_cmp(int test_count)
 	char	*test_alloc;
 	char	*test_dup;
 
-	if (!tests[test_count].string)
+	if (!g_tests[test_count].string)
 		return (1);
-	test_alloc = init_test_alloc(tests[test_count].string);
+	test_alloc = init_test_alloc(g_tests[test_count].string);
 	if (test_alloc == NULL)
 		return (1);
-	test_dup = init_test_dup(tests[test_count].string, test_alloc);
+	test_dup = init_test_dup(g_tests[test_count].string, test_alloc);
 	if (test_dup == NULL)
 		return (1);
-	bzero(test_alloc, tests[test_count].num);
-	ft_bzero(test_dup, tests[test_count].num);
-	return (bzero_cmp_exe(test_alloc, test_dup, test_count, tests[test_count].string));
+	bzero(test_alloc, g_tests[test_count].num);
+	ft_bzero(test_dup, g_tests[test_count].num);
+	return (bzero_cmp_exe(test_alloc, test_dup, test_count, \
+	g_tests[test_count].string));
 }
 
 int	bzero_test(int test_count)
 {
-	if (test_count == sizeof(tests) / sizeof(tests[0]))
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	bzero_cmp(test_count);
 	return (g_fail_bzero);
