@@ -13,15 +13,33 @@
 #include <libft_tester.h>
 #include <limits.h>
 
-int	g_fail_itoa = 0;
+int							g_fail_itoa = 0;
 
-int	itoa_cmp(int test_count, int test, char *test_case)
+typedef struct s_itoa_test
+{
+	int		test;
+	char	*test_case;
+}	t_itoa_test;
+
+static const t_itoa_test	g_tests[] = {
+[ZERO] = {0, "0"},
+[ONE] = {1, "1"},
+[TWO] = {12, "12"},
+[THREE] = {123, "123"},
+[FOUR] = {1234, "1234"},
+[FIVE] = {12345, "12345"},
+[SIX] = {-123456, "-123456"},
+[SEVEN] = {INT_MAX, "2147483647"},
+[EIGHT] = {INT_MIN, "-2147483648"},
+};
+
+int	itoa_cmp(int test_count)
 {
 	char	*result_org;
 	char	*result_ft;
 
-	result_org = test_case;
-	result_ft = ft_itoa(test);
+	result_org = g_tests[test_count].test_case;
+	result_ft = ft_itoa(g_tests[test_count].test);
 	if (result_ft == NULL)
 	{
 		printf("error with result_ft\n");
@@ -30,27 +48,19 @@ int	itoa_cmp(int test_count, int test, char *test_case)
 	if (strcmp(result_org, result_ft))
 	{
 		g_fail_itoa += ft_log_str(test_count, result_org, result_ft);
-		dprintf(2, "tcase: %d\n", test);
+		dprintf(2, "tcase: %d\n", g_tests[test_count].test);
+		g_fail_itoa = 1;
 	}
 	else
-		printf(GRN "%d OK " RESET, test_count);
+		g_fail_itoa = 0;
 	free(result_ft);
 	return (test_count + 1);
 }
 
-int	itoa_test(void)
+int	itoa_test(int test_count)
 {
-	int	test_count;
-
-	test_count = 1;
-	test_count = itoa_cmp(test_count, 0, "0");
-	test_count = itoa_cmp(test_count, 1, "1");
-	test_count = itoa_cmp(test_count, 12, "12");
-	test_count = itoa_cmp(test_count, 123, "123");
-	test_count = itoa_cmp(test_count, 1234, "1234");
-	test_count = itoa_cmp(test_count, 12345, "12345");
-	test_count = itoa_cmp(test_count, -123456, "-123456");
-	test_count = itoa_cmp(test_count, INT_MAX, "2147483647");
-	test_count = itoa_cmp(test_count, INT_MIN, "-2147483648");
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	itoa_cmp(test_count);
 	return (g_fail_itoa);
 }

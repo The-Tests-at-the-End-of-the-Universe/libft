@@ -63,7 +63,7 @@ int	appendix(char *argv, int test_count)
 
 	fail = 0;
 	if (!strncmp(argv, "ft_itoa", 7))
-		fail += itoa_test();
+		fail += itoa_test(test_count);
 	if (!strncmp(argv, "ft_atoi", 4))
 		fail += atoi_test(test_count);
 	else if (!strncmp(argv, "ft_isalnum", 10))
