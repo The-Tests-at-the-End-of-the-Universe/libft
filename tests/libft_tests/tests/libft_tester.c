@@ -81,7 +81,7 @@ int	appendix(char *argv, int test_count)
 	else if (!strncmp(argv, "ft_toupper", 10))
 		fail += isto_test(test_count, "ft_toupper", toupper, ft_toupper);
 	else if (!strncmp(argv, "ft_memcmp", 9))
-		fail += memcmp_test();
+		fail += memcmp_test(test_count);
 	return (fail);
 }
 
