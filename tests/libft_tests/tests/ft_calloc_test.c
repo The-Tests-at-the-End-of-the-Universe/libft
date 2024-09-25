@@ -92,10 +92,12 @@ int	calloc_cmp(int test_count)
 			g_fc += ft_log_chr(test_count, (char)c[ei], (char)ftc[ei]);
 			dprintf(2, "tcase: [nmemb] %zu [n] %zu\n", \
 			g_tests[test_count].nmemb, g_tests[test_count].nmemb);
+			g_fc = 1;
 		}
+		else
+			g_fc = 0;
 		ei++;
 	}
-	printf(GRN "%d OK " RESET, test_count);
 	free(c);
 	free(ftc);
 	return (test_count + 1);
