@@ -13,41 +13,46 @@
 #include <libft_tester.h>
 #include <ctype.h>
 
-int	g_fail_isto = 0;
+int					g_fail_isto = 0;
 
-int	isto_cmp(int tc, int c, int (*f)(int), int (*ft)(int))
+static const char	g_tests[] = {
+[ZERO] = 'a',
+[ONE] = 'A',
+[TWO] = 'z',
+[THREE] = '\n',
+[FOUR] = '\200',
+[FIVE] = '\100',
+[SIX] = (char)359,
+[SEVEN] = 255,
+[EIGHT] = '"',
+[NINE] = ' ',
+[TEN] = (char)1243,
+};
+
+int	isto_cmp(int tc, int (*f)(int), int (*ft)(int))
 {
 	int		org_func;
 	int		ft_func;
 
-	org_func = f(c);
-	ft_func = ft(c);
+	org_func = f(g_tests[tc]);
+	ft_func = ft(g_tests[tc]);
 	if (org_func == 0 && ft_func != 0)
 	{
 		g_fail_isto += ft_log_int(tc, org_func, ft_func);
-		dprintf(2, "tcase: %d\n", c);
+		dprintf(2, "tcase: %d\n", g_tests[tc]);
+		g_fail_isto = 1;
 	}
 	else
-		printf(GRN "%d OK " RESET, tc);
-	return (tc + 1);
+		g_fail_isto = 0;
+	return (g_fail_isto);
 }
 
-int	isto_test(char *function_name, int (*f)(int), int (*ft)(int))
+int	isto_test(int test_count, char *function_name, \
+int (*f)(int), int (*ft)(int))
 {
-	int	test_count;
-
-	test_count = 1;
 	(void)function_name;
-	test_count = isto_cmp(test_count, 'a', f, ft);
-	test_count = isto_cmp(test_count, 'A', f, ft);
-	test_count = isto_cmp(test_count, 'z', f, ft);
-	test_count = isto_cmp(test_count, '\n', f, ft);
-	test_count = isto_cmp(test_count, '\200', f, ft);
-	test_count = isto_cmp(test_count, '\100', f, ft);
-	test_count = isto_cmp(test_count, 359, f, ft);
-	test_count = isto_cmp(test_count, 255, f, ft);
-	test_count = isto_cmp(test_count, '"', f, ft);
-	test_count = isto_cmp(test_count, ' ', f, ft);
-	test_count = isto_cmp(test_count, 1243, f, ft);
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	isto_cmp(test_count, f, ft);
 	return (g_fail_isto);
 }

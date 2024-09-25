@@ -67,19 +67,19 @@ int	appendix(char *argv, int test_count)
 	if (!strncmp(argv, "ft_atoi", 4))
 		fail += atoi_test(test_count);
 	else if (!strncmp(argv, "ft_isalnum", 10))
-		fail += isto_test("ft_isalnum", isalnum, ft_isalnum);
+		fail += isto_test(test_count, "ft_isalnum", isalnum, ft_isalnum);
 	else if (!strncmp(argv, "ft_isalpha", 10))
-		fail += isto_test("ft_isalpha", isalpha, ft_isalpha);
+		fail += isto_test(test_count, "ft_isalpha", isalpha, ft_isalpha);
 	else if (!strncmp(argv, "ft_isascii", 10))
-		fail += isto_test("ft_isascii", isascii, ft_isascii);
+		fail += isto_test(test_count, "ft_isascii", isascii, ft_isascii);
 	else if (!strncmp(argv, "ft_isdigit", 10))
-		fail += isto_test("ft_isdigit", isdigit, ft_isdigit);
+		fail += isto_test(test_count, "ft_isdigit", isdigit, ft_isdigit);
 	else if (!strncmp(argv, "ft_isprint", 10))
-		fail += isto_test("ft_isprint", isprint, ft_isprint);
+		fail += isto_test(test_count, "ft_isprint", isprint, ft_isprint);
 	else if (!strncmp(argv, "ft_tolower", 10))
-		fail += isto_test("ft_tolower", tolower, ft_tolower);
+		fail += isto_test(test_count, "ft_tolower", tolower, ft_tolower);
 	else if (!strncmp(argv, "ft_toupper", 10))
-		fail += isto_test("ft_toupper", toupper, ft_toupper);
+		fail += isto_test(test_count, "ft_toupper", toupper, ft_toupper);
 	else if (!strncmp(argv, "ft_memcmp", 9))
 		fail += memcmp_test();
 	return (fail);

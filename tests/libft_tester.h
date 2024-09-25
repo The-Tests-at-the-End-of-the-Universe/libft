@@ -35,7 +35,7 @@
 
 # define FINISH 2
 
-enum test_count {
+enum e_test_count {
 	ZERO,
 	ONE,
 	TWO,
@@ -69,11 +69,11 @@ enum test_count {
 	THIRTY,
 };
 
-
 int	atoi_test(int test_count);
 int	bzero_test(int test_count);
 int	calloc_test(int test_count);
-int	isto_test(char *function_name, int (*f)(int), int (*ft)(int));
+int	isto_test(int test_count, char *function_name, \
+int (*f)(int), int (*ft)(int));
 int	itoa_test(void);
 int	memchr_test(void);
 int	memcmp_test(void);
