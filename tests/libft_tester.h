@@ -77,7 +77,7 @@ int (*f)(int), int (*ft)(int));
 int	itoa_test(int test_count);
 int	memchr_test(int test_count);
 int	memcmp_test(int test_count);
-int	memcpy_test(void);
+int	memcpy_test(int test_count);
 int	memmove_test(void);
 int	memset_test(void);
 int	putchar_test(void);
