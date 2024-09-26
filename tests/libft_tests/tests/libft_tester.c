@@ -53,7 +53,7 @@ int	write_tests(char *argv, int test_count)
 	else if (!strncmp(argv, "ft_putnbr_fd", 9))
 		fail += putnbr_test(test_count);
 	else if (!strncmp(argv, "ft_putstr_fd", 9))
-		fail += putstr_test();
+		fail += putstr_test(test_count);
 	return (fail);
 }
 

@@ -88,7 +88,7 @@ int	memset_test(int test_count);
 int	putchar_test(int test_count);
 int	putendl_test(int test_count);
 int	putnbr_test(int test_count);
-int	putstr_test(void);
+int	putstr_test(int test_count);
 int	split_test(void);
 int	strchr_test(void);
 int	strdup_test(void);

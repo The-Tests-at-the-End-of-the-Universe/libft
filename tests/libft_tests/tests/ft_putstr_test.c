@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_putstr_test.c                                   :+:    :+:            */
+/*   ft_putstr_test.c                                  :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 17:08:13 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:52 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/28 12:51:53 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,18 @@
 #include <string.h>
 #include <fcntl.h>
 
-int	g_fail_putstr = 0;
+int							g_fail_putstr = 0;
+static int					g_fd = 0;
+static char					*g_tests[] = {
+[ZERO] = "a",
+[ONE] = "b",
+[TWO] = "\200",
+[THREE] = "\n",
+[FOUR] = "%",
+[FIVE] = NULL,
+[SIX] = " ",
+[SEVEN] = "_",
+};
 
 int	comparefile_putstr(FILE *fPtr1, char *test, int *line, int *col)
 {
@@ -44,6 +55,7 @@ int	compare_files_str(int test_count, char *test)
 	int		line;
 	int		col;
 	FILE	*fptr;
+	char	*testnl;
 
 	fptr = fopen("libft_tests/putstr_ft.txt", "r");
 	if (fptr == NULL)
@@ -51,42 +63,53 @@ int	compare_files_str(int test_count, char *test)
 		printf("\nUnable to open file.\n");
 		return (-1);
 	}
-	if (comparefile_putstr(fptr, test, &line, &col) != 0)
+	testnl = calloc(strlen(test) + 2, 1);
+	strncpy(testnl, test, strlen(test));
+	testnl[strlen(test) + 1] = '\0';
+	testnl[strlen(test)] = '\n';
+	if (comparefile_putstr(fptr, testnl, &line, &col) != 0)
 	{
 		g_fail_putstr += ft_log_int(test_count, line, col);
 		dprintf(2, "tcase: %s\n", test);
+		g_fail_putstr = 1;
 	}
 	rewind(fptr);
 	fclose(fptr);
+	free(testnl);
 	return (0);
 }
 
-int	putstr_cmp(int test_count, char *test)
+void	putstr_fork(int test_count, pid_t *child, int (*f)(char *, int))
 {
-	int	fd;
-
-	fclose(fopen("libft_tests/putstr_ft.txt", "w"));
-	fd = open("libft_tests/putstr_ft.txt", O_RDWR);
-	ft_putstr_fd(test, fd);
-	close(fd);
-	compare_files_str(test_count, test);
-	if (g_fail_putstr == 0)
-		printf(GRN "%d OK " RESET, test_count);
-	return (test_count + 1);
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
+	{
+		f(g_tests[test_count], g_fd);
+		exit(0);
+	}
 }
 
-int	putstr_test(void)
+int	putstr_cmp(int test_count)
 {
-	int	test_count;
+	pid_t	childs[1];
 
-	test_count = 1;
-	test_count = putstr_cmp(test_count, "a");
-	test_count = putstr_cmp(test_count, "b");
-	test_count = putstr_cmp(test_count, "\200");
-	test_count = putstr_cmp(test_count, "\n");
-	test_count = putstr_cmp(test_count, "%");
-	test_count = putstr_cmp(test_count, " ");
-	test_count = putstr_cmp(test_count, "_");
-	test_count = putstr_cmp(test_count, "safds_");
+	fclose(fopen("libft_tests/putstr_ft.txt", "w"));
+	g_fd = open("libft_tests/putstr_ft.txt", O_RDWR);
+	putstr_fork(test_count, &childs[0], &ft_putstr_fd);
+	if (wait_child(childs[0]) && g_tests[test_count] != NULL)
+		return (printf(RED " MKO "RESET));
+	close(g_fd);
+	if (g_tests[test_count] != NULL)
+		compare_files_str(test_count, g_tests[test_count]);
+	return (0);
+}
+
+int	putstr_test(int test_count)
+{
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	putstr_cmp(test_count);
 	return (g_fail_putstr);
 }

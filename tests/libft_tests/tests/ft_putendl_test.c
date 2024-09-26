@@ -15,7 +15,7 @@
 #include <fcntl.h>
 
 int							g_fail_putendl = 0;
-int							g_fd = 0;
+static int					g_fd = 0;
 static char					*g_tests[] = {
 [ZERO] = "a",
 [ONE] = "b",
