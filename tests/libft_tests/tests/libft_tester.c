@@ -50,10 +50,10 @@ int	write_tests(char *argv, int test_count)
 		fail += putchar_test(test_count);
 	else if (!strncmp(argv, "ft_putendl_fd", 10))
 		fail += putendl_test(test_count);
+	else if (!strncmp(argv, "ft_putnbr_fd", 9))
+		fail += putnbr_test(test_count);
 	else if (!strncmp(argv, "ft_putstr_fd", 9))
 		fail += putstr_test();
-	else if (!strncmp(argv, "ft_putnbr_fd", 9))
-		fail += putnbr_test();
 	return (fail);
 }
 

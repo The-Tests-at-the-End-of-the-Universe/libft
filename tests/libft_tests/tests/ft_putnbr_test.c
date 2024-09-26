@@ -14,7 +14,18 @@
 #include <string.h>
 #include <fcntl.h>
 
-int	g_fail_putnbr = 0;
+int			g_fail_putnbr = 0;
+
+static int	g_tests[] = {
+[ZERO] = 0,
+[ONE] = 1,
+[TWO] = INT_MAX,
+[THREE] = INT_MIN,
+[FOUR] = 1351546813,
+[FIVE] = -52454363,
+[SIX] = 100,
+[SEVEN] = 999,
+};
 
 int	comparefile_putnbr(FILE *fPtr1, char *test, int *line, int *col)
 {
@@ -59,38 +70,29 @@ int	compare_files_nbr(int test_count, int test)
 	{
 		g_fail_putnbr += ft_log_int(test_count, line, col);
 		dprintf(2, "tcase: %d\n", test);
+		g_fail_putnbr = 1;
 	}
 	rewind(fptr);
 	fclose(fptr);
 	return (0);
 }
 
-int	putnbr_cmp(int test_count, int test)
+int	putnbr_cmp(int test_count)
 {
 	int	fd;
 
 	fclose(fopen("libft_tests/putnbr_ft.txt", "w"));
 	fd = open("libft_tests/putnbr_ft.txt", O_RDWR);
-	ft_putnbr_fd(test, fd);
+	ft_putnbr_fd(g_tests[test_count], fd);
 	close(fd);
-	compare_files_nbr(test_count, test);
-	if (g_fail_putnbr == 0)
-		printf(GRN "%d OK " RESET, test_count);
+	compare_files_nbr(test_count, g_tests[test_count]);
 	return (test_count + 1);
 }
 
-int	putnbr_test(void)
+int	putnbr_test(int test_count)
 {
-	int	test_count;
-
-	test_count = 1;
-	test_count = putnbr_cmp(test_count, 0);
-	test_count = putnbr_cmp(test_count, 1);
-	test_count = putnbr_cmp(test_count, INT_MAX);
-	test_count = putnbr_cmp(test_count, INT_MIN);
-	test_count = putnbr_cmp(test_count, 1351546813);
-	test_count = putnbr_cmp(test_count, -52454363);
-	test_count = putnbr_cmp(test_count, 100);
-	test_count = putnbr_cmp(test_count, 999);
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	putnbr_cmp(test_count);
 	return (g_fail_putnbr);
 }
