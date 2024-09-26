@@ -41,18 +41,18 @@ int	mem_tests(char *argv, int test_count)
 	return (fail);
 }
 
-int	write_tests(char *argv)
+int	write_tests(char *argv, int test_count)
 {
 	int	fail;
 
 	fail = 0;
-	if (!strncmp(argv, "ft_putchar", 10))
-		fail += putchar_test();
-	else if (!strncmp(argv, "ft_putendl", 10))
+	if (!strncmp(argv, "ft_putchar_fd", 10))
+		fail += putchar_test(test_count);
+	else if (!strncmp(argv, "ft_putendl_fd", 10))
 		fail += putendl_test();
-	else if (!strncmp(argv, "ft_putstr", 9))
+	else if (!strncmp(argv, "ft_putstr_fd", 9))
 		fail += putstr_test();
-	else if (!strncmp(argv, "ft_putnbr", 9))
+	else if (!strncmp(argv, "ft_putnbr_fd", 9))
 		fail += putnbr_test();
 	return (fail);
 }
@@ -124,7 +124,7 @@ int	main(int argc, char **argv)
 		return (printf(RED "wrong parameters given\n" RESET), 1);
 	fail += str_tests(argv[1]);
 	fail += mem_tests(argv[1], test_count);
-	fail += write_tests(argv[1]);
+	fail += write_tests(argv[1], test_count);
 	fail += appendix(argv[1], test_count);
 	return (fail);
 }

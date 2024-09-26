@@ -16,6 +16,17 @@
 
 int	g_fail_putchar = 0;
 
+int	g_tests[] = {
+[ZERO] = 'a',
+[ONE] = 'b',
+[TWO] = '\200',
+[THREE] = '\n',
+[FOUR] = '%',
+[FIVE] = 0,
+[SIX] = ' ',
+[SEVEN] = '_',
+};
+
 int	comparefile(FILE *fptr, char test, int *line, int *col)
 {
 	char	ch1;
@@ -46,38 +57,29 @@ int	compare_files(int test_count, char test)
 	{
 		g_fail_putchar += ft_log_int(test_count, line, col);
 		dprintf(2, "tcase: %d\n", test);
+		g_fail_putchar = 1;
 	}
 	rewind(fptr);
 	fclose(fptr);
 	return (0);
 }
 
-int	putchar_cmp(int test_count, int test)
+int	putchar_cmp(int test_count)
 {
 	int	fd;
 
 	fclose(fopen("libft_tests/putchar_ft.txt", "w"));
 	fd = open("libft_tests/putchar_ft.txt", O_RDWR);
-	ft_putchar_fd(test, fd);
+	ft_putchar_fd(g_tests[test_count], fd);
 	close(fd);
-	compare_files(test_count, test);
-	if (g_fail_putchar == 0)
-		printf(GRN "%d OK " RESET, test_count);
+	compare_files(test_count, g_tests[test_count]);
 	return (test_count + 1);
 }
 
-int	putchar_test(void)
+int	putchar_test(int test_count)
 {
-	int	test_count;
-
-	test_count = 1;
-	test_count = putchar_cmp(test_count, 'a');
-	test_count = putchar_cmp(test_count, 'b');
-	test_count = putchar_cmp(test_count, '\200');
-	test_count = putchar_cmp(test_count, '\n');
-	test_count = putchar_cmp(test_count, '%');
-	test_count = putchar_cmp(test_count, 0);
-	test_count = putchar_cmp(test_count, ' ');
-	test_count = putchar_cmp(test_count, '_');
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	putchar_cmp(test_count);
 	return (g_fail_putchar);
 }
