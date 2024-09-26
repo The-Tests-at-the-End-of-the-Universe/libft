@@ -13,7 +13,25 @@
 #include <libft_tester.h>
 #include <string.h>
 
-int	g_fail_memset = 0;
+int						g_fail_memset = 0;
+
+typedef struct s_memset_test
+{
+	char	*test;
+	int		test2;
+	int		n;
+}	t_memset_test;
+
+static t_memset_test	g_tests[] = {
+[ZERO] = {"fnjkdvbs", 'c', 2},
+[ONE] = {"    scnaocuw9/", 'a', 10},
+[TWO] = {"fnjkdvbs", '\n', 4},
+[THREE] = {"snsicnsk sjknsjanc", 0, 10},
+[FOUR] = {"fnjkdvbs\n", 255, 0},
+[FIVE] = {"fnjkdvbs\n", 's', 2},
+[SIX] = {"fnjkdvb0", 's', 6},
+[SEVEN] = {"NULL", 0, 0},
+};
 
 char	*init_ft_memset(char *test, int c, size_t n)
 {
@@ -35,46 +53,50 @@ char	*init_org_memset(char *test, int c, size_t n)
 	return (memset(test_dub, c, n));
 }
 
-int	memset_cmp(int test_count, char *test, int c, size_t n)
+void	memset_fork(int test_count, pid_t *child, void **shmem, \
+char *(*f)(char *, int, size_t n))
 {
-	char	*org;
-	char	*ft;
-
-	org = init_org_memset(test, c, n);
-	ft = init_ft_memset(test, c, n);
-	if (org == NULL || ft == NULL )
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
 	{
-		if (org)
-			free(org);
-		if (ft)
-			free(ft);
-		printf("Error with allocation\n");
-		return (1);
+		*shmem = f(g_tests[test_count].test, \
+		g_tests[test_count].test2, g_tests[test_count].n);
+		exit(0);
 	}
-	if (strcmp(org, ft))
-	{
-		g_fail_memset += ft_log_str(test_count, org, ft);
-		dprintf(2, "tcase: %s\n", test);
-	}
-	else
-		printf(GRN "%d OK " RESET, test_count);
-	free(org);
-	free(ft);
-	return (test_count + 1);
 }
 
-int	memset_test(void)
+int	memset_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
-	int	test_count;
+	pid_t	childs[2];
 
-	test_count = 1;
-	test_count = memset_cmp(test_count, "fnjkdvbs", 'c', 2);
-	test_count = memset_cmp(test_count, "    scnaocuw9/", 'a', 10);
-	test_count = memset_cmp(test_count, "fnjkdvbs", '\n', 4);
-	test_count = memset_cmp(test_count, "snsicnsk sjknsjanc", 0, 10);
-	test_count = memset_cmp(test_count, "fnjkdvbs\n", 255, 0);
-	test_count = memset_cmp(test_count, "fnjkdvbs\n", 's', 2);
-	test_count = memset_cmp(test_count, "fnjkdvb0", 's', 6);
-	test_count = memset_cmp(test_count, "NULL", 0, 0);
+	memset_fork(test_count, &childs[0], org_shmem, &init_org_memset);
+	memset_fork(test_count, &childs[1], ft_shmem, &init_ft_memset);
+	if (wait_child(childs[0]) != wait_child(childs[1]))
+		return (printf(RED " MKO "RESET));
+	if (strcmp(*org_shmem, *ft_shmem))
+	{
+		g_fail_memset += ft_log_str(test_count, *org_shmem, *ft_shmem);
+		dprintf(2, "tcase: [1] %s [2] %d [n] %d\n", g_tests[test_count].test, \
+		g_tests[test_count].test2, g_tests[test_count].n);
+	}
+	return (0);
+}
+
+int	memset_test(int test_count)
+{
+	void	*org_shmem;
+	void	*ft_shmem;
+
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	org_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
+	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
+	memset_cmp(test_count, &org_shmem, &ft_shmem);
+	if (munmap(org_shmem, sizeof(g_tests[test_count].test)))
+		exit(1);
+	if (munmap(ft_shmem, sizeof(g_tests[test_count].test)))
+		exit(1);
 	return (g_fail_memset);
 }

@@ -27,7 +27,7 @@ int	mem_tests(char *argv, int test_count)
 	else if (!strncmp(argv, "ft_strlcat", 10))
 		fail += strlcat_test();
 	else if (!strncmp(argv, "ft_memset", 8))
-		fail += memset_test();
+		fail += memset_test(test_count);
 	else if (!strncmp(argv, "ft_bzero", 5))
 		fail += bzero_test(test_count);
 	else if (!strncmp(argv, "ft_calloc", 6))
