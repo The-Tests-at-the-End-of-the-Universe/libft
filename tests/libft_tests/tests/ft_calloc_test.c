@@ -55,7 +55,7 @@ char	*init_ft_calloc(size_t nmemb, size_t n)
 	ftc = ft_calloc(nmemb, n);
 	if (ftc == NULL)
 	{
-		printf("calloc error\n");
+		perror(" ft_calloc error ");
 		return (NULL);
 	}
 	return (ftc);
@@ -68,7 +68,7 @@ char	*init_calloc(size_t nmemb, size_t n)
 	c = calloc(nmemb, n);
 	if (c == NULL)
 	{
-		printf("calloc error\n");
+		perror(" calloc error ");
 		return (NULL);
 	}
 	return (c);
@@ -81,17 +81,17 @@ int	calloc_cmp(int test_count)
 	size_t	ei;
 
 	ei = 0;
-	c = init_calloc(g_tests[test_count].nmemb, g_tests[test_count].nmemb);
-	ftc = init_ft_calloc(g_tests[test_count].nmemb, g_tests[test_count].nmemb);
+	c = init_calloc(g_tests[test_count].nmemb, g_tests[test_count].n);
+	ftc = init_ft_calloc(g_tests[test_count].nmemb, g_tests[test_count].n);
 	if (c == NULL || ftc == NULL)
 		return (1);
-	while (ei != (g_tests[test_count].nmemb * g_tests[test_count].nmemb))
+	while (ei != (g_tests[test_count].nmemb * g_tests[test_count].n))
 	{
 		if ((char)c[ei] != (char)ftc[ei])
 		{
 			g_fc += ft_log_chr(test_count, (char)c[ei], (char)ftc[ei]);
 			dprintf(2, "tcase: [nmemb] %zu [n] %zu\n", \
-			g_tests[test_count].nmemb, g_tests[test_count].nmemb);
+			g_tests[test_count].nmemb, g_tests[test_count].n);
 			g_fc = 1;
 		}
 		else
