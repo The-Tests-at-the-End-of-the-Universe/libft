@@ -14,7 +14,18 @@
 #include <string.h>
 #include <fcntl.h>
 
-int	g_fail_putendl = 0;
+int							g_fail_putendl = 0;
+int							g_fd = 0;
+static char					*g_tests[] = {
+[ZERO] = "a",
+[ONE] = "b",
+[TWO] = "\200",
+[THREE] = "\n",
+[FOUR] = "%",
+[FIVE] = NULL,
+[SIX] = " ",
+[SEVEN] = "_",
+};
 
 int	comparefile_putend(FILE *fPtr1, char *test, int *line, int *col)
 {
@@ -60,6 +71,7 @@ int	compare_files_endl(int test_count, char *test)
 	{
 		g_fail_putendl += ft_log_int(test_count, line, col);
 		dprintf(2, "tcase: %s\n", test);
+		g_fail_putendl = 1;
 	}
 	rewind(fptr);
 	fclose(fptr);
@@ -67,32 +79,37 @@ int	compare_files_endl(int test_count, char *test)
 	return (0);
 }
 
-int	putendl_cmp(int test_count, char *test)
+void	putendl_fork(int test_count, pid_t *child, void (*f)(char *, int))
 {
-	int	fd;
-
-	fclose(fopen("libft_tests/putendl_ft.txt", "w"));
-	fd = open("libft_tests/putendl_ft.txt", O_RDWR);
-	ft_putendl_fd(test, fd);
-	close(fd);
-	compare_files_endl(test_count, test);
-	if (g_fail_putendl == 0)
-		printf(GRN "%d OK " RESET, test_count);
-	return (test_count + 1);
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
+	{
+		f(g_tests[test_count], g_fd);
+		exit(0);
+	}
 }
 
-int	putendl_test(void)
+int	putendl_cmp(int test_count)
 {
-	int	test_count;
+	pid_t	childs[1];
 
-	test_count = 1;
-	test_count = putendl_cmp(test_count, "a");
-	test_count = putendl_cmp(test_count, "b");
-	test_count = putendl_cmp(test_count, "\200");
-	test_count = putendl_cmp(test_count, "\n");
-	test_count = putendl_cmp(test_count, "%");
-	test_count = putendl_cmp(test_count, " ");
-	test_count = putendl_cmp(test_count, "_");
-	test_count = putendl_cmp(test_count, "safds_");
+	fclose(fopen("libft_tests/putendl_ft.txt", "w"));
+	g_fd = open("libft_tests/putendl_ft.txt", O_RDWR);
+	putendl_fork(test_count, &childs[0], &ft_putendl_fd);
+	if (wait_child(childs[0]) && g_tests[test_count] != NULL)
+		return (printf(RED " MKO "RESET));
+	close(g_fd);
+	if (g_tests[test_count] != NULL)
+		compare_files_endl(test_count, g_tests[test_count]);
+	return (0);
+}
+
+int	putendl_test(int test_count)
+{
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	putendl_cmp(test_count);
 	return (g_fail_putendl);
 }

@@ -86,7 +86,7 @@ int	memcpy_test(int test_count);
 int	memmove_test(int test_count);
 int	memset_test(int test_count);
 int	putchar_test(int test_count);
-int	putendl_test(void);
+int	putendl_test(int test_count);
 int	putstr_test(void);
 int	putnbr_test(void);
 int	split_test(void);
