@@ -21,6 +21,11 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <string.h>
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/mman.h>
+# include <sys/wait.h>
+# include <errno.h>
 
 # define RED   "\x1B[31m"
 # define GRN   "\x1B[1;32m"
@@ -101,4 +106,7 @@ int	strtrim_test(void);
 int	ft_log_int(int test_count, int result_org, int result_ft);
 int	ft_log_str(int test_count, char *ro, char *rft);
 int	ft_log_chr(int test_count, char ro, char rft);
+int	wait_child(int pid);
+void	*create_shared_memory(size_t size);
+
 #endif
