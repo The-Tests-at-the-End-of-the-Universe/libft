@@ -27,7 +27,7 @@ static char					*g_tests[] = {
 [SEVEN] = "_",
 };
 
-int	comparefile_putend(FILE *fPtr1, char *test, int *line, int *col)
+int	comparefile_putendl(FILE *fPtr1, char *test, int *line, int *col)
 {
 	char	ch1;
 	char	ch2;
@@ -67,7 +67,7 @@ int	compare_files_endl(int test_count, char *test)
 	strncpy(testnl, test, strlen(test));
 	testnl[strlen(test) + 1] = '\0';
 	testnl[strlen(test)] = '\n';
-	if (comparefile_putend(fptr, testnl, &line, &col) != 0)
+	if (comparefile_putendl(fptr, testnl, &line, &col) != 0)
 	{
 		g_fail_putendl += ft_log_int(test_count, line, col);
 		dprintf(2, "tcase: %s\n", test);
