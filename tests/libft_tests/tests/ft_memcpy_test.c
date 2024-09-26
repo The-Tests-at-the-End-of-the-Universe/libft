@@ -77,53 +77,52 @@ char	*init_org(char *test, char *test2, size_t n)
 	return (ret);
 }
 
-//shared memory: https://stackoverflow.com/questions/5656530/how-to-use-shared-memory-with-linux-in-c
-int	memcpy_cmp(int test_count)
+void	memcpy_fork(int test_count, pid_t *child, void **shmem)
 {
-	pid_t	child_org;
-	pid_t	child_ft;
-	void	*org_shmem;
-	void	*ft_shmem;
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
+	{
+		*shmem = init_org(g_tests[test_count].test, \
+		g_tests[test_count].test2, g_tests[test_count].n);
+		exit(0);
+	}
+}
 
-	org_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
-	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
-	child_org = fork();
-	if (child_org == -1)
-		exit(1);
-	if (child_org == 0)
-	{
-		org_shmem = init_org(g_tests[test_count].test, \
-		g_tests[test_count].test2, g_tests[test_count].n);
-		exit(0);
-	}
-	child_ft = fork();
-	if (child_ft == -1)
-		exit(1);
-	if (child_ft == 0)
-	{
-		ft_shmem = init_ft(g_tests[test_count].test, \
-		g_tests[test_count].test2, g_tests[test_count].n);
-		exit(0);
-	}
-	if (wait_child(child_org) != wait_child(child_ft))
+int	memcpy_cmp(int test_count, void **org_shmem, void **ft_shmem)
+{
+	pid_t	childs[2];
+
+	memcpy_fork(test_count, &childs[0], org_shmem);
+	memcpy_fork(test_count, &childs[1], ft_shmem);
+	if (wait_child(childs[0]) != wait_child(childs[1]))
 		return (printf(RED " MKO "RESET));
-	if (strcmp(org_shmem, ft_shmem))
+	if (strcmp(*org_shmem, *ft_shmem))
 	{
-		g_fail_memcpy += ft_log_str(test_count, org_shmem, ft_shmem);
+		g_fail_memcpy += ft_log_str(test_count, *org_shmem, *ft_shmem);
 		dprintf(2, "tcase: [1] %s [2] %s [n] %d\n", g_tests[test_count].test, \
 		g_tests[test_count].test2, g_tests[test_count].n);
 	}
+	return (0);
+}
+
+//shared memory: 
+// https://stackoverflow.com/questions/5656530/
+// how-to-use-shared-memory-with-linux-in-c
+int	memcpy_test(int test_count)
+{
+	void	*org_shmem;
+	void	*ft_shmem;
+
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	org_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
+	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
+	memcpy_cmp(test_count, &org_shmem, &ft_shmem);
 	if (munmap(org_shmem, sizeof(g_tests[test_count].test)))
 		exit(1);
 	if (munmap(ft_shmem, sizeof(g_tests[test_count].test)))
 		exit(1);
-	return (0);
-}
-
-int	memcpy_test(int test_count)
-{
-	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
-		return (FINISH);
-	memcpy_cmp(test_count);
 	return (g_fail_memcpy);
 }
