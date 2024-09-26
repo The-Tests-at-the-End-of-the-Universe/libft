@@ -77,14 +77,15 @@ char	*init_org(char *test, char *test2, size_t n)
 	return (ret);
 }
 
-void	memcpy_fork(int test_count, pid_t *child, void **shmem)
+void	memcpy_fork(int test_count, pid_t *child, void **shmem, \
+char *(*f)(char *, char *, size_t n))
 {
 	*child = fork();
 	if (*child == -1)
 		exit(1);
 	if (*child == 0)
 	{
-		*shmem = init_org(g_tests[test_count].test, \
+		*shmem = f(g_tests[test_count].test, \
 		g_tests[test_count].test2, g_tests[test_count].n);
 		exit(0);
 	}
@@ -94,8 +95,8 @@ int	memcpy_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
 	pid_t	childs[2];
 
-	memcpy_fork(test_count, &childs[0], org_shmem);
-	memcpy_fork(test_count, &childs[1], ft_shmem);
+	memcpy_fork(test_count, &childs[0], org_shmem, &init_org);
+	memcpy_fork(test_count, &childs[1], ft_shmem, &init_ft);
 	if (wait_child(childs[0]) != wait_child(childs[1]))
 		return (printf(RED " MKO "RESET));
 	if (strcmp(*org_shmem, *ft_shmem))
