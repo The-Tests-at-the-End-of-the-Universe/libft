@@ -6,14 +6,28 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:28:06 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:52 by spenning      ########   odam.nl         */
+/*   Updated: 2024/09/29 21:12:53 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft_tester.h>
 #include <string.h>
 
-int	g_fail_split = 0;
+int						g_fail_split = 0;
+
+typedef struct s_split_test
+{
+	char	*string;
+	char	*delim;
+}	t_split_test;
+
+static t_split_test	g_tests[] = {
+[ZERO] = {"", ""},
+[ONE] = {"aaa;bbb,", ";"},
+[TWO] = {"kokokokokokokoko", "o"},
+[THREE] = {"hdkjsahdkjsa|hdkjsahdkjsa", "|"},
+[FOUR] = {"aaaa////aaaa//aa///", "/"},
+};
 
 int	cmp_split(char **ft_result, char *test, char *delim)
 {
@@ -31,7 +45,7 @@ int	cmp_split(char **ft_result, char *test, char *delim)
 		if (strcmp(testret, ft_result[index]))
 		{
 			free(begin);
-			return (-1);
+			return (1);
 		}
 		index++;
 	}
@@ -39,37 +53,62 @@ int	cmp_split(char **ft_result, char *test, char *delim)
 	return (0);
 }
 
-int	split_cmp(int test_count, char *test, char *delim)
-{
-	char	**array;
-	int		index;
 
-	index = 0;
-	array = ft_split(test, delim[0]);
-	if (cmp_split(array, test, delim) != 0)
+
+void	split_fork(int test_count, pid_t *child, void **ft_shmem, \
+char **(*f)(const char *, char))
+{
+	char **ft_result;
+
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
 	{
-		g_fail_split += ft_log_str(test_count, test, delim);
-		dprintf(2, "tcase: [str] %s [delim] %s\n", test, delim);
+		// make split here
+		// do cmp test
+		// use shmem for g_fail split
+		ft_result = f(g_tests[test_count].string, \
+		g_tests[test_count].delim[0]);
+		if (ft_result == NULL)
+			exit(1);
+		if (!cmp_split(ft_result, g_tests[test_count].string, \
+		g_tests[test_count].delim))
+			*(int*)*ft_shmem = 0;
+		exit(0);
 	}
-	else
-		printf(GRN "%d OK " RESET, test_count);
-	while (array[index] != NULL)
+}
+
+int	split_cmp(int test_count, void **ft_shmem)
+{
+	pid_t	childs[1];
+
+	split_fork(test_count, &childs[0], ft_shmem, &ft_split);
+	if (wait_child(childs[0]))
+		return (printf(RED " MKO "RESET));
+	g_fail_split = *(int*)*ft_shmem;
+	if (g_fail_split)
 	{
-		free(array[index]);
-		index++;
+		ft_log_str(test_count, "Cannot show comparison", *ft_shmem);
+		dprintf(2, "tcase: [string] %s [delim] %s\n", g_tests[test_count].string, \
+		g_tests[test_count].delim);
 	}
-	free(array);
 	return (0);
 }
 
-int	split_test(void)
+//shared memory: 
+// https://stackoverflow.com/questions/5656530/
+// how-to-use-shared-memory-with-linux-in-c
+int	split_test(int test_count)
 {
-	int	test_count;
+	void	*ft_shmem;
 
-	test_count = 1;
-	test_count = split_cmp(test_count, "aaa;bbb,", ";");
-	test_count = split_cmp(test_count, "kokokokokokokoko", "o");
-	test_count = split_cmp(test_count, "hdkjsahdkjsa|hdkjsahdkjsa", "|");
-	test_count = split_cmp(test_count, "aaaa////aaaa//aa///", "/");
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	ft_shmem = create_shared_memory(sizeof(int));
+	*(int*)ft_shmem = 1;
+	split_cmp(test_count, &ft_shmem);
+	if (munmap(ft_shmem, sizeof(int)))
+		exit(1);
 	return (g_fail_split);
 }
