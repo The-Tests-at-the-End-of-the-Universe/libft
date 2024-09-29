@@ -6,41 +6,76 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:44:11 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:51 by spenning      ########   odam.nl         */
+/*   Updated: 2024/09/29 21:51:45 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft_tester.h>
 #include <string.h>
 
-int	g_fail_strchr = 0;
+int					g_fail_strchr = 0;
 
-int	strchr_cmp(int test_count, char *test, int ch)
+typedef struct s_strchr_test
 {
-	char	*org;
-	char	*ft;
+	char	*string;
+	char	delim;
+}	t_strchr_test;
 
-	org = strchr(test, ch);
-	ft = ft_strchr(test, ch);
-	if (org != ft)
+static t_strchr_test	g_tests[] = {
+[ZERO] = {"", 0},
+[ONE] = {"nfdsnkjdsnciudsbccknd?cbdscds", '?'},
+[TWO] = {"bobobbocobedbobobbobob!", '!'},
+[THREE] = {"dfsfdsf???cbdscds", '?'},
+[FOUR] = {"sdncdskj nkjsanckjdsncj\ndkj", '\n'},
+};
+
+void	strchr_fork(int test_count, pid_t *child, void **shmem, \
+char *(*f)(const char *, int))
+{
+	char	*ret;
+	
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
 	{
-		g_fail_strchr += ft_log_str(test_count, org, ft);
-		dprintf(2, "tcase: [str] %s [ch] %d\n", test, ch);
+		ret = f(g_tests[test_count].string, g_tests[test_count].delim);
+		memmove(shmem, ret, strlen(ret));
+		exit(0);
 	}
-	else
-		printf(GRN "%d OK " RESET, test_count);
-	return (test_count + 1);
 }
 
-int	strchr_test(void)
+int	strchr_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
-	int	test_count;
+	pid_t	childs[2];
 
-	test_count = 1;
-	test_count = strchr_cmp(test_count, "nfdsnkjdsnciudsbccknd?cbdscds", '?');
-	test_count = strchr_cmp(test_count, "bobobbocobedbobobbobob!", '!');
-	test_count = strchr_cmp(test_count, "a", 'b');
-	test_count = strchr_cmp(test_count, "dfsfdsf???cbdscds", '?');
-	test_count = strchr_cmp(test_count, "sdncdskj nkjsanckjdsncj\ndkj", '\n');
+	strchr_fork(test_count, &childs[0], org_shmem, &strchr);
+	strchr_fork(test_count, &childs[1], ft_shmem, &ft_strchr);
+	if (wait_child(childs[0]) != wait_child(childs[1]))
+		return (printf(RED " MKO "RESET));
+	if (strcmp(*org_shmem, *ft_shmem))
+	{
+		g_fail_strchr += ft_log_str(test_count, *org_shmem, *ft_shmem);
+		dprintf(2, "tcase: [string] %s [delim] %c\n", g_tests[test_count].string, \
+		g_tests[test_count].delim);
+		g_fail_strchr = 1;
+	}
+	return (0);
+}
+
+int	strchr_test(int test_count)
+{
+	void	*org_shmem;
+	void	*ft_shmem;
+
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	org_shmem = create_shared_memory(sizeof(g_tests[test_count].string));
+	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].string));
+	strchr_cmp(test_count, &org_shmem, &ft_shmem);
+	if (munmap(org_shmem, sizeof(g_tests[test_count].string)))
+		exit(1);
+	if (munmap(ft_shmem, sizeof(g_tests[test_count].string)))
+		exit(1);
 	return (g_fail_strchr);
 }

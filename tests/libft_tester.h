@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/09/29 20:58:30 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/09/29 21:36:08 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	putendl_test(int test_count);
 int	putnbr_test(int test_count);
 int	putstr_test(int test_count);
 int	split_test(int test_count);
-int	strchr_test(void);
+int	strchr_test(int test_count);
 int	strdup_test(void);
 int	striteri_test(void);
 int	strjoin_test(void);

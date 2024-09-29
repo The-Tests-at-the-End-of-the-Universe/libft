@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/09/29 20:58:07 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/09/29 21:36:42 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ int	appendix(char *argv, int test_count)
 	return (fail);
 }
 
-int	str_tests(char *argv)
+int	str_tests(char *argv, int test_count)
 {
 	int	fail;
 
 	fail = 0;
 	if (!strncmp(argv, "ft_strchr", 9))
-		fail += strchr_test();
+		fail += strchr_test(test_count);
 	else if (!strncmp(argv, "ft_striteri", 11))
 		fail += striteri_test();
 	else if (!strncmp(argv, "ft_strlcpy", 10))
@@ -122,7 +122,7 @@ int	main(int argc, char **argv)
 	fail = 0;
 	if (argc == 1 || argv == NULL)
 		return (printf(RED "wrong parameters given\n" RESET), 1);
-	fail += str_tests(argv[1]);
+	fail += str_tests(argv[1], test_count);
 	fail += mem_tests(argv[1], test_count);
 	fail += write_tests(argv[1], test_count);
 	fail += appendix(argv[1], test_count);
