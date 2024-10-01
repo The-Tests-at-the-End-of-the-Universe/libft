@@ -1,5 +1,5 @@
 #Compiler and Linker
-CC          := cc
+CC          := cc 
 
 #The Target Binary Program
 TARGET      := tester
@@ -57,12 +57,12 @@ logs:
 
 #Link
 $(TARGETDIR)/$(TARGET) : $(OBJECTS)
-	$(CC) $(OBJECTS) -o  $(TARGETDIR)/$(TARGET) libft.a -lbsd 
+	$(CC) -std=gnu11 $(OBJECTS) -o  $(TARGETDIR)/$(TARGET) libft.a -lbsd 
 
 #Compile
 $(OBJDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c -o $@ $^
+	$(CC) -std=gnu11 $(CFLAGS) -c -o $@ $^
 
 
 #Non-File Targets

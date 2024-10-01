@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:55 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/01 11:13:37 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ int	memmove_cmp(int test_count, void **org_shmem, void **ft_shmem)
 	memmove_fork(test_count, &childs[1], ft_shmem, &init_ft_mv);
 	if (wait_child(childs[0]) != wait_child(childs[1]))
 		return (printf(RED " MKO "RESET));
-	if (strcmp(*org_shmem, *ft_shmem))
+	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))
 	{
-		g_fail_memmove += ft_log_str(test_count, *org_shmem, *ft_shmem);
+		g_fail_memmove += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
 		dprintf(2, "tcase: [1] %s [2] %s [n] %d\n", g_tests[test_count].test, \
 		g_tests[test_count].test2, g_tests[test_count].n);
 	}

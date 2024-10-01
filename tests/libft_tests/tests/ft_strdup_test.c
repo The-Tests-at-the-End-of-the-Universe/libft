@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:44:11 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/09/29 22:01:42 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/01 11:13:37 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int	strdup_cmp(int test_count, void **org_shmem, void **ft_shmem)
 	strdup_fork(test_count, &childs[1], ft_shmem, &ft_strdup);
 	if (wait_child(childs[0]) != wait_child(childs[1]))
 		return (printf(RED " MKO "RESET));
-	if (strcmp(*org_shmem, *ft_shmem))
+	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))
 	{
-		g_fail_strdup += ft_log_str(test_count, *org_shmem, *ft_shmem);
+		g_fail_strdup += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
 		dprintf(2, "tcase: [string] %s\n", g_tests[test_count].string);
 		g_fail_strdup = 1;
 	}

@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:44:11 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/09/29 21:51:45 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/01 11:14:04 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static t_strchr_test	g_tests[] = {
 [FOUR] = {"sdncdskj nkjsanckjdsncj\ndkj", '\n'},
 };
 
-void	strchr_fork(int test_count, pid_t *child, void **shmem, \
+void	strchr_fork(int test_count, pid_t *child, char **shmem, \
 char *(*f)(const char *, int))
 {
 	char	*ret;
@@ -40,7 +40,10 @@ char *(*f)(const char *, int))
 	if (*child == 0)
 	{
 		ret = f(g_tests[test_count].string, g_tests[test_count].delim);
-		memmove(shmem, ret, strlen(ret));
+		memmove(*shmem, ret, strlen(ret));
+		// printf("**adress %p\n", shmem);
+		// printf("*adress %p\n", *shmem);
+		// printf("in child %s\n", *shmem);
 		exit(0);
 	}
 }
@@ -49,13 +52,13 @@ int	strchr_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
 	pid_t	childs[2];
 
-	strchr_fork(test_count, &childs[0], org_shmem, &strchr);
-	strchr_fork(test_count, &childs[1], ft_shmem, &ft_strchr);
+	strchr_fork(test_count, &childs[0], (char**)org_shmem, &strchr);
+	strchr_fork(test_count, &childs[1], (char**)ft_shmem, &ft_strchr);
 	if (wait_child(childs[0]) != wait_child(childs[1]))
 		return (printf(RED " MKO "RESET));
-	if (strcmp(*org_shmem, *ft_shmem))
+	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))
 	{
-		g_fail_strchr += ft_log_str(test_count, *org_shmem, *ft_shmem);
+		g_fail_strchr += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
 		dprintf(2, "tcase: [string] %s [delim] %c\n", g_tests[test_count].string, \
 		g_tests[test_count].delim);
 		g_fail_strchr = 1;
@@ -67,6 +70,7 @@ int	strchr_test(int test_count)
 {
 	void	*org_shmem;
 	void	*ft_shmem;
+	
 
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
