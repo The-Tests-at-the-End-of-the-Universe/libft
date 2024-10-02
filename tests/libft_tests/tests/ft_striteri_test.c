@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:52:33 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/02 13:07:38 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/02 13:31:53 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,14 @@ void (*f)(char *, void (*)(unsigned int, char *)))
 int	striteri_cmp(int test_count, void **ft_shmem)
 {
 	pid_t	childs[1];
+	char	*mem_test;
 
 	striteri_fork(test_count, &childs[0], ft_shmem, &ft_striteri);
 	if (wait_child(childs[0]))
-		return (printf(RED " MKO "RESET));
+		return (printf(RED " SEGFAULT "RESET));
+	mem_test = strdup(g_tests[test_count].string);
+	ft_striteri(mem_test, test_function);
+	free(mem_test);
 	if (strcmp(g_tests[test_count].result, (char*)*ft_shmem))
 	{
 		g_fail_striteri += ft_log_str(test_count, g_tests[test_count].result, *ft_shmem);
@@ -74,7 +78,8 @@ int	striteri_test(int test_count)
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].string));
-	striteri_cmp(test_count, &ft_shmem);
+	if (striteri_cmp(test_count, &ft_shmem))
+		g_fail_striteri = 1;
 	if (munmap(ft_shmem, sizeof(g_tests[test_count].string)))
 		exit(1);
 	return (g_fail_striteri);
