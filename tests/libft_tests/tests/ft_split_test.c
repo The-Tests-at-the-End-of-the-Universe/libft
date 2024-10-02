@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:28:06 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/09/29 21:12:53 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/02 13:25:26 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,6 @@ char **(*f)(const char *, char))
 		exit(1);
 	if (*child == 0)
 	{
-		// make split here
-		// do cmp test
-		// use shmem for g_fail split
 		ft_result = f(g_tests[test_count].string, \
 		g_tests[test_count].delim[0]);
 		if (ft_result == NULL)
@@ -82,10 +79,15 @@ char **(*f)(const char *, char))
 int	split_cmp(int test_count, void **ft_shmem)
 {
 	pid_t	childs[1];
+	char	**mem_test;
 
 	split_fork(test_count, &childs[0], ft_shmem, &ft_split);
 	if (wait_child(childs[0]))
-		return (printf(RED " MKO "RESET));
+		return (printf(RED " SEGFAULT "RESET));
+	mem_test = ft_split(g_tests[test_count].string, g_tests[test_count].delim[0]);
+	for (int i = 0; mem_test[i] != NULL; i++)
+		free(mem_test[i]);
+	free(mem_test);
 	g_fail_split = *(int*)*ft_shmem;
 	if (g_fail_split)
 	{
@@ -107,7 +109,8 @@ int	split_test(int test_count)
 		return (FINISH);
 	ft_shmem = create_shared_memory(sizeof(int));
 	*(int*)ft_shmem = 1;
-	split_cmp(test_count, &ft_shmem);
+	if (split_cmp(test_count, &ft_shmem))
+		g_fail_split = 1;
 	if (munmap(ft_shmem, sizeof(int)))
 		exit(1);
 	return (g_fail_split);
