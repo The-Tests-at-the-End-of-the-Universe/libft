@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/02 13:27:14 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/02 14:48:15 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,72 +33,35 @@ static t_memmove_test	g_tests[] = {
 [SEVEN] = {"NULL", "NULL", 0},
 };
 
-char	*init_ft_mv(char *test, char *test2, size_t n)
-{
-	char	*test_dub;
-	char	*test2_dub;
-	char	*ret;
-
-	test_dub = strdup(test);
-	test2_dub = strdup(test2);
-	if (test_dub == NULL || test2_dub == NULL)
-	{
-		if (test_dub)
-			free(test_dub);
-		if (test2_dub)
-			free(test2_dub);
-		printf("Error with initft\n");
-		return (NULL);
-	}
-	ret = ft_memmove(test_dub, test2_dub, n);
-	free(test2_dub);
-	return (ret);
-}
-
-char	*init_org_mv(char *test, char *test2, size_t n)
-{
-	char	*test_dub;
-	char	*test2_dub;
-	char	*ret;
-
-	test_dub = strdup(test);
-	test2_dub = strdup(test2);
-	if (test_dub == NULL || test2_dub == NULL)
-	{
-		if (test_dub)
-			free(test_dub);
-		if (test2_dub)
-			free(test2_dub);
-		printf("Error with init_org\n");
-		return (NULL);
-	}
-	ret = memmove(test_dub, test2_dub, n);
-	free(test2_dub);
-	return (ret);
-}
-
 void	memmove_fork(int test_count, pid_t *child, void **shmem, \
-char *(*f)(char *, char *, size_t n))
+void *(*f)(void *, const void *, size_t n))
 {
+	char	*ret;
 	*child = fork();
 	if (*child == -1)
 		exit(1);
 	if (*child == 0)
 	{
-		*shmem = f(g_tests[test_count].test, \
-		g_tests[test_count].test2, g_tests[test_count].n);
+		ret = strdup(g_tests[test_count].test);
+		f(ret, g_tests[test_count].test2, g_tests[test_count].n);
+		memmove(*shmem, ret, strlen(ret));
 		exit(0);
 	}
 }
-
+// this test does not have memory test because it was too difficult to distinguish between
+// normal memory issue compared with normal memmove versus abnormal mem issue
 int	memmove_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
 	pid_t	childs[2];
+	// char	*mem_test;
 
-	memmove_fork(test_count, &childs[0], org_shmem, &init_org_mv);
-	memmove_fork(test_count, &childs[1], ft_shmem, &init_ft_mv);
+	memmove_fork(test_count, &childs[0], org_shmem, &memmove);
+	memmove_fork(test_count, &childs[1], ft_shmem, &ft_memmove);
 	if (wait_child(childs[0]) != wait_child(childs[1]))
 		return (printf(RED " SEGFAULT "RESET));
+	// mem_test = strdup(g_tests[test_count].test); 
+	// memmove(mem_test, g_tests[test_count].test2, g_tests[test_count].n);
+	// free(mem_test);
 	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))
 	{
 		g_fail_memmove += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
