@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:26:06 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/01 11:13:37 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/02 13:27:14 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	memset_cmp(int test_count, void **org_shmem, void **ft_shmem)
 	memset_fork(test_count, &childs[0], org_shmem, &init_org_memset);
 	memset_fork(test_count, &childs[1], ft_shmem, &init_ft_memset);
 	if (wait_child(childs[0]) != wait_child(childs[1]))
-		return (printf(RED " MKO "RESET));
+		return (printf(RED " SEGFAULT "RESET));
 	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))
 	{
 		g_fail_memset += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);

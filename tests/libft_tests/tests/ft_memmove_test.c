@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/01 11:13:37 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/02 13:27:14 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	memmove_cmp(int test_count, void **org_shmem, void **ft_shmem)
 	memmove_fork(test_count, &childs[0], org_shmem, &init_org_mv);
 	memmove_fork(test_count, &childs[1], ft_shmem, &init_ft_mv);
 	if (wait_child(childs[0]) != wait_child(childs[1]))
-		return (printf(RED " MKO "RESET));
+		return (printf(RED " SEGFAULT "RESET));
 	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))
 	{
 		g_fail_memmove += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 17:08:13 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:53 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/02 13:27:14 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	putendl_cmp(int test_count)
 	g_fd = open("libft_tests/putendl_ft.txt", O_RDWR);
 	putendl_fork(test_count, &childs[0], &ft_putendl_fd);
 	if (wait_child(childs[0]) && g_tests[test_count] != NULL)
-		return (printf(RED " MKO "RESET));
+		return (printf(RED " SEGFAULT "RESET));
 	close(g_fd);
 	if (g_tests[test_count] != NULL)
 		compare_files_endl(test_count, g_tests[test_count]);

@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:44:11 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/02 13:14:02 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/02 13:27:14 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	strchr_cmp(int test_count, void **org_shmem, void **ft_shmem)
 	strchr_fork(test_count, &childs[0], (char**)org_shmem, &strchr);
 	strchr_fork(test_count, &childs[1], (char**)ft_shmem, &ft_strchr);
 	if (wait_child(childs[0]) != wait_child(childs[1]))
-		return (printf(RED " SEGFAULT "RESET));
+		return (printf(RED " SEGFAULT  "RESET));
 	test = ft_strchr(g_tests[test_count].string, g_tests[test_count].delim);
 	(void)test;
 	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))

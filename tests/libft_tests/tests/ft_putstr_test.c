@@ -99,7 +99,7 @@ int	putstr_cmp(int test_count)
 	g_fd = open("libft_tests/putstr_ft.txt", O_RDWR);
 	putstr_fork(test_count, &childs[0], &ft_putstr_fd);
 	if (wait_child(childs[0]) && g_tests[test_count] != NULL)
-		return (printf(RED " MKO "RESET));
+		return (printf(RED " SEGFAULT "RESET));
 	close(g_fd);
 	if (g_tests[test_count] != NULL)
 		compare_files_str(test_count, g_tests[test_count]);

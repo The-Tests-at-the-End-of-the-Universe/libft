@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:28:06 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/02 13:25:26 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/02 13:27:14 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	split_cmp(int test_count, void **ft_shmem)
 
 	split_fork(test_count, &childs[0], ft_shmem, &ft_split);
 	if (wait_child(childs[0]))
-		return (printf(RED " SEGFAULT "RESET));
+		return (printf(RED " SEGFAULT  "RESET));
 	mem_test = ft_split(g_tests[test_count].string, g_tests[test_count].delim[0]);
 	for (int i = 0; mem_test[i] != NULL; i++)
 		free(mem_test[i]);
