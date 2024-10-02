@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/09/29 22:12:34 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/02 11:52:32 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	mem_tests(char *argv, int test_count)
 	else if (!strncmp(argv, "ft_split", 8))
 		fail += split_test(test_count);
 	else if (!strncmp(argv, "ft_strjoin", 10))
-		fail += strjoin_test();
+		fail += strjoin_test(test_count);
 	return (fail);
 }
 
