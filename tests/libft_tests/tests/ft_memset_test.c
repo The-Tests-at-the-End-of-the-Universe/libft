@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:26:06 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/02 13:27:14 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/02 13:41:33 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,16 @@ char *(*f)(char *, int, size_t n))
 int	memset_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
 	pid_t	childs[2];
+	void	*mem_test;
 
 	memset_fork(test_count, &childs[0], org_shmem, &init_org_memset);
 	memset_fork(test_count, &childs[1], ft_shmem, &init_ft_memset);
 	if (wait_child(childs[0]) != wait_child(childs[1]))
 		return (printf(RED " SEGFAULT "RESET));
+	mem_test = strdup(g_tests[test_count].test); 
+	ft_memset(mem_test, \
+	g_tests[test_count].test2, g_tests[test_count].n);
+	free(mem_test);
 	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))
 	{
 		g_fail_memset += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
@@ -93,7 +98,8 @@ int	memset_test(int test_count)
 		return (FINISH);
 	org_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
 	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
-	memset_cmp(test_count, &org_shmem, &ft_shmem);
+	if (memset_cmp(test_count, &org_shmem, &ft_shmem))
+		g_fail_memset = 1;
 	if (munmap(org_shmem, sizeof(g_tests[test_count].test)))
 		exit(1);
 	if (munmap(ft_shmem, sizeof(g_tests[test_count].test)))
