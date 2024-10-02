@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:44:11 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/01 11:14:04 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/02 13:14:02 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ char *(*f)(const char *, int))
 	{
 		ret = f(g_tests[test_count].string, g_tests[test_count].delim);
 		memmove(*shmem, ret, strlen(ret));
-		// printf("**adress %p\n", shmem);
-		// printf("*adress %p\n", *shmem);
-		// printf("in child %s\n", *shmem);
 		exit(0);
 	}
 }
@@ -51,11 +48,14 @@ char *(*f)(const char *, int))
 int	strchr_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
 	pid_t	childs[2];
+	char	*test;
 
 	strchr_fork(test_count, &childs[0], (char**)org_shmem, &strchr);
 	strchr_fork(test_count, &childs[1], (char**)ft_shmem, &ft_strchr);
 	if (wait_child(childs[0]) != wait_child(childs[1]))
-		return (printf(RED " MKO "RESET));
+		return (printf(RED " SEGFAULT "RESET));
+	test = ft_strchr(g_tests[test_count].string, g_tests[test_count].delim);
+	(void)test;
 	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))
 	{
 		g_fail_strchr += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
@@ -76,7 +76,8 @@ int	strchr_test(int test_count)
 		return (FINISH);
 	org_shmem = create_shared_memory(sizeof(g_tests[test_count].string));
 	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].string));
-	strchr_cmp(test_count, &org_shmem, &ft_shmem);
+	if (strchr_cmp(test_count, &org_shmem, &ft_shmem))
+		g_fail_strchr = 1;
 	if (munmap(org_shmem, sizeof(g_tests[test_count].string)))
 		exit(1);
 	if (munmap(ft_shmem, sizeof(g_tests[test_count].string)))
