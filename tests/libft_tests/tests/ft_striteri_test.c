@@ -6,44 +6,76 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:52:33 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:50 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/02 11:39:27 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft_tester.h>
 #include <string.h>
 
-int	g_fail_striteri = 0;
+int						g_fail_striteri = 0;
+
+typedef struct s_striteri_test
+{
+	char	*string;
+	char	*result;
+}	t_striteri_test;
+
+static t_striteri_test	g_tests[] = {
+[ZERO] = {"", ""},
+[ONE] = {"123", "135"},
+[TWO] = {"abc", "ace"},
+[THREE] = {"ABC", "ACE"},
+};
 
 void	test_function(unsigned int c, char *s)
 {
 	s[0] = s[0] + c;
 }
 
-int	striteri_cmp(int test_count, char *test, char *result)
+void	striteri_fork(int test_count, pid_t *child, void **shmem, \
+void (*f)(char *, void (*)(unsigned int, char *)))
 {
-	char	*test_dub;
+	char	*dup;
 
-	test_dub = strdup(test);
-	ft_striteri(test_dub, test_function);
-	if (strcmp(test_dub, result))
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
 	{
-		g_fail_striteri += ft_log_str(test_count, test, test_dub);
-		dprintf(2, "tcase: [test] %s [result] %s\n", test, result);
+		dup = strdup(g_tests[test_count].string);
+		f(dup, test_function);
+		memmove(*shmem, dup, strlen(dup));
+		exit(0);
 	}
-	else
-		printf(GRN "%d OK " RESET, test_count);
-	free(test_dub);
-	return (test_count + 1);
 }
 
-int	striteri_test(void)
+int	striteri_cmp(int test_count, void **ft_shmem)
 {
-	int	test_count;
+	pid_t	childs[1];
 
-	test_count = 1;
-	test_count = striteri_cmp(test_count, "123", "135");
-	test_count = striteri_cmp(test_count, "abc", "ace");
-	test_count = striteri_cmp(test_count, "ABC", "ACE");
+	striteri_fork(test_count, &childs[0], ft_shmem, &ft_striteri);
+	if (wait_child(childs[0]))
+		return (printf(RED " MKO "RESET));
+	if (strcmp(g_tests[test_count].result, (char*)*ft_shmem))
+	{
+		g_fail_striteri += ft_log_str(test_count, g_tests[test_count].result, *ft_shmem);
+		dprintf(2, "tcase: [string] %s [result] %s\n", g_tests[test_count].string, \
+		g_tests[test_count].result);
+		g_fail_striteri = 1;
+	}
+	return (0);
+}
+
+int	striteri_test(int test_count)
+{
+	void	*ft_shmem;
+
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].string));
+	striteri_cmp(test_count, &ft_shmem);
+	if (munmap(ft_shmem, sizeof(g_tests[test_count].string)))
+		exit(1);
 	return (g_fail_striteri);
 }
