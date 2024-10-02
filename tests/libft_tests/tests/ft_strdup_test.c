@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:44:11 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/01 11:13:37 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/02 13:27:59 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,14 @@ char *(*f)(const char *))
 int	strdup_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
 	pid_t	childs[2];
+	char	*mem_test;
 
 	strdup_fork(test_count, &childs[0], org_shmem, &strdup);
 	strdup_fork(test_count, &childs[1], ft_shmem, &ft_strdup);
 	if (wait_child(childs[0]) != wait_child(childs[1]))
-		return (printf(RED " MKO "RESET));
+		return (printf(RED " SEGFAULT "RESET));
+	mem_test = ft_strdup(g_tests[test_count].string);
+	free(mem_test);
 	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))
 	{
 		g_fail_strdup += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
@@ -70,7 +73,8 @@ int	strdup_test(int test_count)
 		return (FINISH);
 	org_shmem = create_shared_memory(sizeof(g_tests[test_count].string));
 	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].string));
-	strdup_cmp(test_count, &org_shmem, &ft_shmem);
+	if (strdup_cmp(test_count, &org_shmem, &ft_shmem))
+		g_fail_strdup = 1;
 	if (munmap(org_shmem, sizeof(g_tests[test_count].string)))
 		exit(1);
 	if (munmap(ft_shmem, sizeof(g_tests[test_count].string)))
