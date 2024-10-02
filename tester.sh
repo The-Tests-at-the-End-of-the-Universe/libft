@@ -65,7 +65,7 @@ memory=true
 fail=false
 bonus=false
 suppressions=utils/valgrind_suppresion
-valgrind="valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=42 --suppressions=$suppressions"
+valgrind="valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --error-exitcode=42 --suppressions=$suppressions"
 
 while [ "$#" -gt 0 ]; do
 	arg=$1
