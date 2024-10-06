@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 22:33:32 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 22:40:05 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ int	strmapi_test(int test_count);
 int	strncmp_test(int test_count);
 int	strnstr_test(int test_count);
 int	strrchr_test(int test_count);
+int	strtrim_test(int test_count);
 int	substr_test(void);
-int	strtrim_test(void);
 int	ft_log_int(int test_count, int result_org, int result_ft);
 int	ft_log_str(int test_count, char *ro, char *rft);
 int	ft_log_chr(int test_count, char ro, char rft);

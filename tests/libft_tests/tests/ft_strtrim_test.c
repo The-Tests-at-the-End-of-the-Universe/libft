@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:51:07 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:33 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/06 22:39:25 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,68 @@
 
 int	g_fail_strtrim = 0;
 
-int	strtrim_cmp(int test_count, char *test1, char *test2, char *result)
+typedef struct s_strtrim_test
 {
-	char	*ft;
+	char	*s1;
+	char	*s2;
+	char	*result;
+}	t_strtrim_test;
 
-	ft = ft_strtrim(test1, test2);
-	if (strcmp(ft, result))
+static t_strtrim_test	g_tests[] = {
+[ZERO] = {"", "", ""},
+[ONE] = {"aaaaaabaaaaaa", "a", "b"},
+[TWO] = {"bobobbocobedbobobbo!", "!", "bobobbocobedbobobbo"},
+[THREE] = {"a", "b", "a"},
+[FOUR] = {"aaaaaabbbbcbbbbaaaaaa", "ab", "c"},
+};
+
+void	strtrim_fork(int test_count, pid_t *child, void **shmem, \
+char *(*f)(const char *, const char *))
+{
+	char *res;
+
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
 	{
-		g_fail_strtrim += ft_log_str(test_count, result, ft);
-		dprintf(2, "tcase: [1] %s [2] %s [result] %s\n", test1, test2, result);
+		res = f(g_tests[test_count].s1, g_tests[test_count].s2);
+		memmove(*shmem, res, strlen(res));
+		exit(0);
 	}
-	else
-		printf(GRN "%d OK " RESET, test_count);
-	free(ft);
-	return (test_count + 1);
 }
 
-int	strtrim_test(void)
+int	strtrim_cmp(int test_count, void **ft_shmem)
 {
-	int	tc;
+	pid_t	childs[1];
+	char	*test;
 
-	tc = 1;
-	tc = strtrim_cmp(tc, "aaaaaabaaaaaa", "a", "b");
-	tc = strtrim_cmp(tc, "bobobbocobedbobobbo!", "!", "bobobbocobedbobobbo");
-	tc = strtrim_cmp(tc, "a", "b", "a");
-	tc = strtrim_cmp(tc, "aaaaaabbbbcbbbbaaaaaa", "ab", "c");
+	strtrim_fork(test_count, &childs[0], ft_shmem, &ft_strtrim);
+	if (wait_child(childs[0]))
+		return (printf(RED " SEGFAULT  "RESET));
+	test = ft_strtrim(g_tests[test_count].s1, g_tests[test_count].s2);
+	free(test);
+	if (strcmp(g_tests[test_count].result, (char*)*ft_shmem))
+	{
+		g_fail_strtrim += ft_log_str(test_count, g_tests[test_count].result, (char*)*ft_shmem);
+		dprintf(2, "tcase: [s1] %s [s2] %s [result] %s\n", g_tests[test_count].s1, \
+		g_tests[test_count].s2, g_tests[test_count].result);
+		g_fail_strtrim = 1;
+	}
+	return (0);
+}
+
+int	strtrim_test(int test_count)
+{
+	void	*ft_shmem;
+
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].result));
+	if (strtrim_cmp(test_count, &ft_shmem))
+		g_fail_strtrim = 1;
+	if (munmap(ft_shmem, sizeof(g_tests[test_count].result)))
+		exit(1);
 	return (g_fail_strtrim);
 }
+

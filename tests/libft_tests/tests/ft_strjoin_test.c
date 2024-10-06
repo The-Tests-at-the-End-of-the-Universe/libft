@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:57:44 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/02 13:27:14 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 22:37:56 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	strjoin_fork(int test_count, pid_t *child, void **shmem, \
 char *(*f)(const char *, const char *))
 {
 	char *res;
-	char *test;
 
 	*child = fork();
 	if (*child == -1)
@@ -45,8 +44,6 @@ char *(*f)(const char *, const char *))
 	{
 		res = f(g_tests[test_count].s1, g_tests[test_count].s2);
 		memmove(*shmem, res, strlen(res));
-		test = f(g_tests[test_count].s1, g_tests[test_count].s2);
-		ft_strlen(test);
 		exit(0);
 	}
 }
@@ -56,7 +53,6 @@ int	strjoin_cmp(int test_count, void **ft_shmem)
 	pid_t	childs[1];
 	char	*test;
 
-	// first check SEGFAULT 
 	strjoin_fork(test_count, &childs[0], ft_shmem, &ft_strjoin);
 	if (wait_child(childs[0]))
 		return (printf(RED " SEGFAULT  "RESET));
