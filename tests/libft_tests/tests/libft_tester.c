@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/02 11:52:32 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 16:13:54 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,19 @@ int	appendix(char *argv, int test_count)
 	if (!strncmp(argv, "ft_atoi", 4))
 		fail += atoi_test(test_count);
 	else if (!strncmp(argv, "ft_isalnum", 10))
-		fail += isto_test(test_count, "ft_isalnum", isalnum, ft_isalnum);
+		fail += isto_test(test_count, isalnum, ft_isalnum);
 	else if (!strncmp(argv, "ft_isalpha", 10))
-		fail += isto_test(test_count, "ft_isalpha", isalpha, ft_isalpha);
+		fail += isto_test(test_count, isalpha, ft_isalpha);
 	else if (!strncmp(argv, "ft_isascii", 10))
-		fail += isto_test(test_count, "ft_isascii", isascii, ft_isascii);
+		fail += isto_test(test_count, isascii, ft_isascii);
 	else if (!strncmp(argv, "ft_isdigit", 10))
-		fail += isto_test(test_count, "ft_isdigit", isdigit, ft_isdigit);
+		fail += isto_test(test_count, isdigit, ft_isdigit);
 	else if (!strncmp(argv, "ft_isprint", 10))
-		fail += isto_test(test_count, "ft_isprint", isprint, ft_isprint);
+		fail += isto_test(test_count, isprint, ft_isprint);
 	else if (!strncmp(argv, "ft_tolower", 10))
-		fail += isto_test(test_count, "ft_tolower", tolower, ft_tolower);
+		fail += isto_test(test_count, tolower, ft_tolower);
 	else if (!strncmp(argv, "ft_toupper", 10))
-		fail += isto_test(test_count, "ft_toupper", toupper, ft_toupper);
+		fail += isto_test(test_count, toupper, ft_toupper);
 	else if (!strncmp(argv, "ft_memcmp", 9))
 		fail += memcmp_test(test_count);
 	return (fail);

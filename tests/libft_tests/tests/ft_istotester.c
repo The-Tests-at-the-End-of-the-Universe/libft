@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:29:29 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:58 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/06 16:21:26 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,43 @@ static const char	g_tests[] = {
 [TEN] = (char)1243,
 };
 
-int	isto_cmp(int tc, int (*f)(int), int (*ft)(int))
-{
-	int		org_func;
-	int		ft_func;
 
-	org_func = f(g_tests[tc]);
-	ft_func = ft(g_tests[tc]);
-	if (org_func == 0 && ft_func != 0)
+void	isto_fork(int test_count, pid_t *child, int (*f)(int))
+{
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
 	{
-		g_fail_isto += ft_log_int(tc, org_func, ft_func);
-		dprintf(2, "tcase: %d\n", g_tests[tc]);
-		g_fail_isto = 1;
+		f(g_tests[test_count]);
+		exit(0);
 	}
-	else
-		g_fail_isto = 0;
-	return (g_fail_isto);
 }
 
-int	isto_test(int test_count, char *function_name, \
-int (*f)(int), int (*ft)(int))
+int	isto_cmp(int test_count, int (*func)(int), int (*ft_func)(int))
 {
-	(void)function_name;
+	pid_t	childs[2];
+	int		ft;
+	int		org;
+
+	isto_fork(test_count, &childs[0], func);
+	isto_fork(test_count, &childs[1], ft_func);
+	if (wait_child(childs[0]) != wait_child(childs[1]))
+		return (printf(RED " SEGFAULT "RESET));
+	ft = ft_func(g_tests[test_count]);
+	org = func(g_tests[test_count]);
+	if ((ft && org) || (!ft && !org));
+	else
+	{
+		printf("ft: %d org: %d\n", ft, org);
+		g_fail_isto += ft_log_int(test_count, org, ft);
+		dprintf(2, "tcase: [1] %d\n", g_tests[test_count]);
+	}
+	return (0);
+}
+
+int	isto_test(int test_count, int (*f)(int), int (*ft)(int))
+{
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	isto_cmp(test_count, f, ft);
