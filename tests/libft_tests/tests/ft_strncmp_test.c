@@ -6,49 +6,71 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:27:38 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:44 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/06 22:18:24 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft_tester.h>
 #include <string.h>
 
-int	g_fail_strncmp = 0;
+int							g_fail_strncmp = 0;
 
+typedef struct s_strncmp_test
+{
+	char	*test;
+	char	*test2;
+	int		n;
+}	t_strncmp_test;
+
+static t_strncmp_test	g_tests[] = {
+[ZERO] = {"", "", 0}, 
+[ONE] = {"bobobbocob", "dlksadbs", 5},
+[TWO] = {"a", "b", 2},
+[THREE] = {"dfsfdsf?", "??cbdscds", 6},
+[FOUR] = {"", "", 0},
+[FIVE] = {" ", " ", 2},
+};
+
+void	strncmp_fork(int test_count, pid_t *child, \
+int (*f)(const char *, const char *, size_t))
+{
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
+	{
+		f(g_tests[test_count].test, g_tests[test_count].test2, g_tests[test_count].n);
+		exit(0);
+	}
+}
 //added multiple conditions because returns value of strncmp can differ
 //per compiler
 //https://stackoverflow.com/questions/52334056/weird-return-value-in-strcmp
-int	strncmp_cmp(int test_count, char *test1, char *test2, int n)
+int	strncmp_cmp(int test_count)
 {
-	int	ft;
-	int	org;
+	pid_t	childs[2];
+	int		ft;
+	int		org;
 
-	org = strncmp(test1, test2, n);
-	ft = ft_strncmp(test1, test2, n);
-	if (ft < 0 && org < 0)
-		printf(GRN "%d OK " RESET, test_count);
-	else if (ft > 0 && org > 0)
-		printf(GRN "%d OK " RESET, test_count);
-	else if (ft == 0 && org == 0)
-		printf(GRN "%d OK " RESET, test_count);
+	strncmp_fork(test_count, &childs[0], &strncmp);
+	strncmp_fork(test_count, &childs[1], &ft_strncmp);
+	if (wait_child(childs[0]) != wait_child(childs[1]))
+		return (printf(RED " SEGFAULT "RESET));
+	ft = ft_strncmp(g_tests[test_count].test, g_tests[test_count].test2, g_tests[test_count].n);
+	org = strncmp(g_tests[test_count].test, g_tests[test_count].test2, g_tests[test_count].n);
+	if((ft < 0 && org < 0) || (ft == 0 && org == 0) || (ft > 0 && org > 0));
 	else
 	{
 		g_fail_strncmp += ft_log_int(test_count, org, ft);
-		dprintf(2, "tcase: [1] %s [2] %s [n] %d\n", test1, test2, n);
+		dprintf(2, "tcase: [1] %s\n", g_tests[test_count].test);
 	}
-	return (test_count + 1);
+	return (0);
 }
 
-int	strncmp_test(void)
+int	strncmp_test(int test_count)
 {
-	int	test_count;
-
-	test_count = 1;
-	test_count = strncmp_cmp(test_count, "nfdsnkjd", "dlksadbs", 16);
-	test_count = strncmp_cmp(test_count, "bobobbocob", "dlksadbs", 18);
-	test_count = strncmp_cmp(test_count, "a", "b", 2);
-	test_count = strncmp_cmp(test_count, "dfsfdsf?", "??cbdscds", 17);
-	test_count = strncmp_cmp(test_count, "", "", 0);
-	test_count = strncmp_cmp(test_count, " ", " ", 2);
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	strncmp_cmp(test_count);
 	return (g_fail_strncmp);
 }
