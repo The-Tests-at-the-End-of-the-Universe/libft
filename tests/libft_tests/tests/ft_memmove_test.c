@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 14:10:17 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 20:54:11 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ void *(*f)(void *, const void *, size_t n))
 		exit(0);
 	}
 }
-// this test does not have memory test because it was too difficult to distinguish between
-// normal memory issue compared with normal memmove versus abnormal mem issue
+
 int	memmove_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
 	pid_t	childs[2];
