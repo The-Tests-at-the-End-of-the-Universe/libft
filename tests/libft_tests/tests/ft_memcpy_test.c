@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/02 13:27:14 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 21:36:51 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ typedef struct s_memcpy_test
 
 static t_memcpy_test	g_tests[] = {
 [ZERO] = {"fnjkdvbs", "fnjkdvbs", 5},
-[ONE] = {"    scnaocuw9/", "    scnaocuw9/", 20},
-[TWO] = {"fnjkdvbs", "fnjkdvss", 20},
+[ONE] = {"    scnaocuw9/", "    scnaocuw9/", 10},
+[TWO] = {"fnjkdvbs", "fnjkdvss", 8},
 [THREE] = {"snsicnsk sjknsjanc", "snsicnsk sjknsjanc", 10},
-[FOUR] = {"fnjkdvbs\n", "fnjkdvbs\n", 1000},
-[FIVE] = {"fnjkdvbs\n", "fnjkdvbs\n", 16},
-[SIX] = {"fnjkdvb0", "fnjkdvb0", 20},
-[SEVEN] = {"NULL", "NULL", 0},
+[FOUR] = {"fnjkdvbs\n", "fnjkdvbs\n", 10},
+[FIVE] = {"fnjkdvb0", "fnjkdvb0", 8},
+[SIX] = {"NULL", "NULL", 0},
 };
 
 char	*init_ft(char *test, char *test2, size_t n)
@@ -80,13 +79,16 @@ char	*init_org(char *test, char *test2, size_t n)
 void	memcpy_fork(int test_count, pid_t *child, void **shmem, \
 char *(*f)(char *, char *, size_t n))
 {
+	char	*ret;
 	*child = fork();
 	if (*child == -1)
 		exit(1);
 	if (*child == 0)
 	{
-		*shmem = f(g_tests[test_count].test, \
+		ret = strdup(g_tests[test_count].test);
+		ret = f(ret, \
 		g_tests[test_count].test2, g_tests[test_count].n);
+		memmove(*shmem, ret, strlen(ret));
 		exit(0);
 	}
 }
@@ -94,11 +96,15 @@ char *(*f)(char *, char *, size_t n))
 int	memcpy_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
 	pid_t	childs[2];
+	char	*mem_test;
 
 	memcpy_fork(test_count, &childs[0], org_shmem, &init_org);
 	memcpy_fork(test_count, &childs[1], ft_shmem, &init_ft);
 	if (wait_child(childs[0]) != wait_child(childs[1]))
 		return (printf(RED " SEGFAULT "RESET));
+	mem_test = strdup(g_tests[test_count].test);
+	ft_memcpy(mem_test, g_tests[test_count].test2, g_tests[test_count].n);
+	free(mem_test);
 	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))
 	{
 		g_fail_memcpy += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
