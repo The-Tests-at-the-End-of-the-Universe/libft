@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 12:48:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 15:21:31 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 15:40:08 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,6 @@ void (*f)(void *, size_t n))
 		memcpy(*shmem, ret, strlen(g_tests[test_count].string));
 		exit(0);
 	}
-}
-
-int	chrcmp(char *org, char *ft, int n)
-{
-	int	i;
-
-	i = 0;
-	while (i < n)
-	{
-		if (org[i] != ft[i])
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 int	bzero_cmp(int test_count, void **org_shmem, void **ft_shmem)

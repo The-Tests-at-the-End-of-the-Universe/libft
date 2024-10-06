@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/02 11:52:43 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 15:40:00 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,6 @@ int	ft_log_str(int test_count, char *ro, char *rft);
 int	ft_log_chr(int test_count, char ro, char rft);
 int	wait_child(int pid);
 void	*create_shared_memory(size_t size);
+int	chrcmp(char *org, char *ft, int n);
 
 #endif

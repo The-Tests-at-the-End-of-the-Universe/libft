@@ -6,14 +6,14 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:12:54 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/29 17:57:36 by crasche       ########   odam.nl         */
+/*   Updated: 2024/10/06 15:49:46 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft_tester.h>
 #include <string.h>
 
-int							g_fc = 0;
+int							g_fail_calloc = 0;
 
 typedef struct s_calloc_test
 {
@@ -34,79 +34,63 @@ static const t_calloc_test	g_tests[] = {
 [NINE] = {1, sizeof(void)},
 [TEN] = {1000, sizeof(void)},
 [ELEVEN] = {1000000, sizeof(void)},
-[TWELVE] = {1, 0},
-[THIRTEEN] = {1000, 0},
-[FOURTEEN] = {1000000, 0},
-[FIVETEEN] = {0, 1},
-[SIXTEEN] = {0, 1000},
-[SEVENTEEN] = {0, 1000000},
-[EIGHTEEN] = {0, 0},
-[NINETEEN] = {1, 1},
-[TWENTY] = {5, 1},
-[TWENTYONE] = {5, 0},
-[TWENTYTWO] = {1, 5},
-[TWENTYTHREE] = {0, 5},
+[TWELVE] = {1, 1},
+[THIRTEEN] = {5, 1},
+[FOURTEEN] = {1, 5},
 };
 
-char	*init_ft_calloc(size_t nmemb, size_t n)
-{
-	char	*ftc;
 
-	ftc = ft_calloc(nmemb, n);
-	if (ftc == NULL)
+void	calloc_fork(int test_count, pid_t *child, void **shmem, \
+void *(*f)(size_t nmemb, size_t n))
+{
+	char	*ret;
+
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
 	{
-		perror(" ft_calloc error ");
-		return (NULL);
+		ret = f(g_tests[test_count].n, g_tests[test_count].nmemb);
+		memcpy(*shmem, ret, g_tests[test_count].n * g_tests[test_count].nmemb);
+		exit(0);
 	}
-	return (ftc);
 }
 
-char	*init_calloc(size_t nmemb, size_t n)
+int	calloc_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
-	char	*c;
+	pid_t	childs[2];
+	char	*mem_test;
 
-	c = calloc(nmemb, n);
-	if (c == NULL)
+	calloc_fork(test_count, &childs[0], org_shmem, &calloc);
+	calloc_fork(test_count, &childs[1], ft_shmem, &ft_calloc);
+	if (wait_child(childs[0]) != wait_child(childs[1]))
+		return (printf(RED " SEGFAULT "RESET));
+	mem_test = ft_calloc(g_tests[test_count].n, g_tests[test_count].nmemb);
+	free(mem_test);
+	if (chrcmp((char*)*org_shmem, (char*)*ft_shmem, g_tests[test_count].n * g_tests[test_count].nmemb))
 	{
-		perror(" calloc error ");
-		return (NULL);
+		g_fail_calloc += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
+		dprintf(2, "tcase: [n] %ld [nmem] %ld\n", g_tests[test_count].n, \
+		g_tests[test_count].nmemb);
 	}
-	return (c);
-}
-
-int	calloc_cmp(int test_count)
-{
-	char	*c;
-	char	*ftc;
-	size_t	ei;
-
-	ei = 0;
-	c = init_calloc(g_tests[test_count].nmemb, g_tests[test_count].n);
-	ftc = init_ft_calloc(g_tests[test_count].nmemb, g_tests[test_count].n);
-	if (c == NULL || ftc == NULL)
-		return (1);
-	while (ei != (g_tests[test_count].nmemb * g_tests[test_count].n))
-	{
-		if ((char)c[ei] != (char)ftc[ei])
-		{
-			g_fc += ft_log_chr(test_count, (char)c[ei], (char)ftc[ei]);
-			dprintf(2, "tcase: [nmemb] %zu [n] %zu\n", \
-			g_tests[test_count].nmemb, g_tests[test_count].n);
-			g_fc = 1;
-		}
-		else
-			g_fc = 0;
-		ei++;
-	}
-	free(c);
-	free(ftc);
-	return (test_count + 1);
+	return (0);
 }
 
 int	calloc_test(int test_count)
 {
+	void	*org_shmem;
+	void	*ft_shmem;
+	size_t	size;
+
+	size = g_tests[test_count].n * g_tests[test_count].nmemb;
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
-	calloc_cmp(test_count);
-	return (g_fc);
+	org_shmem = create_shared_memory(size);
+	ft_shmem = create_shared_memory(size);
+	calloc_cmp(test_count, &org_shmem, &ft_shmem);
+	if (munmap(org_shmem, size))
+		exit(1);
+	if (munmap(ft_shmem, size))
+		exit(1);
+	return (g_fail_calloc);
 }
