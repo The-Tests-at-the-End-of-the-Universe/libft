@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 21:45:25 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 21:47:08 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	str_tests(char *argv, int test_count)
 	else if (!strncmp(argv, "ft_striteri", 11))
 		fail += striteri_test(test_count);
 	else if (!strncmp(argv, "ft_strlcpy", 10))
-		fail += strlcpy_test();
+		fail += strlcpy_test(test_count);
 	else if (!strncmp(argv, "ft_strlen", 9))
 		fail += strlen_test();
 	else if (!strncmp(argv, "ft_strmapi", 10))

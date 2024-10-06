@@ -6,88 +6,82 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:01:09 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:49 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/06 21:47:57 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft_tester.h>
 #include <bsd/string.h>
 
-int	g_fail_strlcpy = 0;
 
-int	strlift(char *output, char *test, char *test2, size_t n)
+int						g_fail_strlcpy = 0;
+
+typedef struct s_strlcpy_test
 {
-	char	*test2_dub;
-	size_t	ret;
+	char	*test;
+	char	*test2;
+	int		n;
+}	t_strlcpy_test;
 
-	output = strdup(test);
-	test2_dub = strdup(test2);
-	if (output == NULL || test2_dub == NULL)
+static t_strlcpy_test	g_tests[] = {
+[ZERO] = {"", "", 0}, 
+[ONE] = {"bobobbocob", "dlksadbs", 6},
+[TWO] = {"a", "b", 2},
+[THREE] = {"dfsfdsf?", "??cbdscds", 5},
+[FOUR] = {"", "", 0},
+[FIVE] = {" ", " ", 2},
+};
+
+void	strlcpy_fork(int test_count, pid_t *child, void **shmem, \
+size_t (*f)(char *dst, const char *src, size_t n))
+{
+	char	*ret;
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
 	{
-		if (output)
-			free(output);
-		if (test2_dub)
-			free(test2_dub);
-		printf("Error with initft\n");
-		return (0);
+		ret = strdup(g_tests[test_count].test);
+		f(ret, g_tests[test_count].test2, g_tests[test_count].n);
+		memmove(*shmem, ret, strlen(ret));
+		exit(0);
 	}
-	ret = ft_strlcpy(output, test2_dub, n);
-	free(output);
-	free(test2_dub);
-	return (ret);
 }
 
-int	strliorg(char *output, char *test, char *test2, size_t n)
+int	strlcpy_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
-	char	*test2_dub;
-	size_t	ret;
+	pid_t	childs[2];
+	char	*mem_test;
 
-	output = strdup(test);
-	test2_dub = strdup(test2);
-	if (output == NULL || test2_dub == NULL)
+	strlcpy_fork(test_count, &childs[0], org_shmem, &strlcpy);
+	strlcpy_fork(test_count, &childs[1], ft_shmem, &ft_strlcpy);
+	if (wait_child(childs[0]) != wait_child(childs[1]))
+		return (printf(RED " SEGFAULT "RESET));
+	mem_test = strdup(g_tests[test_count].test); 
+	ft_strlcpy(mem_test, g_tests[test_count].test2, g_tests[test_count].n);
+	free(mem_test);
+	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))
 	{
-		if (output)
-			free(output);
-		if (test2_dub)
-			free(test2_dub);
-		printf("Error with initft\n");
-		return (0);
+		g_fail_strlcpy += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
+		dprintf(2, "tcase: [1] %s [2] %s [n] %d\n", g_tests[test_count].test, \
+		g_tests[test_count].test2, g_tests[test_count].n);
 	}
-	ret = strlcpy(output, test2_dub, n);
-	free(test2_dub);
-	free(output);
-	return (ret);
+	return (0);
 }
 
-int	strlcpy_cmp(int test_count, char *t1, char *t2, size_t n)
+int	strlcpy_test(int test_count)
 {
-	char	*org;
-	char	*ft;
+	void	*org_shmem;
+	void	*ft_shmem;
 
-	org = NULL;
-	ft = NULL;
-	if (strlift(ft, t1, t2, n) != strliorg(org, t1, t2, n) && strcmp(org, ft))
-	{
-		g_fail_strlcpy += ft_log_str(test_count, org, ft);
-		dprintf(2, "tcase: [1] %s [2] %s [n] %zu\n", t1, t2, n);
-	}
-	else
-		printf(GRN "%d OK " RESET, test_count);
-	free(org);
-	free(ft);
-	return (test_count + 1);
-}
-
-int	strlcpy_test(void)
-{
-	int	test_count;
-
-	test_count = 1;
-	test_count = strlcpy_cmp(test_count, "nfdsnkjd", "dlksadbs", 16);
-	test_count = strlcpy_cmp(test_count, "bobobbocob", "dlksadbs", 18);
-	test_count = strlcpy_cmp(test_count, "a", "b", 2);
-	test_count = strlcpy_cmp(test_count, "dfsfdsf?", "??cbdscds", 17);
-	test_count = strlcpy_cmp(test_count, "", "", 0);
-	test_count = strlcpy_cmp(test_count, " ", " ", 2);
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	org_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
+	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
+	strlcpy_cmp(test_count, &org_shmem, &ft_shmem);
+	if (munmap(org_shmem, sizeof(g_tests[test_count].test)))
+		exit(1);
+	if (munmap(ft_shmem, sizeof(g_tests[test_count].test)))
+		exit(1);
 	return (g_fail_strlcpy);
 }

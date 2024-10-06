@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:01:09 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/06 21:44:47 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 21:47:42 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ typedef struct s_strlcat_test
 
 static t_strlcat_test	g_tests[] = {
 [ZERO] = {"", "", 0}, 
-[ONE] = {"bobobbocob", "dlksadbs", 18},
+[ONE] = {"bobobbocob", "dlksadbs", 5},
 [TWO] = {"a", "b", 2},
-[THREE] = {"dfsfdsf?", "??cbdscds", 17},
+[THREE] = {"dfsfdsf?", "??cbdscds", 6},
 [FOUR] = {"", "", 0},
 [FIVE] = {" ", " ", 2},
 };
