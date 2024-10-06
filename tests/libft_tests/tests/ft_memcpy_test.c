@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 21:36:51 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 21:40:33 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ typedef struct s_memcpy_test
 }	t_memcpy_test;
 
 static t_memcpy_test	g_tests[] = {
-[ZERO] = {"fnjkdvbs", "fnjkdvbs", 5},
-[ONE] = {"    scnaocuw9/", "    scnaocuw9/", 10},
-[TWO] = {"fnjkdvbs", "fnjkdvss", 8},
-[THREE] = {"snsicnsk sjknsjanc", "snsicnsk sjknsjanc", 10},
-[FOUR] = {"fnjkdvbs\n", "fnjkdvbs\n", 10},
-[FIVE] = {"fnjkdvb0", "fnjkdvb0", 8},
-[SIX] = {"NULL", "NULL", 0},
+[ZERO] = {"", "", 0},
+[ONE] = {"fnjkdvbs", "fnjkdvbs", 5},
+[TWO] = {"    scnaocuw9/", "    scnaocuw9/", 10},
+[THREE] = {"fnjkdvbs", "fnjkdvss", 8},
+[FOUR] = {"snsicnsk sjknsjanc", "snsicnsk sjknsjanc", 10},
+[FIVE] = {"fnjkdvbs\n", "fnjkdvbs\n", 10},
+[SIX] = {"fnjkdvb0", "fnjkdvb0", 8},
+[SEVEN] = {"NULL", "NULL", 0},
 };
 
 char	*init_ft(char *test, char *test2, size_t n)

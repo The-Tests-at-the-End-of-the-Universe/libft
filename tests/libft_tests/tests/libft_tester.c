@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 16:13:54 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 21:45:25 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	mem_tests(char *argv, int test_count)
 	else if (!strncmp(argv, "ft_memmove", 9))
 		fail += memmove_test(test_count);
 	else if (!strncmp(argv, "ft_strlcat", 10))
-		fail += strlcat_test();
+		fail += strlcat_test(test_count);
 	else if (!strncmp(argv, "ft_memset", 8))
 		fail += memset_test(test_count);
 	else if (!strncmp(argv, "ft_bzero", 5))
