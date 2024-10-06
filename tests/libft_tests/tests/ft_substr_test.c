@@ -6,42 +6,73 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:51:07 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/27 18:39:05 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/06 22:51:56 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft_tester.h>
 #include <string.h>
 
-int		g_fail_substr = 0;
-char	*g_result = NULL;
+int						g_fail_substr = 0;
 
-int	substr_cmp(int test_count, char *test1, int start, size_t len)
+typedef struct s_substr_test
 {
-	char	*ft;
+	char	*test;
+	char	*result;
+	unsigned int		start;
+	size_t		len;
+}	t_substr_test;
 
-	ft = ft_substr(test1, start, len);
-	if (strcmp(ft, g_result))
+static t_substr_test	g_tests[] = {
+[ZERO] = {"", "", 0, 0}, 
+[ONE] = {"nfdsnkjdsnciudsbccknd?cbdscds", "kjdsnciu", 5, 8},
+[TWO] = {"bobobbocobedbobobbobob!", "bobobbocobedbobobbobob!", 0, 23},
+[THREE] = {"dfsfdsf???cbdscds", "sfdsf???cbdscd", 2, 14},
+};
+
+void	substr_fork(int test_count, pid_t *child, void **shmem, \
+char *(*f)(const char *dst, unsigned int start, size_t))
+{
+	char	*ret;
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
 	{
-		g_fail_substr += ft_log_str(test_count, g_result, ft);
-		dprintf(2, "tcase: [1] %s [start] %d [len] %zu\n", test1, start, len);
+		ret = f(g_tests[test_count].test, g_tests[test_count].start, g_tests[test_count].len);
+		memmove(*shmem, ret, strlen(ret));
+		exit(0);
 	}
-	else
-		printf(GRN "%d OK " RESET, test_count);
-	free(ft);
-	return (test_count + 1);
 }
 
-int	substr_test(void)
+int	substr_cmp(int test_count, void **ft_shmem)
 {
-	int	test_count;
+	pid_t	childs[1];
+	char	*mem_test;
 
-	test_count = 1;
-	g_result = "kjdsnciu";
-	test_count = substr_cmp(test_count, "nfdsnkjdsnciudsbccknd?cbdscds", 5, 8);
-	g_result = "bobobbocobedbobobbobob!";
-	test_count = substr_cmp(test_count, "bobobbocobedbobobbobob!", 0, 23);
-	g_result = "sfdsf???cbdscd";
-	test_count = substr_cmp(test_count, "dfsfdsf???cbdscds", 2, 14);
+	substr_fork(test_count, &childs[0], ft_shmem, &ft_substr);
+	if (wait_child(childs[0]))
+		return (printf(RED " SEGFAULT "RESET));
+	mem_test = ft_substr(g_tests[test_count].test, g_tests[test_count].start, g_tests[test_count].len);
+	free(mem_test);
+	if (strcmp(g_tests[test_count].result, (char*)*ft_shmem))
+	{
+		g_fail_substr += ft_log_str(test_count, g_tests[test_count].result, (char*)*ft_shmem);
+		dprintf(2, "tcase: [1] %s [2] %d [3] %ld\n", g_tests[test_count].test, \
+		g_tests[test_count].start, g_tests[test_count].len);
+	}
+	return (0);
+}
+
+int	substr_test(int test_count)
+{
+	void	*ft_shmem;
+
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
+	substr_cmp(test_count, &ft_shmem);
+	if (munmap(ft_shmem, sizeof(g_tests[test_count].test)))
+		exit(1);
 	return (g_fail_substr);
 }

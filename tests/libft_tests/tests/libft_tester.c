@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 22:39:49 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 22:51:26 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	str_tests(char *argv, int test_count)
 	else if (!strncmp(argv, "ft_strtrim", 10))
 		fail += strtrim_test(test_count);
 	else if (!strncmp(argv, "ft_substr", 9))
-		fail += substr_test();
+		fail += substr_test(test_count);
 	return (fail);
 }
 
