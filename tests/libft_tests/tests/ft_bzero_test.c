@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 12:48:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/29 17:58:36 by crasche       ########   odam.nl         */
+/*   Updated: 2024/10/06 15:21:31 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,75 +37,71 @@ static const t_bzero_test	g_tests[] = {
 [TWELVE] = {"       ", 1},
 };
 
-char	*init_test_dup(char *test, char *test_alloc)
+void	bzero_fork(int test_count, pid_t *child, void **shmem, \
+void (*f)(void *, size_t n))
 {
-	char	*test_dup;
+	char	*ret;
 
-	test_dup = strdup(test);
-	if (test)
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
 	{
-		if (test_dup == NULL)
-		{
-			if (test_alloc)
-				free(test_alloc);
-			printf("Error with creating dup string for testing\n");
-			return (NULL);
-		}
+		ret = strdup(g_tests[test_count].string);
+		f(ret, g_tests[test_count].num);
+		memcpy(*shmem, ret, strlen(g_tests[test_count].string));
+		exit(0);
 	}
-	return (test_dup);
 }
 
-char	*init_test_alloc(char *test)
+int	chrcmp(char *org, char *ft, int n)
 {
-	char	*test_alloc;
+	int	i;
 
-	test_alloc = malloc(strlen(test));
-	if (test_alloc == NULL)
+	i = 0;
+	while (i < n)
 	{
-		printf("Error with creating alloc string for testing\n");
-		return (NULL);
+		if (org[i] != ft[i])
+			return (1);
+		i++;
 	}
-	return (test_alloc);
+	return (0);
 }
 
-int	bzero_cmp_exe(char	*ta, char	*td, int test_count, char *test)
+int	bzero_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
-	if (strcmp(ta, td))
+	pid_t	childs[2];
+	char	*mem_test;
+
+	bzero_fork(test_count, &childs[0], org_shmem, &bzero);
+	bzero_fork(test_count, &childs[1], ft_shmem, &ft_bzero);
+	if (wait_child(childs[0]) != wait_child(childs[1]))
+		return (printf(RED " SEGFAULT "RESET));
+	mem_test = strdup(g_tests[test_count].string);
+	ft_bzero(mem_test, g_tests[test_count].num);
+	free(mem_test);
+	if (chrcmp((char*)*org_shmem, (char*)*ft_shmem, strlen(g_tests[test_count].string)))
 	{
-		g_fail_bzero += ft_log_str(test_count, ta, td);
-		dprintf(2, "tcase: %s\n", test);
-		g_fail_bzero = 1;
+		g_fail_bzero += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
+		dprintf(2, "tcase: [1] %s [2] %d\n", g_tests[test_count].string, \
+		g_tests[test_count].num);
 	}
-	else
-		g_fail_bzero = 0;
-	free(ta);
-	free(td);
-	return (test_count + 1);
-}
-
-int	bzero_cmp(int test_count)
-{
-	char	*test_alloc;
-	char	*test_dup;
-
-	if (!g_tests[test_count].string)
-		return (1);
-	test_alloc = init_test_alloc(g_tests[test_count].string);
-	if (test_alloc == NULL)
-		return (1);
-	test_dup = init_test_dup(g_tests[test_count].string, test_alloc);
-	if (test_dup == NULL)
-		return (1);
-	bzero(test_alloc, g_tests[test_count].num);
-	ft_bzero(test_dup, g_tests[test_count].num);
-	return (bzero_cmp_exe(test_alloc, test_dup, test_count, \
-	g_tests[test_count].string));
+	return (0);
 }
 
 int	bzero_test(int test_count)
 {
+	void	*org_shmem;
+	void	*ft_shmem;
+
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
-	bzero_cmp(test_count);
+	org_shmem = create_shared_memory(sizeof(g_tests[test_count].string));
+	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].string));
+	bzero_cmp(test_count, &org_shmem, &ft_shmem);
+	if (munmap(org_shmem, sizeof(g_tests[test_count].string)))
+		exit(1);
+	if (munmap(ft_shmem, sizeof(g_tests[test_count].string)))
+		exit(1);
 	return (g_fail_bzero);
 }
