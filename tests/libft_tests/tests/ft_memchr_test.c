@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:55:19 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 20:53:52 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 21:29:36 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	memchr_cmp(int test_count, void **org_shmem, void **ft_shmem)
 	mem_test = strdup(g_tests[test_count].test); 
 	ft_memchr(mem_test, g_tests[test_count].c, g_tests[test_count].n);
 	free(mem_test);
-	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))
+	if (chrcmp((char*)*org_shmem, (char*)*ft_shmem, g_tests[test_count].n))
 	{
 		g_fail_memchr += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
 		dprintf(2, "tcase: [1] %s [2] %d [n] %ld\n", g_tests[test_count].test, \
