@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:47:38 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:57 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/06 19:07:23 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,34 +33,50 @@ static const t_itoa_test	g_tests[] = {
 [EIGHT] = {INT_MIN, "-2147483648"},
 };
 
-int	itoa_cmp(int test_count)
-{
-	char	*result_org;
-	char	*result_ft;
 
-	result_org = g_tests[test_count].test_case;
-	result_ft = ft_itoa(g_tests[test_count].test);
-	if (result_ft == NULL)
+void	itoa_fork(int test_count, pid_t *child, void **shmem, \
+char *(*f)(int n))
+{
+	char	*ret;
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
 	{
-		printf("error with result_ft\n");
-		return (1);
+		ret = f(g_tests[test_count].test);
+		memmove(*shmem, ret, strlen(ret));
+		exit(0);
 	}
-	if (strcmp(result_org, result_ft))
+}
+
+int	itoa_cmp(int test_count, void **ft_shmem)
+{
+	pid_t	childs[2];
+	char	*mem_test;
+
+	itoa_fork(test_count, &childs[0], ft_shmem, &ft_itoa);
+	if (wait_child(childs[0]))
+		return (printf(RED " SEGFAULT "RESET));
+	mem_test = ft_itoa(g_tests[test_count].test);
+	free(mem_test);
+	if (strcmp(g_tests[test_count].test_case, (char*)*ft_shmem))
 	{
-		g_fail_itoa += ft_log_str(test_count, result_org, result_ft);
-		dprintf(2, "tcase: %d\n", g_tests[test_count].test);
-		g_fail_itoa = 1;
+		g_fail_itoa += ft_log_str(test_count, g_tests[test_count].test_case, (char*)*ft_shmem);
+		dprintf(2, "tcase: [1] %d [2] %s\n", g_tests[test_count].test, \
+		g_tests[test_count].test_case);
 	}
-	else
-		g_fail_itoa = 0;
-	free(result_ft);
-	return (test_count + 1);
+	return (0);
 }
 
 int	itoa_test(int test_count)
 {
+	void	*ft_shmem;
+
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
-	itoa_cmp(test_count);
+	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
+	itoa_cmp(test_count, &ft_shmem);
+	if (munmap(ft_shmem, sizeof(g_tests[test_count].test)))
+		exit(1);
 	return (g_fail_itoa);
 }
