@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:27:38 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:48 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/06 21:53:46 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,55 @@
 
 int	g_fail_strlen = 0;
 
-int	strlen_cmp(int test_count, char *test)
+typedef struct s_strlen_test
 {
-	size_t	ft;
-	size_t	org;
+	char	*test;
+}	t_strlen_test;
 
-	org = strlen(test);
-	ft = ft_strlen(test);
+static const t_strlen_test	g_tests[] = {
+[ZERO] = {"nfdsnkjd"},
+[ONE] = {"bobobbocob"},
+[TWO] = {"a"},
+[THREE] = {""},
+[FOUR] = {" "},
+};
+
+void	strlen_fork(int test_count, pid_t *child, \
+size_t (*f)(const char *))
+{
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
+	{
+		f(g_tests[test_count].test);
+		exit(0);
+	}
+}
+int	strlen_cmp(int test_count)
+{
+	pid_t	childs[2];
+	int		ft;
+	int		org;
+
+	strlen_fork(test_count, &childs[0], &strlen);
+	strlen_fork(test_count, &childs[1], &ft_strlen);
+	if (wait_child(childs[0]) != wait_child(childs[1]))
+		return (printf(RED " SEGFAULT "RESET));
+	ft = ft_strlen(g_tests[test_count].test);
+	org = strlen(g_tests[test_count].test);
 	if (ft != org)
 	{
 		g_fail_strlen += ft_log_int(test_count, org, ft);
-		dprintf(2, "tcase: %s\n", test);
+		dprintf(2, "tcase: [1] %s\n", g_tests[test_count].test);
 	}
-	else
-		printf(GRN "%d OK " RESET, test_count);
-	return (test_count + 1);
+	return (0);
 }
 
-int	strlen_test(void)
+int	strlen_test(int test_count)
 {
-	int	test_count;
-
-	test_count = 1;
-	test_count = strlen_cmp(test_count, "nfdsnkjd");
-	test_count = strlen_cmp(test_count, "bobobbocob");
-	test_count = strlen_cmp(test_count, "a");
-	test_count = strlen_cmp(test_count, "dfsfdsf?");
-	test_count = strlen_cmp(test_count, "");
-	test_count = strlen_cmp(test_count, " ");
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	strlen_cmp(test_count);
 	return (g_fail_strlen);
 }
