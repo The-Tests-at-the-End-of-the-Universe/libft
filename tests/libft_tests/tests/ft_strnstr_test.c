@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:27:38 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:43 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/06 22:31:25 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,71 @@
 
 int	g_fail_strnstr = 0;
 
-int	strnstr_cmp(int test_count, char *test1, char *test2, size_t n)
+typedef struct s_strnstr_test
 {
-	char	*ft;
-	char	*org;
+	char	*test;
+	char	*test2;
+	int		n;
+}	t_strnstr_test;
 
-	org = strnstr(test1, test2, n);
-	ft = ft_strnstr(test1, test2, n);
-	if (ft != org)
+static t_strnstr_test	g_tests[] = {
+[ZERO] = {"", "", 0}, 
+[ONE] = {"bobobbocob", "dlksadbs", 6},
+[TWO] = {"a", "b", 2},
+[THREE] = {"dfsfdsf?", "??cbdscds", 5},
+[FOUR] = {"", "", 0},
+[FIVE] = {" ", " ", 2},
+};
+
+void	strnstr_fork(int test_count, pid_t *child, void **shmem, \
+char * (*f)(const char *dst, const char *src, size_t n))
+{
+	char	*ret;
+	*child = fork();
+	if (*child == -1)
+		exit(1);
+	if (*child == 0)
 	{
-		g_fail_strnstr += ft_log_str(test_count, org, ft);
-		dprintf(2, "tcase: [1] %s [2] %s [n] %zu\n", test1, test2, n);
+		ret = strdup(g_tests[test_count].test);
+		f(ret, g_tests[test_count].test2, g_tests[test_count].n);
+		memmove(*shmem, ret, strlen(ret));
+		exit(0);
 	}
-	else
-		printf(GRN "%d OK " RESET, test_count);
-	return (test_count + 1);
 }
 
-int	strnstr_test(void)
+int	strnstr_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
-	int	test_count;
+	pid_t	childs[2];
+	char	*mem_test;
 
-	test_count = 1;
-	test_count = strnstr_cmp(test_count, "nfdsnkjd", "dlkdsdbs", 16);
-	test_count = strnstr_cmp(test_count, "bobobbocob", "dlksadob", 18);
-	test_count = strnstr_cmp(test_count, "a", "b", 2);
-	test_count = strnstr_cmp(test_count, "dfsfdsf?", "??", 17);
-	test_count = strnstr_cmp(test_count, "", "", 0);
-	test_count = strnstr_cmp(test_count, " ", " ", 2);
+	strnstr_fork(test_count, &childs[0], org_shmem, &strnstr);
+	strnstr_fork(test_count, &childs[1], ft_shmem, &ft_strnstr);
+	if (wait_child(childs[0]) != wait_child(childs[1]))
+		return (printf(RED " SEGFAULT "RESET));
+	mem_test = ft_strnstr(g_tests[test_count].test, g_tests[test_count].test2, g_tests[test_count].n);
+	(void)mem_test;
+	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))
+	{
+		g_fail_strnstr += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
+		dprintf(2, "tcase: [1] %s [2] %s [n] %d\n", g_tests[test_count].test, \
+		g_tests[test_count].test2, g_tests[test_count].n);
+	}
+	return (0);
+}
+
+int	strnstr_test(int test_count)
+{
+	void	*org_shmem;
+	void	*ft_shmem;
+
+	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
+		return (FINISH);
+	org_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
+	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
+	strnstr_cmp(test_count, &org_shmem, &ft_shmem);
+	if (munmap(org_shmem, sizeof(g_tests[test_count].test)))
+		exit(1);
+	if (munmap(ft_shmem, sizeof(g_tests[test_count].test)))
+		exit(1);
 	return (g_fail_strnstr);
 }
