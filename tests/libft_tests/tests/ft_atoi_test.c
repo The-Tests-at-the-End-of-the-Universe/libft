@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 14:32:13 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 14:33:58 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ void	atoi_fork(int test_count, pid_t *child, int (*f)(const char *))
 		exit(0);
 	}
 }
-// this test does not have memory test because it was too difficult to distinguish between
-// normal memory issue compared with normal atoi versus abnormal mem issue
+
 int	atoi_cmp(int test_count)
 {
 	pid_t	childs[2];
