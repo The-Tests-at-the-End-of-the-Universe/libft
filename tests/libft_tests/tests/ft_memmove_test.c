@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/02 14:48:15 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/06 14:10:17 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,10 @@ typedef struct s_memmove_test
 
 static t_memmove_test	g_tests[] = {
 [ZERO] = {"fnjkdvbs", "fnjkdvbs", 5},
-[ONE] = {"    scnaocuw9/", "    scnaocuw9/", 20},
-[TWO] = {"fnjkdvbs", "fnjkdvss", 20},
-[THREE] = {"snsicnsk sjknsjanc", "snsicnsk sjknsjanc", 10},
-[FOUR] = {"fnjkdvbs\n", "fnjkdvbs\n", 1000},
-[FIVE] = {"fnjkdvbs\n", "fnjkdvbs\n", 16},
-[SIX] = {"fnjkdvb0", "fnjkdvb0", 20},
-[SEVEN] = {"NULL", "NULL", 0},
+[ONE] = {"    scnaocuw9/", "    scnaocuw9/", 10},
+[TWO] = {"snsicnsk sjknsjanc", "snsicnsk sjknsjanc", 10},
+[THREE] = {"fnjkdvbs\n", "fnjkdvbs\n", 8},
+[FOUR] = {"NULL", "NULL", 0},
 };
 
 void	memmove_fork(int test_count, pid_t *child, void **shmem, \
@@ -53,15 +50,15 @@ void *(*f)(void *, const void *, size_t n))
 int	memmove_cmp(int test_count, void **org_shmem, void **ft_shmem)
 {
 	pid_t	childs[2];
-	// char	*mem_test;
+	char	*mem_test;
 
 	memmove_fork(test_count, &childs[0], org_shmem, &memmove);
 	memmove_fork(test_count, &childs[1], ft_shmem, &ft_memmove);
 	if (wait_child(childs[0]) != wait_child(childs[1]))
 		return (printf(RED " SEGFAULT "RESET));
-	// mem_test = strdup(g_tests[test_count].test); 
-	// memmove(mem_test, g_tests[test_count].test2, g_tests[test_count].n);
-	// free(mem_test);
+	mem_test = strdup(g_tests[test_count].test); 
+	ft_memmove(mem_test, g_tests[test_count].test2, g_tests[test_count].n);
+	free(mem_test);
 	if (strcmp((char*)*org_shmem, (char*)*ft_shmem))
 	{
 		g_fail_memmove += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
