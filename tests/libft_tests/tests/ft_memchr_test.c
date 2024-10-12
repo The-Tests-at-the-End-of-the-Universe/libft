@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:55:19 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 21:29:36 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/12 12:05:30 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,16 @@ static const t_memchr_test	g_tests[] = {
 [ONE] = {"    scnaocuw9/", '/', 15},
 [TWO] = {"fnjkdvbs", 'n', 0},
 [THREE] = {"snsicnsk sjknsjanc", ' ', 10},
-[FOUR] = {"fnjkdvbs\n", '\200', 10},
-[FIVE] = {"fnjkdvbs\n", '\n', 10},
-[SIX] = {"fnjkdvb0", '\0', 10},
+[FOUR] = {"fnjkdvbs\n", '\200', 9},
+[FIVE] = {"fnjkdvbs\n", '\n', 9},
+[SIX] = {"fnjkdvb0", '\0', 9},
+[SEVEN] = {"ab", 'a', 2},
+[EIGHT] = {"ab", 'b', 2},
+[NINE] = {"a", 'a', 1},
+[TEN] = {"a", 'b', 1},
+[ELEVEN] = {"bbbbaaaa", 'a', 8},
+[TWELVE] = {"bbbbaaaa", 'b', 8},
+[THIRTEEN] = {"aaaaaaab", 354, 8},
 };
 
 void	memchr_fork(int test_count, pid_t *child, void **shmem, \
