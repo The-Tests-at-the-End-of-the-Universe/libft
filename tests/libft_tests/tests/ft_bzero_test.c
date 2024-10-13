@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 12:48:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 15:40:08 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 14:49:54 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ static const t_bzero_test	g_tests[] = {
 [TEN] = {" ", 1},
 [ELEVEN] = {"asbj", 4},
 [TWELVE] = {"       ", 1},
+[THIRTEEN] = {"aaaaaaa", 0},
+};
+
+static const t_bzero_test	g_ftests[] = {
+[ZERO] = {"", 0},
+[ONE] = {"aaaaaaa", -1},
+[TWO] = {NULL, 1},
+[THREE] = {"aaaaaaa", 20},
 };
 
 void	bzero_fork(int test_count, pid_t *child, void **shmem, \
@@ -75,11 +83,21 @@ int	bzero_cmp(int test_count, void **org_shmem, void **ft_shmem)
 	return (0);
 }
 
-int	bzero_test(int test_count)
+int	bzero_test(int test_count, char *fail_flag)
 {
 	void	*org_shmem;
 	void	*ft_shmem;
-
+	
+	if (fail_flag != NULL)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (!strcmp("-ft", fail_flag))
+			(void)ft_bzero(g_ftests[test_count].string, g_ftests[test_count].num); 
+		if (!strcmp("-og", fail_flag))
+			(void)bzero(g_ftests[test_count].string, g_ftests[test_count].num); 
+		return (g_fail_bzero);
+	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	org_shmem = create_shared_memory(sizeof(g_tests[test_count].string));

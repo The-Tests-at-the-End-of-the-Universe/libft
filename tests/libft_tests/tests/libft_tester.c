@@ -6,14 +6,14 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/13 10:40:32 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 14:49:27 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft_tester.h>
 #include <ctype.h>
 
-int	mem_tests(char *argv, int test_count)
+int	mem_tests(char *argv, int test_count, char *fail_flag)
 {
 	int	fail;
 
@@ -29,7 +29,7 @@ int	mem_tests(char *argv, int test_count)
 	else if (!strncmp(argv, "ft_memset", 8))
 		fail += memset_test(test_count);
 	else if (!strncmp(argv, "ft_bzero", 5))
-		fail += bzero_test(test_count);
+		fail += bzero_test(test_count, fail_flag);
 	else if (!strncmp(argv, "ft_calloc", 6))
 		fail += calloc_test(test_count);
 	else if (!strncmp(argv, "ft_strdup", 9))
@@ -127,7 +127,7 @@ int	main(int argc, char **argv)
 	if (argc == 1 || argv == NULL)
 		return (printf(RED "wrong parameters given\n" RESET), 1);
 	fail += str_tests(argv[1], test_count);
-	fail += mem_tests(argv[1], test_count);
+	fail += mem_tests(argv[1], test_count, fail_flag);
 	fail += write_tests(argv[1], test_count);
 	fail += appendix(argv[1], test_count, fail_flag);
 	return (fail);

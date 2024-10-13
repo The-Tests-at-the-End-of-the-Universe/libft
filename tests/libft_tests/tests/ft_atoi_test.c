@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/13 11:40:05 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 14:45:56 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,26 +44,6 @@ static const char *const	g_ftests[] = {
 [ZERO] = "",
 [ONE] = NULL,
 [TWO] = "3472357958327572398758",
-// [THREE] = "123",
-// [FOUR] = "1234",
-// [FIVE] = "  12345",
-// [SIX] = "  12345",
-// [SEVEN] = "123 456",
-// [EIGHT] = "A2143244535",
-// [NINE] = "2143244535",
-// [TEN] = "",
-// [ELEVEN] = "asbj",
-// [TWELVE] = "",
-// [THIRTEEN] = "       ",
-// [FOURTEEN] = "-00123",
-// [FIVETEEN] = "--00123",
-// [SIXTEEN] = "-+-+-00123",
-// [SEVENTEEN] = "-+-+-00123",
-// [EIGHTEEN] = "++00123",
-// [NINETEEN] = "++--00123",
-// [TWENTY] = "  -00123",
-// [TWENTYONE] = "		--00123",
-// [TWENTYTWO] = "	 	 ---00123",
 };
 
 void	atoi_fork(int test_count, pid_t *child, int (*f)(const char *))
