@@ -51,18 +51,23 @@ LINEP="\033[40G"
 #files
 err_log="logs/err.log"
 mem_log="logs/mem.log"
+fail_log="logs/fail.log"
 rm -rf tests/$err_log
 rm -rf tests/$mem_log
+rm -rf tests/$fail_log
 touch tests/$err_log
 touch tests/$mem_log
+touch tests/$fail_log
 temp_err_log="logs/temp_err.log"
 temp_mem_log="logs/temp_mem.log"
+temp_fail_log="logs/temp_fail.log"
 
 #variables
 norminette=true
 forbidden=true
 memory=true
 fail=false
+fail_test=true
 bonus=false
 suppressions=utils/valgrind_suppresion
 valgrind="valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --error-exitcode=42 --suppressions=$suppressions"
@@ -288,7 +293,40 @@ for test in ${tests[@]}; do
 	break
 	fi
 	test_count=$((test_count+1))
+	done
+
+	#fail tests
+	test_count=$((1))
+
+	if [ $fail_test == true ]; then
+	echo
+	while [ 1 ]; do
+	$($valgrind ./tester $test $test_count "-ft" 1> /dev/null 2> $temp_fail_log) 
+	fail_exit_code_ft=$(echo $?)
+	$(valgrind ./tester $test $test_count "-og" 1> /dev/null 2>> $temp_fail_log) 
+	fail_exit_code_og=$(echo $?)
+
+	if [ $fail_exit_code_og == 2 ]; then
+	rm -rf $temp_fail_log
+	break
+	fi
+	
+	if [ $fail_exit_code_ft == $fail_exit_code_og ]; then
+	echo -ne "${GRN}${test_count} FOK ${RESET}"
+	else
+	echo -ne "${RED}${test_count} FKO ${RESET}"
+	echo "$test===============================" >> $fail_log
+	cat $temp_fail_log >> $fail_log
+	fail=true
+	fail_fail=true
+	fi
+
+	#delete temp files
+	rm -rf $temp_fail_log
+
+	test_count=$((test_count+1))
 	done 
+	fi
 
 	echo
 done
@@ -297,10 +335,14 @@ if [[ $fail == "false" ]]; then
 	echo -e "${GRN}Congratulations all tests passed!${RESET}"
 	rm -rf $mem_log
 	rm -rf $err_log
+	rm -rf $fail_log
 	exit 0
 else
 	if [[ $mem_fail == "true" ]]; then
 		echo -e "${RED}memory errors, check logs or use following command manually: $valgrind${RESET}"
+	fi 
+	if [[ $fail_fail == "true" ]]; then
+		echo -e "${RED}fail errors, check fail logs ${RESET}"
 	fi 
 	echo -e "${RED}Not all tests passed, check logs${RESET}"
 	exit 1
