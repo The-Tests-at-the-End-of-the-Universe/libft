@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:12:54 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/13 15:29:38 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 22:43:31 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int	calloc_test(int test_count, char* fail_flag)
 			org_shmem = calloc(g_ftests[test_count].nmemb, g_ftests[test_count].n); 
 		free(org_shmem);
 		return (g_fail_calloc);
-	}	size = g_tests[test_count].n * g_tests[test_count].nmemb;
+	}
+	size = g_tests[test_count].n * g_tests[test_count].nmemb;
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	org_shmem = create_shared_memory(size);

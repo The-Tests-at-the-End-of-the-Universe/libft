@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:55:19 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/12 12:05:30 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 22:45:26 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ static const t_memchr_test	g_tests[] = {
 [ELEVEN] = {"bbbbaaaa", 'a', 8},
 [TWELVE] = {"bbbbaaaa", 'b', 8},
 [THIRTEEN] = {"aaaaaaab", 354, 8},
+[FOURTEEN] = {"aaaaaaab", 'b', 1},
+[FIVETEEN] = {"aaaaaaab", 'b', 8},
+};
+
+static const t_memchr_test	g_ftests[] = {
+[ZERO] = {"", 0, 0},
+[ONE] = {NULL, 354, 8},
+[TWO] = {"a", 'b', 100},
 };
 
 void	memchr_fork(int test_count, pid_t *child, void **shmem, \
@@ -75,11 +83,21 @@ int	memchr_cmp(int test_count, void **org_shmem, void **ft_shmem)
 	return (0);
 }
 
-int	memchr_test(int test_count)
+int	memchr_test(int test_count, char* fail_flag)
 {
 	void	*org_shmem;
 	void	*ft_shmem;
 
+	if (fail_flag)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (!strcmp("-ft", fail_flag))
+			org_shmem= ft_memchr(g_ftests[test_count].test, g_ftests[test_count].c, g_ftests[test_count].n);
+		if (!strcmp("-og", fail_flag))
+			org_shmem = memchr(g_ftests[test_count].test, g_ftests[test_count].c, g_ftests[test_count].n); 
+		return (g_fail_memchr);
+	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	org_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
