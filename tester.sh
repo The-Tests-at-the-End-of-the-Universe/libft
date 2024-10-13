@@ -331,7 +331,7 @@ for test in ${tests[@]}; do
 	echo
 done
 
-git restore tests/libft_tests
+git restore .
 
 if [[ $fail == "false" ]]; then
 	echo -e "${GRN}Congratulations all tests passed!${RESET}"
