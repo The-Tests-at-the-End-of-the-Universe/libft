@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/13 22:41:15 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 22:56:16 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	appendix(char *argv, int test_count, char *fail_flag)
 	else if (!strncmp(argv, "ft_toupper", 10))
 		fail += isto_test(test_count, toupper, ft_toupper, fail_flag);
 	else if (!strncmp(argv, "ft_memcmp", 9))
-		fail += memcmp_test(test_count);
+		fail += memcmp_test(test_count, fail_flag);
 	return (fail);
 }
 

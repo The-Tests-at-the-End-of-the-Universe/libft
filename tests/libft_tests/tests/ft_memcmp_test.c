@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:01:27 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 21:29:04 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 22:58:25 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,25 @@ static const t_memcmp_test	g_tests[] = {
 [FIVE] = {"fnjkdvbs\n", "fnjkdvbs\n", 15},
 [SIX] = {"fnjkdvb0", "fnjkdvb0", 10},
 [SEVEN] = {"NULL", "NULL", 0},
+[EIGHT] = {"BULL", "NULL", 4},
+[NINE] = {"NULL", "BULL", 4},
+[TEN] = {"NULK", "NULL", 4},
+[ELEVEN] = {"NULL", "NULL", 100},
+[TWELVE] = {"NULLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL", "NULLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL", 128},
+};
+
+static const t_memcmp_test	g_ftests[] = {
+[ZERO] = {"", 0, 0},
+[ONE] = {NULL, "NULL", 1},
+[TWO] = {"NULL", NULL, 1},
+[THREE] = {NULL, NULL, 0},
+[FOUR] = {"NULL", "NULL", -100}
 };
 
 void	memcmp_fork(int test_count, pid_t *child, \
@@ -66,8 +85,18 @@ int	memcmp_cmp(int test_count)
 	return (0);
 }
 
-int	memcmp_test(int test_count)
+int	memcmp_test(int test_count, char *fail_flag)
 {
+	if (fail_flag)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (!strcmp("-ft", fail_flag))
+			(void)ft_memcmp(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n);
+		if (!strcmp("-og", fail_flag))
+			(void)memcmp(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n); 
+		return (g_fail_memcmp);
+	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	memcmp_cmp(test_count);
