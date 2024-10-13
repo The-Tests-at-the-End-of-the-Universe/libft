@@ -331,6 +331,8 @@ for test in ${tests[@]}; do
 	echo
 done
 
+git restore tests/libft_tests
+
 if [[ $fail == "false" ]]; then
 	echo -e "${GRN}Congratulations all tests passed!${RESET}"
 	rm -rf $mem_log
