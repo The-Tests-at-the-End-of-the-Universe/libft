@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 22:51:26 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 10:40:32 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	write_tests(char *argv, int test_count)
 	return (fail);
 }
 
-int	appendix(char *argv, int test_count)
+int	appendix(char *argv, int test_count, char *fail_flag)
 {
 	int	fail;
 
@@ -65,7 +65,7 @@ int	appendix(char *argv, int test_count)
 	if (!strncmp(argv, "ft_itoa", 7))
 		fail += itoa_test(test_count);
 	if (!strncmp(argv, "ft_atoi", 4))
-		fail += atoi_test(test_count);
+		fail += atoi_test(test_count, fail_flag);
 	else if (!strncmp(argv, "ft_isalnum", 10))
 		fail += isto_test(test_count, isalnum, ft_isalnum);
 	else if (!strncmp(argv, "ft_isalpha", 10))
@@ -117,14 +117,18 @@ int	main(int argc, char **argv)
 {
 	int	fail;
 	int	test_count;
+	char *fail_flag;
 
+	fail_flag = NULL;
 	test_count = atoi(argv[2]);
+	if (argv[3])
+		fail_flag = argv[3];
 	fail = 0;
 	if (argc == 1 || argv == NULL)
 		return (printf(RED "wrong parameters given\n" RESET), 1);
 	fail += str_tests(argv[1], test_count);
 	fail += mem_tests(argv[1], test_count);
 	fail += write_tests(argv[1], test_count);
-	fail += appendix(argv[1], test_count);
+	fail += appendix(argv[1], test_count, fail_flag);
 	return (fail);
 }

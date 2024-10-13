@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 14:33:58 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 11:40:05 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static const char *const	g_tests[] = {
 [NINE] = "2143244535",
 [TEN] = "",
 [ELEVEN] = "asbj",
-[TWELVE] = "",
+[TWELVE] = "asbj12345",
 [THIRTEEN] = "       ",
 [FOURTEEN] = "-00123",
 [FIVETEEN] = "--00123",
@@ -38,6 +38,32 @@ static const char *const	g_tests[] = {
 [TWENTY] = "  -00123",
 [TWENTYONE] = "		--00123",
 [TWENTYTWO] = "	 	 ---00123",
+};
+
+static const char *const	g_ftests[] = {
+[ZERO] = "",
+[ONE] = NULL,
+[TWO] = "3472357958327572398758",
+// [THREE] = "123",
+// [FOUR] = "1234",
+// [FIVE] = "  12345",
+// [SIX] = "  12345",
+// [SEVEN] = "123 456",
+// [EIGHT] = "A2143244535",
+// [NINE] = "2143244535",
+// [TEN] = "",
+// [ELEVEN] = "asbj",
+// [TWELVE] = "",
+// [THIRTEEN] = "       ",
+// [FOURTEEN] = "-00123",
+// [FIVETEEN] = "--00123",
+// [SIXTEEN] = "-+-+-00123",
+// [SEVENTEEN] = "-+-+-00123",
+// [EIGHTEEN] = "++00123",
+// [NINETEEN] = "++--00123",
+// [TWENTY] = "  -00123",
+// [TWENTYONE] = "		--00123",
+// [TWENTYTWO] = "	 	 ---00123",
 };
 
 void	atoi_fork(int test_count, pid_t *child, int (*f)(const char *))
@@ -73,8 +99,18 @@ int	atoi_cmp(int test_count)
 	return (0);
 }
 
-int	atoi_test(int test_count)
+int	atoi_test(int test_count, char	*fail_flag)
 {
+	if (fail_flag != NULL)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (!strcmp("-ft", fail_flag))
+			(void)ft_atoi(g_ftests[test_count]); 
+		if (!strcmp("-og", fail_flag))
+			(void)atoi(g_ftests[test_count]); 
+		return (g_fail_atoi);
+	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	atoi_cmp(test_count);
