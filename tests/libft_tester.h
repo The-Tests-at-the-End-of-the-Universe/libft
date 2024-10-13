@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/13 15:06:50 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 22:32:26 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ enum e_test_count {
 int	atoi_test(int test_count, char* fail_flag);
 int	bzero_test(int test_count, char* fail_flag);
 int	calloc_test(int test_count, char* fail_flag);
-int	isto_test(int test_count, int (*f)(int), int (*ft)(int));
-int	itoa_test(int test_count);
+int	isto_test(int test_count, int (*f)(int), int (*ft)(int), char *fail_flag);
+int	itoa_test(int test_count, char* fail_flag);
 int	memchr_test(int test_count);
 int	memcmp_test(int test_count);
 int	memcpy_test(int test_count);

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/13 15:03:28 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 22:32:51 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,23 +63,23 @@ int	appendix(char *argv, int test_count, char *fail_flag)
 
 	fail = 0;
 	if (!strncmp(argv, "ft_itoa", 7))
-		fail += itoa_test(test_count);
+		fail += itoa_test(test_count, fail_flag);
 	if (!strncmp(argv, "ft_atoi", 4))
 		fail += atoi_test(test_count, fail_flag);
 	else if (!strncmp(argv, "ft_isalnum", 10))
-		fail += isto_test(test_count, isalnum, ft_isalnum);
+		fail += isto_test(test_count, isalnum, ft_isalnum, fail_flag);
 	else if (!strncmp(argv, "ft_isalpha", 10))
-		fail += isto_test(test_count, isalpha, ft_isalpha);
+		fail += isto_test(test_count, isalpha, ft_isalpha, fail_flag);
 	else if (!strncmp(argv, "ft_isascii", 10))
-		fail += isto_test(test_count, isascii, ft_isascii);
+		fail += isto_test(test_count, isascii, ft_isascii, fail_flag);
 	else if (!strncmp(argv, "ft_isdigit", 10))
-		fail += isto_test(test_count, isdigit, ft_isdigit);
+		fail += isto_test(test_count, isdigit, ft_isdigit, fail_flag);
 	else if (!strncmp(argv, "ft_isprint", 10))
-		fail += isto_test(test_count, isprint, ft_isprint);
+		fail += isto_test(test_count, isprint, ft_isprint, fail_flag);
 	else if (!strncmp(argv, "ft_tolower", 10))
-		fail += isto_test(test_count, tolower, ft_tolower);
+		fail += isto_test(test_count, tolower, ft_tolower, fail_flag);
 	else if (!strncmp(argv, "ft_toupper", 10))
-		fail += isto_test(test_count, toupper, ft_toupper);
+		fail += isto_test(test_count, toupper, ft_toupper, fail_flag);
 	else if (!strncmp(argv, "ft_memcmp", 9))
 		fail += memcmp_test(test_count);
 	return (fail);

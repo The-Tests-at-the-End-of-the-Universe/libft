@@ -328,9 +328,9 @@ for test in ${tests[@]}; do
 
 	test_count=$((test_count+1))
 	done 
+	echo
 	fi
 
-	echo
 done
 
 # git restore .

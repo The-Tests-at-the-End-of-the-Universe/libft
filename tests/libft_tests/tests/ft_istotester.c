@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:29:29 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 16:21:26 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 15:48:46 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ int	isto_cmp(int test_count, int (*func)(int), int (*ft_func)(int))
 	return (0);
 }
 
-int	isto_test(int test_count, int (*f)(int), int (*ft)(int))
+int	isto_test(int test_count, int (*f)(int), int (*ft)(int), char *fail_flag)
 {
+	if (fail_flag != NULL)
+		return (FINISH);
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	isto_cmp(test_count, f, ft);

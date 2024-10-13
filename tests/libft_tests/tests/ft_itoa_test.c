@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:47:38 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 19:07:23 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 22:33:23 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int							g_fail_itoa = 0;
 
 typedef struct s_itoa_test
 {
-	int		test;
+	size_t		test;
 	char	*test_case;
 }	t_itoa_test;
 
@@ -31,6 +31,8 @@ static const t_itoa_test	g_tests[] = {
 [SIX] = {-123456, "-123456"},
 [SEVEN] = {INT_MAX, "2147483647"},
 [EIGHT] = {INT_MIN, "-2147483648"},
+[NINE] = {2147483649, "-2147483647"},
+[TEN] = {-2147483649, "2147483647"},
 };
 
 
@@ -62,16 +64,18 @@ int	itoa_cmp(int test_count, void **ft_shmem)
 	if (strcmp(g_tests[test_count].test_case, (char*)*ft_shmem))
 	{
 		g_fail_itoa += ft_log_str(test_count, g_tests[test_count].test_case, (char*)*ft_shmem);
-		dprintf(2, "tcase: [1] %d [2] %s\n", g_tests[test_count].test, \
+		dprintf(2, "tcase: [1] %ld [2] %s\n", g_tests[test_count].test, \
 		g_tests[test_count].test_case);
 	}
 	return (0);
 }
 
-int	itoa_test(int test_count)
+int	itoa_test(int test_count, char *fail_flag)
 {
 	void	*ft_shmem;
 
+	if (fail_flag != NULL)
+		return (FINISH);
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
