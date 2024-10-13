@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/13 14:49:27 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 15:03:28 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	mem_tests(char *argv, int test_count, char *fail_flag)
 	else if (!strncmp(argv, "ft_bzero", 5))
 		fail += bzero_test(test_count, fail_flag);
 	else if (!strncmp(argv, "ft_calloc", 6))
-		fail += calloc_test(test_count);
+		fail += calloc_test(test_count, fail_flag);
 	else if (!strncmp(argv, "ft_strdup", 9))
 		fail += strdup_test(test_count);
 	else if (!strncmp(argv, "ft_split", 8))

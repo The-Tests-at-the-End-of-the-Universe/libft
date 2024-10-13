@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/13 14:48:40 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 15:06:50 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/mman.h>
 # include <sys/wait.h>
 # include <errno.h>
+# include <stdint.h>
 
 # define RED   "\x1B[31m"
 # define GRN   "\x1B[1;32m"
@@ -76,7 +77,7 @@ enum e_test_count {
 
 int	atoi_test(int test_count, char* fail_flag);
 int	bzero_test(int test_count, char* fail_flag);
-int	calloc_test(int test_count);
+int	calloc_test(int test_count, char* fail_flag);
 int	isto_test(int test_count, int (*f)(int), int (*ft)(int));
 int	itoa_test(int test_count);
 int	memchr_test(int test_count);
@@ -107,6 +108,6 @@ int	ft_log_str(int test_count, char *ro, char *rft);
 int	ft_log_chr(int test_count, char ro, char rft);
 int	wait_child(int pid);
 void	*create_shared_memory(size_t size);
-int	chrcmp(char *org, char *ft, int n);
+int	chrcmp(char *org, char *ft, size_t n);
 
 #endif

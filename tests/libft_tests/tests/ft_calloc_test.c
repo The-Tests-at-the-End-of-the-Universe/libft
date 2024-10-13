@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:12:54 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 15:49:46 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/13 15:29:38 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ static const t_calloc_test	g_tests[] = {
 [FOURTEEN] = {1, 5},
 };
 
+static const t_calloc_test	g_ftests[] = {
+[ZERO] = {0, 0},
+[ONE] = {__SIZE_MAX__ / 2 + 1, 2},
+};
 
 void	calloc_fork(int test_count, pid_t *child, void **shmem, \
 void *(*f)(size_t nmemb, size_t n))
@@ -69,20 +73,31 @@ int	calloc_cmp(int test_count, void **org_shmem, void **ft_shmem)
 	free(mem_test);
 	if (chrcmp((char*)*org_shmem, (char*)*ft_shmem, g_tests[test_count].n * g_tests[test_count].nmemb))
 	{
-		g_fail_calloc += ft_log_str(test_count, (char*)*org_shmem, (char*)*ft_shmem);
+		g_fail_calloc += ft_log_int(test_count, sizeof((char*)*org_shmem), sizeof((char*)*ft_shmem));
 		dprintf(2, "tcase: [n] %ld [nmem] %ld\n", g_tests[test_count].n, \
 		g_tests[test_count].nmemb);
 	}
 	return (0);
 }
 
-int	calloc_test(int test_count)
+int	calloc_test(int test_count, char* fail_flag)
 {
 	void	*org_shmem;
 	void	*ft_shmem;
 	size_t	size;
 
-	size = g_tests[test_count].n * g_tests[test_count].nmemb;
+	if (fail_flag != NULL)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (!strcmp("-ft", fail_flag))
+			org_shmem= ft_calloc(g_ftests[test_count].nmemb, g_ftests[test_count].n);
+		free(org_shmem); 
+		if (!strcmp("-og", fail_flag))
+			org_shmem = calloc(g_ftests[test_count].nmemb, g_ftests[test_count].n); 
+		free(org_shmem);
+		return (g_fail_calloc);
+	}	size = g_tests[test_count].n * g_tests[test_count].nmemb;
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	org_shmem = create_shared_memory(size);

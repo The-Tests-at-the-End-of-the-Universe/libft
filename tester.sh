@@ -331,7 +331,7 @@ for test in ${tests[@]}; do
 	echo
 done
 
-git restore .
+# git restore .
 
 if [[ $fail == "false" ]]; then
 	echo -e "${GRN}Congratulations all tests passed!${RESET}"

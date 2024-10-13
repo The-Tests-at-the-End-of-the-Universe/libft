@@ -1,8 +1,8 @@
 #include <libft_tester.h>
 
-int	chrcmp(char *org, char *ft, int n)
+int	chrcmp(char *org, char *ft, size_t n)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (i < n)
