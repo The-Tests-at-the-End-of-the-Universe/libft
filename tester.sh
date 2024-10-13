@@ -204,6 +204,8 @@ tests=(
 fi
 
 #prep tests
+git submodule init
+git submodule update
 make -C ../ re
 libft_a=$(find ../../ -type f -name libft.a -not -path "$PWD*" | tail -1)
 libft_h=$(find ../../ -type f -name libft.h -not -path "$PWD*" | tail -1)
