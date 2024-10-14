@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:28:06 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:03:07 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:33:10 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ static t_split_test	g_tests[] = {
 [2] = {"kokokokokokokoko", "o"},
 [3] = {"hdkjsahdkjsa|hdkjsahdkjsa", "|"},
 [4] = {"aaaa////aaaa//aa///", "/"},
+[5] = {"aaababababababababbbbb", "c"},
+[6] = {"aaababababababababbbbb", "b"},
+[7] = {"aaababababababababbbbb", "a"},
+[8] = {"aaababababababababbbbb", "\n"},
+[9] = {"", ""},
 };
 
 int	cmp_split(char **ft_result, char *test, char *delim)
@@ -101,10 +106,12 @@ int	split_cmp(int test_count, void **ft_shmem)
 //shared memory: 
 // https://stackoverflow.com/questions/5656530/
 // how-to-use-shared-memory-with-linux-in-c
-int	split_test(int test_count)
+int	split_test(int test_count, char *fail_flag)
 {
 	void	*ft_shmem;
 
+	if (fail_flag)
+		return (FINISH);
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	ft_shmem = create_shared_memory(sizeof(int));
