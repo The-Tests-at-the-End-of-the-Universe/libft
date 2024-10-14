@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 20:54:11 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 08:58:46 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,36 @@ typedef struct s_memmove_test
 	int		n;
 }	t_memmove_test;
 
+char * g_string = {"helloooo"};
+
 static t_memmove_test	g_tests[] = {
-[ZERO] = {"fnjkdvbs", "fnjkdvbs", 5},
-[ONE] = {"    scnaocuw9/", "    scnaocuw9/", 10},
-[TWO] = {"snsicnsk sjknsjanc", "snsicnsk sjknsjanc", 10},
-[THREE] = {"fnjkdvbs\n", "fnjkdvbs\n", 8},
-[FOUR] = {"NULL", "NULL", 0},
+[0] = {"fnjkdvbs", "fnjkdvbs", 5},
+[1] = {"    scnaocuw9/", "    scnaocuw9/", 10},
+[2] = {"snsicnsk sjknsjanc", "snsicnsk sjknsjanc", 10},
+[3] = {"fnjkdvbs\n", "fnjkdvbs\n", 8},
+[4] = {"NULL", "NULL", 0},
+[5] = {"NULL", "NULL", 0},
+[6] = {"BULL", "NULL", 4},
+[7] = {"NULL", "BULL", 4},
+[8] = {"NULK", "NULL", 4},
+[9] = {"NULLLLLLLLL", "NULL", 11},
+[10] = {"NULLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL", "NULLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL", 128},
+};
+
+static const t_memmove_test	g_ftests[] = {
+[0] = {"", 0, 0},
+[1] = {NULL, "NULL", 1},
+[2] = {"NULL", NULL, 1},
+[3] = {NULL, NULL, 0},
+[4] = {"NULL", "NULL", -100},
+[5] = {"NULL", "NULL", 100},
+[6] = {"NULLLL", "", 10},
 };
 
 void	memmove_fork(int test_count, pid_t *child, void **shmem, \
@@ -67,11 +91,23 @@ int	memmove_cmp(int test_count, void **org_shmem, void **ft_shmem)
 	return (0);
 }
 
-int	memmove_test(int test_count)
+int	memmove_test(int test_count, char *fail_flag)
 {
 	void	*org_shmem;
 	void	*ft_shmem;
 
+	if (fail_flag)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (test_count == 6)
+			g_tests[test_count].test2 = g_tests[test_count].test + 1;
+		if (!strcmp("-ft", fail_flag))
+			(void)ft_memmove(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n);
+		if (!strcmp("-og", fail_flag))
+			(void)memmove(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n); 
+		return (g_fail_memmove);
+	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	org_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
