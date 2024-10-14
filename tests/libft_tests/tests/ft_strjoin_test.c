@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:57:44 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/06 22:37:56 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:03:31 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ typedef struct s_strjoin_test
 }	t_strjoin_test;
 
 static t_strjoin_test	g_tests[] = {
-[ZERO] = {"", "", ""},
-[ONE] = {"nfdsnkjd", "dlksadbs", "nfdsnkjddlksadbs"},
-[TWO] = {"bobobbocob", "dlksadbs", "bobobbocobdlksadbs"},
-[THREE] = {"a", "b", "ab"},
-[FOUR] = {"dfsfdsf?", "??cbdscds", "dfsfdsf???cbdscds"},
-[FIVE] = {"", "", ""},
-[SIX] = {" ", " ", "  "},
+[0] = {"", "", ""},
+[1] = {"nfdsnkjd", "dlksadbs", "nfdsnkjddlksadbs"},
+[2] = {"bobobbocob", "dlksadbs", "bobobbocobdlksadbs"},
+[3] = {"a", "b", "ab"},
+[4] = {"dfsfdsf?", "??cbdscds", "dfsfdsf???cbdscds"},
+[5] = {"", "", ""},
+[6] = {" ", " ", "  "},
 };
 
 void	strjoin_fork(int test_count, pid_t *child, void **shmem, \

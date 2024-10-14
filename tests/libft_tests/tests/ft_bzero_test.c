@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 12:48:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/13 14:49:54 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:05:06 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,27 @@ typedef struct s_bzero_test
 }	t_bzero_test;
 
 static const t_bzero_test	g_tests[] = {
-[ZERO] = {"", 0},
-[ONE] = {"1", 1},
-[TWO] = {"1", 1},
-[THREE] = {"12", 1},
-[FOUR] = {"123", 2},
-[FIVE] = {"1234", 2},
-[SIX] = {"  12345", 5},
-[SEVEN] = {"123 456", 5},
-[EIGHT] = {"A2143244535", 7},
-[NINE] = {"2143244535", 7},
-[TEN] = {" ", 1},
-[ELEVEN] = {"asbj", 4},
-[TWELVE] = {"       ", 1},
-[THIRTEEN] = {"aaaaaaa", 0},
+[0] = {"", 0},
+[1] = {"1", 1},
+[2] = {"1", 1},
+[3] = {"12", 1},
+[4] = {"123", 2},
+[5] = {"1234", 2},
+[6] = {"  12345", 5},
+[7] = {"123 456", 5},
+[8] = {"A2143244535", 7},
+[9] = {"2143244535", 7},
+[10] = {" ", 1},
+[11] = {"asbj", 4},
+[12] = {"       ", 1},
+[13] = {"aaaaaaa", 0},
 };
 
 static const t_bzero_test	g_ftests[] = {
-[ZERO] = {"", 0},
-[ONE] = {"aaaaaaa", -1},
-[TWO] = {NULL, 1},
-[THREE] = {"aaaaaaa", 20},
+[0] = {"", 0},
+[1] = {"aaaaaaa", -1},
+[2] = {NULL, 1},
+[3] = {"aaaaaaa", 20},
 };
 
 void	bzero_fork(int test_count, pid_t *child, void **shmem, \

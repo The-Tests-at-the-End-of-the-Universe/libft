@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 17:08:13 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/28 12:51:53 by spenning      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:03:39 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 int			g_fail_putnbr = 0;
 
 static int	g_tests[] = {
-[ZERO] = 0,
-[ONE] = 1,
-[TWO] = INT_MAX,
-[THREE] = INT_MIN,
-[FOUR] = 1351546813,
-[FIVE] = -52454363,
-[SIX] = 100,
-[SEVEN] = 999,
+[0] = 0,
+[1] = 1,
+[2] = INT_MAX,
+[3] = INT_MIN,
+[4] = 1351546813,
+[5] = -52454363,
+[6] = 100,
+[7] = 999,
 };
 
 int	comparefile_putnbr(FILE *fPtr1, char *test, int *line, int *col)

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:12:54 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/13 22:43:31 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:05:15 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,26 @@ typedef struct s_calloc_test
 }	t_calloc_test;
 
 static const t_calloc_test	g_tests[] = {
-[ZERO] = {1, sizeof(char)},
-[ONE] = {1000, sizeof(char)},
-[TWO] = {1000000, sizeof(char)},
-[THREE] = {1, sizeof(int)},
-[FOUR] = {1000, sizeof(int)},
-[FIVE] = {1000000, sizeof(int)},
-[SIX] = {1, sizeof(float)},
-[SEVEN] = {1000, sizeof(float)},
-[EIGHT] = {1000000, sizeof(float)},
-[NINE] = {1, sizeof(void)},
-[TEN] = {1000, sizeof(void)},
-[ELEVEN] = {1000000, sizeof(void)},
-[TWELVE] = {1, 1},
-[THIRTEEN] = {5, 1},
-[FOURTEEN] = {1, 5},
+[0] = {1, sizeof(char)},
+[1] = {1000, sizeof(char)},
+[2] = {1000000, sizeof(char)},
+[3] = {1, sizeof(int)},
+[4] = {1000, sizeof(int)},
+[5] = {1000000, sizeof(int)},
+[6] = {1, sizeof(float)},
+[7] = {1000, sizeof(float)},
+[8] = {1000000, sizeof(float)},
+[9] = {1, sizeof(void)},
+[10] = {1000, sizeof(void)},
+[11] = {1000000, sizeof(void)},
+[12] = {1, 1},
+[13] = {5, 1},
+[14] = {1, 5},
 };
 
 static const t_calloc_test	g_ftests[] = {
-[ZERO] = {0, 0},
-[ONE] = {__SIZE_MAX__ / 2 + 1, 2},
+[0] = {0, 0},
+[1] = {__SIZE_MAX__ / 2 + 1, 2},
 };
 
 void	calloc_fork(int test_count, pid_t *child, void **shmem, \

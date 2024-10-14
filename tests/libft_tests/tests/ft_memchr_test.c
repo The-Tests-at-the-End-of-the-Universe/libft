@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:55:19 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/13 22:45:26 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:05:24 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,28 @@ typedef struct s_memchr_test
 }	t_memchr_test;
 
 static const t_memchr_test	g_tests[] = {
-[ZERO] = {"fnjkdvbs", 'n', 5},
-[ONE] = {"    scnaocuw9/", '/', 15},
-[TWO] = {"fnjkdvbs", 'n', 0},
-[THREE] = {"snsicnsk sjknsjanc", ' ', 10},
-[FOUR] = {"fnjkdvbs\n", '\200', 9},
-[FIVE] = {"fnjkdvbs\n", '\n', 9},
-[SIX] = {"fnjkdvb0", '\0', 9},
-[SEVEN] = {"ab", 'a', 2},
-[EIGHT] = {"ab", 'b', 2},
-[NINE] = {"a", 'a', 1},
-[TEN] = {"a", 'b', 1},
-[ELEVEN] = {"bbbbaaaa", 'a', 8},
-[TWELVE] = {"bbbbaaaa", 'b', 8},
-[THIRTEEN] = {"aaaaaaab", 354, 8},
-[FOURTEEN] = {"aaaaaaab", 'b', 1},
-[FIVETEEN] = {"aaaaaaab", 'b', 8},
+[0] = {"fnjkdvbs", 'n', 5},
+[1] = {"    scnaocuw9/", '/', 15},
+[2] = {"fnjkdvbs", 'n', 0},
+[3] = {"snsicnsk sjknsjanc", ' ', 10},
+[4] = {"fnjkdvbs\n", '\200', 9},
+[5] = {"fnjkdvbs\n", '\n', 9},
+[6] = {"fnjkdvb0", '\0', 9},
+[7] = {"ab", 'a', 2},
+[8] = {"ab", 'b', 2},
+[9] = {"a", 'a', 1},
+[10] = {"a", 'b', 1},
+[11] = {"bbbbaaaa", 'a', 8},
+[12] = {"bbbbaaaa", 'b', 8},
+[13] = {"aaaaaaab", 354, 8},
+[14] = {"aaaaaaab", 'b', 1},
+[15] = {"aaaaaaab", 'b', 8},
 };
 
 static const t_memchr_test	g_ftests[] = {
-[ZERO] = {"", 0, 0},
-[ONE] = {NULL, 354, 8},
-[TWO] = {"a", 'b', 100},
+[0] = {"", 0, 0},
+[1] = {NULL, 354, 8},
+[2] = {"a", 'b', 100},
 };
 
 void	memchr_fork(int test_count, pid_t *child, void **shmem, \

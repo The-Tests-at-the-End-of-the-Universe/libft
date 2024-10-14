@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:51:07 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/06 22:39:25 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:03:07 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ typedef struct s_strtrim_test
 }	t_strtrim_test;
 
 static t_strtrim_test	g_tests[] = {
-[ZERO] = {"", "", ""},
-[ONE] = {"aaaaaabaaaaaa", "a", "b"},
-[TWO] = {"bobobbocobedbobobbo!", "!", "bobobbocobedbobobbo"},
-[THREE] = {"a", "b", "a"},
-[FOUR] = {"aaaaaabbbbcbbbbaaaaaa", "ab", "c"},
+[0] = {"", "", ""},
+[1] = {"aaaaaabaaaaaa", "a", "b"},
+[2] = {"bobobbocobedbobobbo!", "!", "bobobbocobedbobobbo"},
+[3] = {"a", "b", "a"},
+[4] = {"aaaaaabbbbcbbbbaaaaaa", "ab", "c"},
 };
 
 void	strtrim_fork(int test_count, pid_t *child, void **shmem, \

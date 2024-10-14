@@ -17,14 +17,14 @@
 int							g_fail_putstr = 0;
 static int					g_fd = 0;
 static char					*g_tests[] = {
-[ZERO] = "a",
-[ONE] = "b",
-[TWO] = "\200",
-[THREE] = "\n",
-[FOUR] = "%",
-[FIVE] = NULL,
-[SIX] = " ",
-[SEVEN] = "_",
+[0] = "a",
+[1] = "b",
+[2] = "\200",
+[3] = "\n",
+[4] = "%",
+[5] = NULL,
+[6] = " ",
+[7] = "_",
 };
 
 int	comparefile_putstr(FILE *fPtr1, char *test, int *line, int *col)

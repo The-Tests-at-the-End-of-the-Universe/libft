@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:01:27 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/13 22:58:25 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:04:56 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ typedef struct s_memcmp_test
 }	t_memcmp_test;
 
 static const t_memcmp_test	g_tests[] = {
-[ZERO] = {"fnjkdvbs", "fnjkdvbs", 5},
-[ONE] = {"    scnaocuw9/", "    scnaocuw9/", 20},
-[TWO] = {"fnjkdvbs", "fnjkdvss", 20},
-[THREE] = {"snsicnsk sjknsjanc", "snsicnsk sjknsjanc", 10},
-[FOUR] = {"fnjkdvbs\n", "fnjkdvbs\n", 10},
-[FIVE] = {"fnjkdvbs\n", "fnjkdvbs\n", 15},
-[SIX] = {"fnjkdvb0", "fnjkdvb0", 10},
-[SEVEN] = {"NULL", "NULL", 0},
-[EIGHT] = {"BULL", "NULL", 4},
-[NINE] = {"NULL", "BULL", 4},
-[TEN] = {"NULK", "NULL", 4},
-[ELEVEN] = {"NULL", "NULL", 100},
-[TWELVE] = {"NULLLLLLLLLLLLLLLLLLL\
+[0] = {"fnjkdvbs", "fnjkdvbs", 5},
+[1] = {"    scnaocuw9/", "    scnaocuw9/", 20},
+[2] = {"fnjkdvbs", "fnjkdvss", 20},
+[3] = {"snsicnsk sjknsjanc", "snsicnsk sjknsjanc", 10},
+[4] = {"fnjkdvbs\n", "fnjkdvbs\n", 10},
+[5] = {"fnjkdvbs\n", "fnjkdvbs\n", 15},
+[6] = {"fnjkdvb0", "fnjkdvb0", 10},
+[7] = {"NULL", "NULL", 0},
+[8] = {"BULL", "NULL", 4},
+[9] = {"NULL", "BULL", 4},
+[10] = {"NULK", "NULL", 4},
+[11] = {"NULL", "NULL", 100},
+[12] = {"NULLLLLLLLLLLLLLLLLLL\
 LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
 LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
 LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL", "NULLLLLLLLLLLLLLLLLLL\
@@ -45,11 +45,11 @@ LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL", 128},
 };
 
 static const t_memcmp_test	g_ftests[] = {
-[ZERO] = {"", 0, 0},
-[ONE] = {NULL, "NULL", 1},
-[TWO] = {"NULL", NULL, 1},
-[THREE] = {NULL, NULL, 0},
-[FOUR] = {"NULL", "NULL", -100}
+[0] = {"", 0, 0},
+[1] = {NULL, "NULL", 1},
+[2] = {"NULL", NULL, 1},
+[3] = {NULL, NULL, 0},
+[4] = {"NULL", "NULL", -100}
 };
 
 void	memcmp_fork(int test_count, pid_t *child, \

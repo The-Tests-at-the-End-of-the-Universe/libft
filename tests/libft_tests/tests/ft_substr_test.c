@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:51:07 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/06 22:51:56 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:02:55 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ typedef struct s_substr_test
 }	t_substr_test;
 
 static t_substr_test	g_tests[] = {
-[ZERO] = {"", "", 0, 0}, 
-[ONE] = {"nfdsnkjdsnciudsbccknd?cbdscds", "kjdsnciu", 5, 8},
-[TWO] = {"bobobbocobedbobobbobob!", "bobobbocobedbobobbobob!", 0, 23},
-[THREE] = {"dfsfdsf???cbdscds", "sfdsf???cbdscd", 2, 14},
+[0] = {"", "", 0, 0}, 
+[1] = {"nfdsnkjdsnciudsbccknd?cbdscds", "kjdsnciu", 5, 8},
+[2] = {"bobobbocobedbobobbobob!", "bobobbocobedbobobbobob!", 0, 23},
+[3] = {"dfsfdsf???cbdscds", "sfdsf???cbdscd", 2, 14},
 };
 
 void	substr_fork(int test_count, pid_t *child, void **shmem, \

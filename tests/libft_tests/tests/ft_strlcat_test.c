@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:01:09 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/06 21:47:42 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:03:20 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ typedef struct s_strlcat_test
 }	t_strlcat_test;
 
 static t_strlcat_test	g_tests[] = {
-[ZERO] = {"", "", 0}, 
-[ONE] = {"bobobbocob", "dlksadbs", 5},
-[TWO] = {"a", "b", 2},
-[THREE] = {"dfsfdsf?", "??cbdscds", 6},
-[FOUR] = {"", "", 0},
-[FIVE] = {" ", " ", 2},
+[0] = {"", "", 0}, 
+[1] = {"bobobbocob", "dlksadbs", 5},
+[2] = {"a", "b", 2},
+[3] = {"dfsfdsf?", "??cbdscds", 6},
+[4] = {"", "", 0},
+[5] = {" ", " ", 2},
 };
 
 void	strlcat_fork(int test_count, pid_t *child, void **shmem, \

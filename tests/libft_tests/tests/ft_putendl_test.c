@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 17:08:13 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/02 13:27:14 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:03:39 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 int							g_fail_putendl = 0;
 static int					g_fd = 0;
 static char					*g_tests[] = {
-[ZERO] = "a",
-[ONE] = "b",
-[TWO] = "\200",
-[THREE] = "\n",
-[FOUR] = "%",
-[FIVE] = NULL,
-[SIX] = " ",
-[SEVEN] = "_",
+[0] = "a",
+[1] = "b",
+[2] = "\200",
+[3] = "\n",
+[4] = "%",
+[5] = NULL,
+[6] = " ",
+[7] = "_",
 };
 
 int	comparefile_putendl(FILE *fPtr1, char *test, int *line, int *col)

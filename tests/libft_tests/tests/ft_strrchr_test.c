@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:27:38 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/06 22:33:10 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:03:07 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ typedef struct s_strrchr_test
 }	t_strrchr_test;
 
 static t_strrchr_test	g_tests[] = {
-[ZERO] = {"", 0},
-[ONE] = {"nfdsnkjdsnciudsbccknd?cbdscds", '?'},
-[TWO] = {"bobobbocobedbobobbobob!", '!'},
-[THREE] = {"dfsfdsf???cbdscds", '?'},
-[FOUR] = {"sdncdskj nkjsanckjdsncj\ndkj", '\n'},
+[0] = {"", 0},
+[1] = {"nfdsnkjdsnciudsbccknd?cbdscds", '?'},
+[2] = {"bobobbocobedbobobbobob!", '!'},
+[3] = {"dfsfdsf???cbdscds", '?'},
+[4] = {"sdncdskj nkjsanckjdsncj\ndkj", '\n'},
 };
 
 void	strrchr_fork(int test_count, pid_t *child, char **shmem, \

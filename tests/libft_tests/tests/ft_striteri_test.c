@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:52:33 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/02 13:31:53 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:02:55 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ typedef struct s_striteri_test
 }	t_striteri_test;
 
 static t_striteri_test	g_tests[] = {
-[ZERO] = {"", ""},
-[ONE] = {"123", "135"},
-[TWO] = {"abc", "ace"},
-[THREE] = {"ABC", "ACE"},
+[0] = {"", ""},
+[1] = {"123", "135"},
+[2] = {"abc", "ace"},
+[3] = {"ABC", "ACE"},
 };
 
 void	test_function(unsigned int c, char *s)

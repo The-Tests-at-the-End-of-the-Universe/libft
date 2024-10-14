@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:26:06 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/02 13:41:33 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:03:39 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ typedef struct s_memset_test
 }	t_memset_test;
 
 static t_memset_test	g_tests[] = {
-[ZERO] = {"fnjkdvbs", 'c', 2},
-[ONE] = {"    scnaocuw9/", 'a', 10},
-[TWO] = {"fnjkdvbs", '\n', 4},
-[THREE] = {"snsicnsk sjknsjanc", 0, 10},
-[FOUR] = {"fnjkdvbs\n", 255, 0},
-[FIVE] = {"fnjkdvbs\n", 's', 2},
-[SIX] = {"fnjkdvb0", 's', 6},
-[SEVEN] = {"NULL", 0, 0},
+[0] = {"fnjkdvbs", 'c', 2},
+[1] = {"    scnaocuw9/", 'a', 10},
+[2] = {"fnjkdvbs", '\n', 4},
+[3] = {"snsicnsk sjknsjanc", 0, 10},
+[4] = {"fnjkdvbs\n", 255, 0},
+[5] = {"fnjkdvbs\n", 's', 2},
+[6] = {"fnjkdvb0", 's', 6},
+[7] = {"NULL", 0, 0},
 };
 
 char	*init_ft_memset(char *test, int c, size_t n)

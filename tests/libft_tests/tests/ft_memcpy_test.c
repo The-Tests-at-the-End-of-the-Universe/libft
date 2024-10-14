@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 08:44:55 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:04:56 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ typedef struct s_memcpy_test
 }	t_memcpy_test;
 
 static t_memcpy_test	g_tests[] = {
-[ZERO] = {"", "", 0},
-[ONE] = {"fnjkdvbs", "fnjkdvbs", 5},
-[TWO] = {"    scnaocuw9/", "    scnaocuw9/", 10},
-[THREE] = {"fnjkdvbs", "fnjkdvss", 8},
-[FOUR] = {"snsicnsk sjknsjanc", "snsicnsk sjknsjanc", 10},
-[FIVE] = {"fnjkdvbs\n", "fnjkdvbs\n", 10},
-[SIX] = {"fnjkdvb0", "fnjkdvb0", 8},
-[SEVEN] = {"NULL", "NULL", 0},
-[EIGHT] = {"BULL", "NULL", 4},
-[NINE] = {"NULL", "BULL", 4},
-[TEN] = {"NULK", "NULL", 4},
-[ELEVEN] = {"NULLLLLLLLL", "NULL", 11},
-[TWELVE] = {"NULLLLLLLLLLLLLLLLLLL\
+[0] = {"", "", 0},
+[1] = {"fnjkdvbs", "fnjkdvbs", 5},
+[2] = {"    scnaocuw9/", "    scnaocuw9/", 10},
+[3] = {"fnjkdvbs", "fnjkdvss", 8},
+[4] = {"snsicnsk sjknsjanc", "snsicnsk sjknsjanc", 10},
+[5] = {"fnjkdvbs\n", "fnjkdvbs\n", 10},
+[6] = {"fnjkdvb0", "fnjkdvb0", 8},
+[7] = {"NULL", "NULL", 0},
+[8] = {"BULL", "NULL", 4},
+[9] = {"NULL", "BULL", 4},
+[10] = {"NULK", "NULL", 4},
+[11] = {"NULLLLLLLLL", "NULL", 11},
+[12] = {"NULLLLLLLLLLLLLLLLLLL\
 LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
 LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
 LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL", "NULLLLLLLLLLLLLLLLLLL\
@@ -45,12 +45,12 @@ LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL", 128},
 };
 
 static const t_memcpy_test	g_ftests[] = {
-[ZERO] = {"", 0, 0},
-[ONE] = {NULL, "NULL", 1},
-[TWO] = {"NULL", NULL, 1},
-[THREE] = {NULL, NULL, 0},
-[FOUR] = {"NULL", "NULL", -100},
-[FIVE] = {"NULL", "NULL", 100},
+[0] = {"", 0, 0},
+[1] = {NULL, "NULL", 1},
+[2] = {"NULL", NULL, 1},
+[3] = {NULL, NULL, 0},
+[4] = {"NULL", "NULL", -100},
+[5] = {"NULL", "NULL", 100},
 };
 
 char	*init_ft(char *test, char *test2, size_t n)

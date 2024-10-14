@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:33:32 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/06 22:02:10 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:02:55 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ typedef struct s_strmapi_test
 }	t_strmapi_test;
 
 static t_strmapi_test	g_tests[] = {
-[ZERO] = {"", ""},
-[ONE] = {"123", "135"},
-[TWO] = {"abc", "ace"},
-[THREE] = {"ABC", "ACE"},
+[0] = {"", ""},
+[1] = {"123", "135"},
+[2] = {"abc", "ace"},
+[3] = {"ABC", "ACE"},
 };
 
 char	test_function_mapi(unsigned int c, char s)

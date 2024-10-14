@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:29:29 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/13 15:48:46 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:04:40 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 int					g_fail_isto = 0;
 
 static const char	g_tests[] = {
-[ZERO] = 'a',
-[ONE] = 'A',
-[TWO] = 'z',
-[THREE] = '\n',
-[FOUR] = '\200',
-[FIVE] = '\100',
-[SIX] = (char)359,
-[SEVEN] = 255,
-[EIGHT] = '"',
-[NINE] = ' ',
-[TEN] = (char)1243,
+[0] = 'a',
+[1] = 'A',
+[2] = 'z',
+[3] = '\n',
+[4] = '\200',
+[5] = '\100',
+[6] = (char)359,
+[7] = 255,
+[8] = '"',
+[9] = ' ',
+[10] = (char)1243,
 };
 
 

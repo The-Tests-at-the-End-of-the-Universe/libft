@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 08:48:10 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:01:43 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,40 +40,6 @@
 # define RESET "\x1B[0m"
 
 # define FINISH 2
-
-enum e_test_count {
-	ZERO,
-	ONE,
-	TWO,
-	THREE,
-	FOUR,
-	FIVE,
-	SIX,
-	SEVEN,
-	EIGHT,
-	NINE,
-	TEN,
-	ELEVEN,
-	TWELVE,
-	THIRTEEN,
-	FOURTEEN,
-	FIVETEEN,
-	SIXTEEN,
-	SEVENTEEN,
-	EIGHTEEN,
-	NINETEEN,
-	TWENTY,
-	TWENTYONE,
-	TWENTYTWO,
-	TWENTYTHREE,
-	TWENTYFOUR,
-	TWENTYFIVE,
-	TWENTYSIX,
-	TWENTYSEVEN,
-	TWENTYEIGHT,
-	TWENTYNINE,
-	THIRTY,
-};
 
 int	atoi_test(int test_count, char* fail_flag);
 int	bzero_test(int test_count, char* fail_flag);

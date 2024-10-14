@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:28:06 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/02 13:27:14 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:03:07 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ typedef struct s_split_test
 }	t_split_test;
 
 static t_split_test	g_tests[] = {
-[ZERO] = {"", ""},
-[ONE] = {"aaa;bbb,", ";"},
-[TWO] = {"kokokokokokokoko", "o"},
-[THREE] = {"hdkjsahdkjsa|hdkjsahdkjsa", "|"},
-[FOUR] = {"aaaa////aaaa//aa///", "/"},
+[0] = {"", ""},
+[1] = {"aaa;bbb,", ";"},
+[2] = {"kokokokokokokoko", "o"},
+[3] = {"hdkjsahdkjsa|hdkjsahdkjsa", "|"},
+[4] = {"aaaa////aaaa//aa///", "/"},
 };
 
 int	cmp_split(char **ft_result, char *test, char *delim)

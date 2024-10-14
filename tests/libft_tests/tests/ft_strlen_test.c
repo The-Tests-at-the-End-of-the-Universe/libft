@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:27:38 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/06 21:53:46 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:03:07 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ typedef struct s_strlen_test
 }	t_strlen_test;
 
 static const t_strlen_test	g_tests[] = {
-[ZERO] = {"nfdsnkjd"},
-[ONE] = {"bobobbocob"},
-[TWO] = {"a"},
-[THREE] = {""},
-[FOUR] = {" "},
+[0] = {"nfdsnkjd"},
+[1] = {"bobobbocob"},
+[2] = {"a"},
+[3] = {""},
+[4] = {" "},
 };
 
 void	strlen_fork(int test_count, pid_t *child, \
