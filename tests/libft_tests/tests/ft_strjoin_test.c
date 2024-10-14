@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:57:44 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:03:31 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 10:09:20 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ static t_strjoin_test	g_tests[] = {
 [4] = {"dfsfdsf?", "??cbdscds", "dfsfdsf???cbdscds"},
 [5] = {"", "", ""},
 [6] = {" ", " ", "  "},
+[7] = {"aaa", "", "aaaaaa"},
+};
+
+static t_strjoin_test	g_ftests[] = {
+[0] = {"", "", ""},
+[1] = {NULL, "a", "a"},
+[2] = {"a", NULL, "a"},
+[3] = {NULL, NULL, NULL},
 };
 
 void	strjoin_fork(int test_count, pid_t *child, void **shmem, \
@@ -68,12 +76,25 @@ int	strjoin_cmp(int test_count, void **ft_shmem)
 	return (0);
 }
 
-int	strjoin_test(int test_count)
+int	strjoin_test(int test_count, char *fail_flag)
 {
 	void	*ft_shmem;
 
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
+	if (fail_flag)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (!strcmp("-ft", fail_flag))
+			ft_shmem = ft_strjoin(g_ftests[test_count].s1, g_ftests[test_count].s2);
+		if (!strcmp("-og", fail_flag))
+			return (139); 
+		(void)ft_shmem;
+		return (g_fail_strjoin);
+	}
+	if (test_count == 7)
+		g_tests[test_count].s2 = g_tests[test_count].s1; 
 	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].result));
 	if (strjoin_cmp(test_count, &ft_shmem))
 		g_fail_strjoin = 1;
