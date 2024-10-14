@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:05:53 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:47:02 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,17 @@ int	atoi_cmp(int test_count)
 
 int	atoi_test(int test_count, char	*fail_flag)
 {
+	int test;
+
 	if (fail_flag != NULL)
 	{
 		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
 			return (FINISH);	
 		if (!strcmp("-ft", fail_flag))
-			(void)ft_atoi(g_ftests[test_count]); 
+			test = ft_atoi(g_ftests[test_count]); 
 		if (!strcmp("-og", fail_flag))
-			(void)atoi(g_ftests[test_count]); 
+			test = atoi(g_ftests[test_count]);
+		(void)test; 
 		return (g_fail_atoi);
 	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))

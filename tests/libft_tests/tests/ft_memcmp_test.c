@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:01:27 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:04:56 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:47:42 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,17 @@ int	memcmp_cmp(int test_count)
 
 int	memcmp_test(int test_count, char *fail_flag)
 {
+	int test;
+
 	if (fail_flag)
 	{
 		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
 			return (FINISH);	
 		if (!strcmp("-ft", fail_flag))
-			(void)ft_memcmp(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n);
+			test = ft_memcmp(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n);
 		if (!strcmp("-og", fail_flag))
-			(void)memcmp(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n); 
+			test = memcmp(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n); 
+		(void)test;
 		return (g_fail_memcmp);
 	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))

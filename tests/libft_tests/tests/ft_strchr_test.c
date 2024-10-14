@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:44:11 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:03:07 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:45:47 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,14 @@ static t_strchr_test	g_tests[] = {
 [2] = {"bobobbocobedbobobbobob!", '!'},
 [3] = {"dfsfdsf???cbdscds", '?'},
 [4] = {"sdncdskj nkjsanckjdsncj\ndkj", '\n'},
+[5] = {"ababababababbabababababab", 'c'},
 };
+
+static const t_strchr_test	g_ftests[] = {
+[0] = {"", 0},
+[1] = {NULL, '\n'},
+};
+
 
 void	strchr_fork(int test_count, pid_t *child, char **shmem, \
 char *(*f)(const char *, int))
@@ -66,12 +73,22 @@ int	strchr_cmp(int test_count, void **org_shmem, void **ft_shmem)
 	return (0);
 }
 
-int	strchr_test(int test_count)
+int	strchr_test(int test_count, char *fail_flag)
 {
 	void	*org_shmem;
 	void	*ft_shmem;
 	
-
+	if (fail_flag)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (!strcmp("-ft", fail_flag))
+			org_shmem = ft_strchr(g_ftests[test_count].string, g_ftests[test_count].delim);
+		if (!strcmp("-og", fail_flag))
+			org_shmem = strchr(g_ftests[test_count].string, g_ftests[test_count].delim); 
+		(void)org_shmem;
+		return (g_fail_strchr);
+	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	org_shmem = create_shared_memory(sizeof(g_tests[test_count].string));

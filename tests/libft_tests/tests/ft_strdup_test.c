@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:44:11 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:03:07 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:58:35 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ static t_strdup_test	g_tests[] = {
 [2] = {"bobobbocobedbobobbobob!"},
 [3] = {"dfsfdsf???cbdscds"},
 [4] = {"sdncdskj nkjsanckjdsncj\ndkj"},
+};
+
+static const t_strdup_test	g_ftests[] = {
+[0] = {""},
+[1] = {NULL},
 };
 
 void	strdup_fork(int test_count, pid_t *child, void **shmem, \
@@ -64,11 +69,22 @@ int	strdup_cmp(int test_count, void **org_shmem, void **ft_shmem)
 	return (0);
 }
 
-int	strdup_test(int test_count)
+int	strdup_test(int test_count, char *fail_flag)
 {
 	void	*org_shmem;
 	void	*ft_shmem;
 
+	if (fail_flag)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (!strcmp("-ft", fail_flag))
+			org_shmem = ft_strdup(g_ftests[test_count].string);
+		if (!strcmp("-og", fail_flag))
+			org_shmem = strdup(g_ftests[test_count].string); 
+		(void)org_shmem;
+		return (g_fail_strdup);
+	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	org_shmem = create_shared_memory(sizeof(g_tests[test_count].string));

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 12:48:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:05:06 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:47:16 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ int	bzero_test(int test_count, char *fail_flag)
 		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
 			return (FINISH);	
 		if (!strcmp("-ft", fail_flag))
-			(void)ft_bzero(g_ftests[test_count].string, g_ftests[test_count].num); 
+			ft_bzero(g_ftests[test_count].string, g_ftests[test_count].num); 
 		if (!strcmp("-og", fail_flag))
-			(void)bzero(g_ftests[test_count].string, g_ftests[test_count].num); 
+			bzero(g_ftests[test_count].string, g_ftests[test_count].num); 
 		return (g_fail_bzero);
 	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))

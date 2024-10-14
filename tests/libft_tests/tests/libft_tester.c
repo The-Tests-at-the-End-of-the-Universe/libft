@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:32:38 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:58:12 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	mem_tests(char *argv, int test_count, char *fail_flag)
 	else if (!strncmp(argv, "ft_calloc", 6))
 		fail += calloc_test(test_count, fail_flag);
 	else if (!strncmp(argv, "ft_strdup", 9))
-		fail += strdup_test(test_count);
+		fail += strdup_test(test_count, fail_flag);
 	else if (!strncmp(argv, "ft_split", 8))
 		fail += split_test(test_count, fail_flag);
 	else if (!strncmp(argv, "ft_strjoin", 10))
@@ -85,13 +85,13 @@ int	appendix(char *argv, int test_count, char *fail_flag)
 	return (fail);
 }
 
-int	str_tests(char *argv, int test_count)
+int	str_tests(char *argv, int test_count, char *fail_flag)
 {
 	int	fail;
 
 	fail = 0;
 	if (!strncmp(argv, "ft_strchr", 9))
-		fail += strchr_test(test_count);
+		fail += strchr_test(test_count, fail_flag);
 	else if (!strncmp(argv, "ft_striteri", 11))
 		fail += striteri_test(test_count);
 	else if (!strncmp(argv, "ft_strlcpy", 10))
@@ -126,7 +126,7 @@ int	main(int argc, char **argv)
 	fail = 0;
 	if (argc == 1 || argv == NULL)
 		return (printf(RED "wrong parameters given\n" RESET), 1);
-	fail += str_tests(argv[1], test_count);
+	fail += str_tests(argv[1], test_count, fail_flag);
 	fail += mem_tests(argv[1], test_count, fail_flag);
 	fail += write_tests(argv[1], test_count, fail_flag);
 	fail += appendix(argv[1], test_count, fail_flag);

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 08:58:46 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:49:01 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,10 @@ int	memmove_test(int test_count, char *fail_flag)
 		if (test_count == 6)
 			g_tests[test_count].test2 = g_tests[test_count].test + 1;
 		if (!strcmp("-ft", fail_flag))
-			(void)ft_memmove(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n);
+			org_shmem = ft_memmove(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n);
 		if (!strcmp("-og", fail_flag))
-			(void)memmove(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n); 
+			org_shmem = memmove(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n); 
+		(void)org_shmem;
 		return (g_fail_memmove);
 	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))

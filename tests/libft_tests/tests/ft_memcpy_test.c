@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:04:56 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:48:30 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,9 +148,10 @@ int	memcpy_test(int test_count, char *fail_flag)
 		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
 			return (FINISH);	
 		if (!strcmp("-ft", fail_flag))
-			(void)ft_memcpy(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n);
+			org_shmem = ft_memcpy(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n);
 		if (!strcmp("-og", fail_flag))
-			(void)memcpy(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n); 
+			org_shmem = memcpy(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n);
+		(void)org_shmem;
 		return (g_fail_memcpy);
 	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
