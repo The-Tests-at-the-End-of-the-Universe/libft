@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 08:35:30 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 08:44:55 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static t_memcpy_test	g_tests[] = {
 [EIGHT] = {"BULL", "NULL", 4},
 [NINE] = {"NULL", "BULL", 4},
 [TEN] = {"NULK", "NULL", 4},
-[ELEVEN] = {"NULLLLLLLLLLLLLLLLLLL\
+[ELEVEN] = {"NULLLLLLLLL", "NULL", 11},
+[TWELVE] = {"NULLLLLLLLLLLLLLLLLLL\
 LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
 LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
 LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL", "NULLLLLLLLLLLLLLLLLLL\
