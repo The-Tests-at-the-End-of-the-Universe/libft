@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 17:08:13 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:03:39 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:19:59 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,10 @@ int	putendl_cmp(int test_count)
 	return (0);
 }
 
-int	putendl_test(int test_count)
+int	putendl_test(int test_count, char *fail_flag)
 {
+	if (fail_flag)
+		return (FINISH);
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	putendl_cmp(test_count);
