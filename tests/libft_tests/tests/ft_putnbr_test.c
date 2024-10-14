@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 17:08:13 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:03:39 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:23:25 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,10 @@ int	putnbr_cmp(int test_count)
 	return (test_count + 1);
 }
 
-int	putnbr_test(int test_count)
+int	putnbr_test(int test_count, char *fail_flag)
 {
+	if (fail_flag)
+		return (FINISH);
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	putnbr_cmp(test_count);
