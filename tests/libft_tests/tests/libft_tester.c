@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 10:36:14 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 10:38:52 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	str_tests(char *argv, int test_count, char *fail_flag)
 	else if (!strncmp(argv, "ft_strncmp", 10))
 		fail += strncmp_test(test_count, fail_flag);
 	else if (!strncmp(argv, "ft_strnstr", 10))
-		fail += strnstr_test(test_count);
+		fail += strnstr_test(test_count, fail_flag);
 	else if (!strncmp(argv, "ft_strrchr", 10))
 		fail += strrchr_test(test_count);
 	else if (!strncmp(argv, "ft_strtrim", 10))
