@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:12:54 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:05:15 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 17:31:57 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,16 @@ int	calloc_test(int test_count, char* fail_flag)
 	void	*ft_shmem;
 	size_t	size;
 
+	org_shmem = NULL;
 	if (fail_flag != NULL)
 	{
 		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
-			return (FINISH);	
+			return (FINISH);
 		if (!strcmp("-ft", fail_flag))
 			org_shmem= ft_calloc(g_ftests[test_count].nmemb, g_ftests[test_count].n);
-		free(org_shmem); 
+		free(org_shmem);
 		if (!strcmp("-og", fail_flag))
-			org_shmem = calloc(g_ftests[test_count].nmemb, g_ftests[test_count].n); 
+			org_shmem = calloc(g_ftests[test_count].nmemb, g_ftests[test_count].n);
 		free(org_shmem);
 		return (g_fail_calloc);
 	}
