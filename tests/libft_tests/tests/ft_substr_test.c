@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:51:07 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/14 11:11:29 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 17:55:11 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ typedef struct s_substr_test
 }	t_substr_test;
 
 static t_substr_test	g_tests[] = {
-[0] = {"", "", 0, 0}, 
+[0] = {"", "", 0, 0},
 [1] = {"nfdsnkjdsnciudsbccknd?cbdscds", "kjdsnciu", 5, 8},
 [2] = {"bobobbocobedbobobbobob!", "bobobbocobedbobobbobob!", 0, 23},
 [3] = {"dfsfdsf???cbdscds", "sfdsf???cbdscd", 2, 14},
-[4] = {"aaaaaaaa", "aaa", -1, 2},
-[5] = {"aaaaaaaa", "aaaaaaaa", 2, 10},
-[6] = {"aaaaaaaa", "aa", 2, 0},
-[7] = {"aaaaaaaa", "aaa", 1, -2},
+[4] = {"aaaaaaaa", "\0", -1, 2},
+[5] = {"aaaaaaaa", "aaaaaa", 2, 10},
+[6] = {"aaaaaaaa", "\0", 2, 0},
+[7] = {"aaaaaaaa", "aaaaaaa", 1, -2},
 [8] = {"aaaaaaaa", "aaa", 0, 3},
 [9] = {"he\nllo\tworld", "\nllo\t", 2, 5},
 };
@@ -83,11 +83,11 @@ int	substr_test(int test_count, char *fail_flag)
 	if (fail_flag)
 	{
 		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
-			return (FINISH);	
+			return (FINISH);
 		if (!strcmp("-ft", fail_flag))
 			ft_shmem = ft_substr(g_ftests[test_count].test, g_ftests[test_count].start, g_ftests[test_count].len);
 		if (!strcmp("-og", fail_flag))
-			return (139);
+			return (0);
 		free(ft_shmem);
 		return (g_fail_substr);
 	}
