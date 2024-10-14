@@ -79,7 +79,7 @@ int	compare_files_str(int test_count, char *test)
 	return (0);
 }
 
-void	putstr_fork(int test_count, pid_t *child, int (*f)(char *, int))
+void	putstr_fork(int test_count, pid_t *child, void (*f)(char *, int))
 {
 	*child = fork();
 	if (*child == -1)
