@@ -99,6 +99,10 @@ while [ "$#" -gt 0 ]; do
 		forbidden=false
 		shift
 		;;
+		-nfl|--no-fail)
+		fail_test=false
+		shift
+		;;
 		-b|--bonus)
 		bonus=true
 		shift
@@ -330,8 +334,8 @@ for test in ${tests[@]}; do
 
 	test_count=$((test_count+1))
 	done 
-	echo
 	fi
+	echo
 
 done
 
