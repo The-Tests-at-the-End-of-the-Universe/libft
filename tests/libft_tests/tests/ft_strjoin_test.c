@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:57:44 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/14 10:09:20 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 17:57:30 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,16 @@ int	strjoin_test(int test_count, char *fail_flag)
 	if (fail_flag)
 	{
 		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
-			return (FINISH);	
+			return (FINISH);
 		if (!strcmp("-ft", fail_flag))
 			ft_shmem = ft_strjoin(g_ftests[test_count].s1, g_ftests[test_count].s2);
 		if (!strcmp("-og", fail_flag))
-			return (139); 
-		(void)ft_shmem;
+			return (139);
+		free(ft_shmem);
 		return (g_fail_strjoin);
 	}
 	if (test_count == 7)
-		g_tests[test_count].s2 = g_tests[test_count].s1; 
+		g_tests[test_count].s2 = g_tests[test_count].s1;
 	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].result));
 	if (strjoin_cmp(test_count, &ft_shmem))
 		g_fail_strjoin = 1;
