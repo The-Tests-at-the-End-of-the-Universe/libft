@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:01:09 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/14 10:21:48 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 10:23:46 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static t_strlcat_test	g_ftests[] = {
 [1] = {"aaaaaa", NULL, 5},
 [2] = {NULL, "bbbbbb", 5},
 [3] = {"a", "bbbbbb", 5},
+[4] = {"aaaaaaa", "abbbbbb", 100},
+[5] = {"aaaaaaa", "abbbbbb", -100},
 };
 
 void	strlcat_fork(int test_count, pid_t *child, void **shmem, \
