@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 05:52:33 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:02:55 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 10:02:37 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ static t_striteri_test	g_tests[] = {
 [1] = {"123", "135"},
 [2] = {"abc", "ace"},
 [3] = {"ABC", "ACE"},
+};
+
+static t_striteri_test	g_ftests[] = {
+[0] = {"", ""},
+[1] = {NULL, NULL},
 };
 
 void	test_function(unsigned int c, char *s)
@@ -71,10 +76,21 @@ int	striteri_cmp(int test_count, void **ft_shmem)
 	return (0);
 }
 
-int	striteri_test(int test_count)
+int	striteri_test(int test_count, char *fail_flag)
 {
 	void	*ft_shmem;
 
+	if (fail_flag)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (!strcmp("-ft", fail_flag))
+			ft_striteri(g_ftests[test_count].string, test_function);
+		if (!strcmp("-og", fail_flag))
+			return (139);
+		return (g_fail_striteri);
+
+	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].string));
