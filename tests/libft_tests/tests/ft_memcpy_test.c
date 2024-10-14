@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:07:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/06 21:40:33 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 08:35:30 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,25 @@ static t_memcpy_test	g_tests[] = {
 [FIVE] = {"fnjkdvbs\n", "fnjkdvbs\n", 10},
 [SIX] = {"fnjkdvb0", "fnjkdvb0", 8},
 [SEVEN] = {"NULL", "NULL", 0},
+[EIGHT] = {"BULL", "NULL", 4},
+[NINE] = {"NULL", "BULL", 4},
+[TEN] = {"NULK", "NULL", 4},
+[ELEVEN] = {"NULLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL", "NULLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL", 128},
+};
+
+static const t_memcpy_test	g_ftests[] = {
+[ZERO] = {"", 0, 0},
+[ONE] = {NULL, "NULL", 1},
+[TWO] = {"NULL", NULL, 1},
+[THREE] = {NULL, NULL, 0},
+[FOUR] = {"NULL", "NULL", -100},
+[FIVE] = {"NULL", "NULL", 100},
 };
 
 char	*init_ft(char *test, char *test2, size_t n)
@@ -118,11 +137,21 @@ int	memcpy_cmp(int test_count, void **org_shmem, void **ft_shmem)
 //shared memory: 
 // https://stackoverflow.com/questions/5656530/
 // how-to-use-shared-memory-with-linux-in-c
-int	memcpy_test(int test_count)
+int	memcpy_test(int test_count, char *fail_flag)
 {
 	void	*org_shmem;
 	void	*ft_shmem;
 
+	if (fail_flag)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (!strcmp("-ft", fail_flag))
+			(void)ft_memcpy(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n);
+		if (!strcmp("-og", fail_flag))
+			(void)memcpy(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n); 
+		return (g_fail_memcpy);
+	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	org_shmem = create_shared_memory(sizeof(g_tests[test_count].test));

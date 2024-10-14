@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/13 22:56:28 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 08:25:35 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	isto_test(int test_count, int (*f)(int), int (*ft)(int), char *fail_flag);
 int	itoa_test(int test_count, char* fail_flag);
 int	memchr_test(int test_count, char* fail_flag);
 int	memcmp_test(int test_count, char* fail_flag);
-int	memcpy_test(int test_count);
+int	memcpy_test(int test_count, char* fail_flag);
 int	memmove_test(int test_count);
 int	memset_test(int test_count);
 int	putchar_test(int test_count);

@@ -317,7 +317,9 @@ for test in ${tests[@]}; do
 	echo -ne "${GRN}${test_count} FOK ${RESET}"
 	else
 	echo -ne "${RED}${test_count} FKO ${RESET}"
-	echo "$test===============================" >> $fail_log
+	echo -e "\n${test} - ${test_count}\n===============================" >> $fail_log
+	echo -e "ft exit code: ${fail_exit_code_ft}\nog exit code: ${fail_exit_code_og}" >> $fail_log
+	echo "$===============================" >> $fail_log
 	cat $temp_fail_log >> $fail_log
 	fail=true
 	fail_fail=true
