@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:27:38 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:03:07 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 10:29:37 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,19 @@ typedef struct s_strlen_test
 }	t_strlen_test;
 
 static const t_strlen_test	g_tests[] = {
-[0] = {"nfdsnkjd"},
+[0] = {""},
 [1] = {"bobobbocob"},
 [2] = {"a"},
 [3] = {""},
 [4] = {" "},
+[5] = {"nfdsnkjd"},
 };
+
+static t_strlen_test	g_ftests[] = {
+[0] = {""}, 
+[1] = {NULL},
+};
+
 
 void	strlen_fork(int test_count, pid_t *child, \
 size_t (*f)(const char *))
@@ -60,10 +67,23 @@ int	strlen_cmp(int test_count)
 	return (0);
 }
 
-int	strlen_test(int test_count)
+int	strlen_test(int test_count, char *fail_flag)
 {
+	size_t test;
+
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
+	if (fail_flag)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (!strcmp("-ft", fail_flag))
+			test = ft_strlen(g_ftests[test_count].test);
+		if (!strcmp("-og", fail_flag))
+			test = strlen(g_ftests[test_count].test);
+		(void)test;
+		return (g_fail_strlen);
+	}
 	strlen_cmp(test_count);
 	return (g_fail_strlen);
 }
