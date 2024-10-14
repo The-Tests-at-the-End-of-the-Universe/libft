@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 15:26:06 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:03:39 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:12:12 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,16 @@ static t_memset_test	g_tests[] = {
 [5] = {"fnjkdvbs\n", 's', 2},
 [6] = {"fnjkdvb0", 's', 6},
 [7] = {"NULL", 0, 0},
+};
+
+static const t_memset_test	g_ftests[] = {
+[0] = {"", '0', 0},
+[1] = {NULL, '0', 1},
+[2] = {NULL, '0', 0},
+[3] = {"NULL", 1, 4},
+[4] = {"NULL", 300, 4},
+[5] = {"NULL", 'a', 400},
+[6] = {"NULL", -1, 4},
 };
 
 char	*init_ft_memset(char *test, int c, size_t n)
@@ -89,11 +99,20 @@ int	memset_cmp(int test_count, void **org_shmem, void **ft_shmem)
 	return (0);
 }
 
-int	memset_test(int test_count)
+int	memset_test(int test_count, char *fail_flag)
 {
 	void	*org_shmem;
 	void	*ft_shmem;
-
+	if (fail_flag)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (!strcmp("-ft", fail_flag))
+			(void)ft_memset(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n);
+		if (!strcmp("-og", fail_flag))
+			(void)memset(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n); 
+		return (g_fail_memset);
+	}
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	org_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
