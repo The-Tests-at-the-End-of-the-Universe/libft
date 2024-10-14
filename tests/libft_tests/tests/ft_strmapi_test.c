@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:33:32 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:02:55 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 10:32:29 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ static t_strmapi_test	g_tests[] = {
 [2] = {"abc", "ace"},
 [3] = {"ABC", "ACE"},
 };
+
+static t_strmapi_test	g_ftests[] = {
+[0] = {"", ""},
+[1] = {NULL, NULL},
+};
+
 
 char	test_function_mapi(unsigned int c, char s)
 {
@@ -72,12 +78,23 @@ int	strmapi_cmp(int test_count, void **ft_shmem)
 	return (0);
 }
 
-int	strmapi_test(int test_count)
+int	strmapi_test(int test_count, char *fail_flag)
 {
 	void	*ft_shmem;
 
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
+	if (fail_flag)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (!strcmp("-ft", fail_flag))
+			ft_strmapi(g_ftests[test_count].string, test_function_mapi);
+		if (!strcmp("-og", fail_flag))
+			return (139);
+		return (g_fail_strmapi);
+
+	}
 	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].string));
 	if (strmapi_cmp(test_count, &ft_shmem))
 		g_fail_strmapi = 1;

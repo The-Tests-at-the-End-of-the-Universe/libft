@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 10:29:50 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 10:32:11 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	str_tests(char *argv, int test_count, char *fail_flag)
 	else if (!strncmp(argv, "ft_strlen", 9))
 		fail += strlen_test(test_count, fail_flag);
 	else if (!strncmp(argv, "ft_strmapi", 10))
-		fail += strmapi_test(test_count);
+		fail += strmapi_test(test_count, fail_flag);
 	else if (!strncmp(argv, "ft_strncmp", 10))
 		fail += strncmp_test(test_count);
 	else if (!strncmp(argv, "ft_strnstr", 10))
