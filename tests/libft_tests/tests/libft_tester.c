@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/19 12:54:09 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:20:37 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 09:27:18 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	write_tests(char *argv, int test_count, char *fail_flag)
 	else if (!strncmp(argv, "ft_putnbr_fd", 9))
 		fail += putnbr_test(test_count, fail_flag);
 	else if (!strncmp(argv, "ft_putstr_fd", 9))
-		fail += putstr_test(test_count);
+		fail += putstr_test(test_count, fail_flag);
 	return (fail);
 }
 

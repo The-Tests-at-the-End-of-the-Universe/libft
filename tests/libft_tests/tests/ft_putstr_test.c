@@ -106,8 +106,10 @@ int	putstr_cmp(int test_count)
 	return (0);
 }
 
-int	putstr_test(int test_count)
+int	putstr_test(int test_count, char *fail_flag)
 {
+	if (fail_flag)
+		return (FINISH);
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
 	putstr_cmp(test_count);
