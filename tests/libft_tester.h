@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 23:03:23 by spenning      #+#    #+#                 */
-/*   Updated: 2024/10/14 10:07:40 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 10:20:48 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	strchr_test(int test_count, char* fail_flag);
 int	strdup_test(int test_count, char* fail_flag);
 int	striteri_test(int test_count, char* fail_flag);
 int	strjoin_test(int test_count, char* fail_flag);
-int	strlcat_test(int test_count);
+int	strlcat_test(int test_count, char *fail_flag);
 int	strlcpy_test(int test_count);
 int	strlen_test(int test_count);
 int	strmapi_test(int test_count);

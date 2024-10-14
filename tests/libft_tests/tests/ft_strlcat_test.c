@@ -6,7 +6,7 @@
 /*   By: mynodeus <mynodeus@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/17 06:01:09 by mynodeus      #+#    #+#                 */
-/*   Updated: 2024/10/14 09:03:20 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/10/14 10:21:48 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@ static t_strlcat_test	g_tests[] = {
 [3] = {"dfsfdsf?", "??cbdscds", 6},
 [4] = {"", "", 0},
 [5] = {" ", " ", 2},
+[6] = {"aaaaaa", "bbbbb", 0},
+[7] = {"aaaaaa", "", 5},
+[8] = {"aaaaaaaaaa", "bbbbbb", 3},
+[9] = {"", "abbbbbb", 5},
+};
+
+static t_strlcat_test	g_ftests[] = {
+[0] = {"", "", 0}, 
+[1] = {"aaaaaa", NULL, 5},
+[2] = {NULL, "bbbbbb", 5},
+[3] = {"a", "bbbbbb", 5},
 };
 
 void	strlcat_fork(int test_count, pid_t *child, void **shmem, \
@@ -69,13 +80,27 @@ int	strlcat_cmp(int test_count, void **org_shmem, void **ft_shmem)
 	return (0);
 }
 
-int	strlcat_test(int test_count)
+int	strlcat_test(int test_count, char *fail_flag)
 {
 	void	*org_shmem;
 	void	*ft_shmem;
+	size_t	test;
 
+	if (test_count == 9)
+		g_tests[test_count].test = g_tests[test_count].test2 + 1; 
 	if (test_count == sizeof(g_tests) / sizeof(g_tests[0]))
 		return (FINISH);
+	if (fail_flag)
+	{
+		if (test_count == sizeof(g_ftests) / sizeof(g_ftests[0]))
+			return (FINISH);	
+		if (!strcmp("-ft", fail_flag))
+			test = ft_strlcat(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n);
+		if (!strcmp("-og", fail_flag))
+			test = strlcat(g_ftests[test_count].test, g_ftests[test_count].test2, g_ftests[test_count].n);
+		(void)test;
+		return (g_fail_strlcat);
+	}
 	org_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
 	ft_shmem = create_shared_memory(sizeof(g_tests[test_count].test));
 	strlcat_cmp(test_count, &org_shmem, &ft_shmem);
