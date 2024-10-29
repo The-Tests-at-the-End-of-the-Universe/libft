@@ -17,13 +17,13 @@ Arguments:
   -nf, --no-forbidden
 	This flag will disable the forbidden function tests run in this tester.
 
+  -s, --strict
+	This flag will run the strict tests in this tester.
+
   -c <"arr">, --cases <"arr">
 	This flag passes together with an array of strings will only test
 	the cases that are passed. It is used as follows
 	bash tester.sh -c "ft_strrchr ft_strjoin ft_strlen"
-
-  -b, --bonus
-  	This flag will run the bonus tests as well
 
 EOF
 }
@@ -67,7 +67,7 @@ norminette=true
 forbidden=true
 memory=true
 fail=false
-fail_test=true
+fail_test=false
 bonus=false
 suppressions=utils/valgrind_suppresion
 valgrind="valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --error-exitcode=42 --suppressions=$suppressions"
@@ -99,8 +99,8 @@ while [ "$#" -gt 0 ]; do
 		forbidden=false
 		shift
 		;;
-		-nfl|--no-fail)
-		fail_test=false
+		-s|--strict)
+		fail_test=true
 		shift
 		;;
 		-b|--bonus)
