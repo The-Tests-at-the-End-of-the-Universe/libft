@@ -3,6 +3,8 @@
 #TODO: add flags to run without remaking image
 #TODO: add flags to run docker without immediately starting tester
 
+git submodule update --init --recursive 
+
 check_image=$(docker images -af reference='libft_tester/tester' -q)
 check_container=$(docker ps -a | grep 'libft_tester/tester' | awk '{print $1}')
 

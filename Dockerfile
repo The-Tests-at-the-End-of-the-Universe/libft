@@ -6,6 +6,7 @@ COPY . .
 RUN apt-get update
 RUN apt-get install -y sudo
 RUN apt-get install -y libbsd-dev
+RUN apt-get install -y valgrind
 RUN cd libft_tester/null_checker/libbacktrace && mkdir build && cd build && ../configure && sudo make && sudo make install
 
 SHELL ["/bin/bash", "-c"]
