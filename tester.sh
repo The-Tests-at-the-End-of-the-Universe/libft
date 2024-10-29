@@ -1,3 +1,5 @@
+#!/bin/bash
+
 usage() {
 	cat <<EOF
 Usage: $0 [options] [--] [file...]
