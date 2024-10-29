@@ -4,3 +4,6 @@
 [submodule "forbidden_func/forbidden_tester"]
 	path = forbidden_func/forbidden_tester
 	url = git@github.com:The-Tests-at-the-End-of-the-Universe/forbidden_tester.git
+[submodule "null_checker"]
+	path = null_checker
+	url = git@github.com:The-Tests-at-the-End-of-the-Universe/null_checker.git
