@@ -57,12 +57,12 @@ logs:
 
 #Link
 $(TARGETDIR)/$(TARGET) : $(OBJECTS)
-	$(CC) -std=gnu11 $(OBJECTS) -o  $(TARGETDIR)/$(TARGET) libft.a -lbsd 
+	$(CC) -std=gnu11 $(OBJECTS) -o  $(TARGETDIR)/$(TARGET) libft.a -lbsd -g
 
 #Compile
 $(OBJDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(dir $@)
-	$(CC) -std=gnu11 $(CFLAGS) -c -o $@ $^
+	$(CC) -std=gnu11 $(CFLAGS) -c -o $@ $^ -g
 
 
 #Non-File Targets
