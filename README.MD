@@ -79,6 +79,12 @@ bash tester.sh -nf
 bash tester.sh -nm
 ```
 
+- run tests with strict (fail tests)
+
+```sh
+bash tester.sh -s
+```
+
 
 # Contributing
 
